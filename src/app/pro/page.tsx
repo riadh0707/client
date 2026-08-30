@@ -31,13 +31,13 @@ export default async function ProDashboard({
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/inscription/professionnel"
-            className="inline-flex min-h-11 items-center justify-center bg-rod-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-950 uppercase hover:bg-rod-400"
+            className="inline-flex min-h-11 items-center justify-center bg-azur-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-950 uppercase hover:bg-azur-400"
           >
             Inscrire ma structure
           </Link>
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center justify-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+            className="inline-flex min-h-11 items-center justify-center border border-azur-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
           >
             Retour à l&apos;accueil
           </Link>
@@ -103,7 +103,7 @@ export default async function ProDashboard({
         </div>
         <Link
           href={`/partenaire/${partner.slug}`}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
         >
           Voir ma fiche publique
         </Link>
@@ -121,7 +121,7 @@ export default async function ProDashboard({
       {query.bienvenue && (
         <p
           role="status"
-          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] leading-relaxed text-ink-900"
+          className="mt-5 border border-azur-600/40 bg-azur-100 px-4 py-3 text-[15px] leading-relaxed text-ink-900"
         >
           Bienvenue sur DOCTORY. Votre fiche est enregistrée et attend la
           validation de notre équipe. Vous pouvez dès maintenant renseigner vos
@@ -189,7 +189,7 @@ export default async function ProDashboard({
           </h2>
           <Link
             href="/pro/agenda"
-            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
           >
             Ouvrir l&apos;agenda
           </Link>

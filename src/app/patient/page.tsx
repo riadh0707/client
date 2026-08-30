@@ -105,10 +105,10 @@ export default async function PatientDashboard() {
                 >
                   <span
                     aria-hidden
-                    className="mt-1.5 h-2 w-2 shrink-0 bg-rod-500"
+                    className="mt-1.5 h-2 w-2 shrink-0 bg-azur-500"
                   />
                   <span>
-                    <span className="font-display text-[15px] font-bold text-ink-900 group-hover:text-rod-700">
+                    <span className="font-display text-[15px] font-bold text-ink-900 group-hover:text-azur-700">
                       {notification.title}
                     </span>
                     <span className="block text-sm text-ink-600">
@@ -138,7 +138,7 @@ export default async function PatientDashboard() {
           </h2>
           <Link
             href="/patient/rendez-vous"
-            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
           >
             Tout voir
           </Link>
@@ -168,7 +168,7 @@ export default async function PatientDashboard() {
           </h2>
           <Link
             href="/patient/favoris"
-            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
           >
             Tout voir
           </Link>

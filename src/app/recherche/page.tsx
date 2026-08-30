@@ -197,7 +197,7 @@ function EmptyState({
       </p>
       <Link
         href="/recherche"
-        className="mt-6 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+        className="mt-6 inline-flex min-h-11 items-center border border-azur-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
       >
         Voir tous les partenaires
       </Link>
@@ -232,7 +232,7 @@ function Pagination({
       {page > 1 ? (
         <Link
           href={href(page - 1)}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
         >
           &larr; Précédent
         </Link>
@@ -245,7 +245,7 @@ function Pagination({
       {page < pageCount ? (
         <Link
           href={href(page + 1)}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
         >
           Suivant &rarr;
         </Link>

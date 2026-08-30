@@ -2,52 +2,66 @@
 
 /* ==========================================================================
    DOCTORY — design tokens
-   Direction: "La Croix". The world is Algerian medical street signage — the lit
-   rod of Asclepius, the vitreous-enamel practice plaque, the hand-painted shopfront.
-   That is literally the system patients already use to find care; this is its
-   screen translation.
+   Direction: "La Plaque". The world is Algerian medical and civic street
+   signage — the vitreous-enamel plaque, the hand-painted shopfront, the rod of
+   Asclepius. That is literally the system patients already use to find care;
+   this is its screen translation.
 
-   Colour strategy: Committed. One saturated green owns whole regions of the
+   Colour strategy: Committed. One saturated blue owns whole regions of the
    surface — fields, not accents scattered over neutral. The ground is enamel
-   white (cool, not cream), because the scene is a phone held outdoors in Algerian
-   daylight, where a dark UI is unreadable and a warm ground goes muddy.
+   white (cool, not cream), because the scene is a phone held outdoors in
+   Algerian daylight, where a dark UI is unreadable and a warm ground goes
+   muddy.
+
+   The blue is the enamel street plaque of Algiers, not the SaaS trust-blue:
+   deeper, cyan-leaning, the colour of a sign screwed to a wall rather than of a
+   dashboard. It replaced the pharmacy green at the client's request.
+
+   Volume: the blue field reads heavier and colder than the green it replaces at
+   the same coverage, so it holds roughly 25-40% of the surface where the green
+   held 30-60%. The hero keeps its full field; section headers and the
+   professional space were returned to enamel with blue lettering.
 
    Raised by "Le Carnet", the direction it beat: that world's donation is
    administrative precision — ruled tables, index tabs, and carbon-copy status
    coding. Its discipline, not its clothes.
+
+   Every pair below is computed, never eyeballed: see scripts/contrast.mjs.
    ========================================================================== */
 
 @theme {
-  /* --- Green: the sign green. Carries 30-60% of the surface. ------------- */
-  --color-rod-50: #eefdf5;
-  --color-rod-100: #d5f8e6;
-  --color-rod-200: #aeefd0;
-  --color-rod-300: #74e0b1;
-  --color-rod-400: #34c98d;
-  /* The lit sign at night. Reserved for the primary action and live states. */
-  --color-rod-500: #00b85c;
-  --color-rod-600: #009a4d;
-  /* Enamel field green: large surfaces, the hero, headers. */
-  --color-rod-700: #0a7a45;
-  --color-rod-800: #085c37;
-  --color-rod-900: #06452b;
-  --color-rod-950: #032418;
+  /* --- Blue: the enamel plaque. Carries 25-40% of the surface. ----------- */
+  --color-azur-50: #eff8fd;
+  --color-azur-100: #d3ecfa; /* 7.09:1 on azur-700 — subtitles on the field */
+  --color-azur-200: #a9dbf5;
+  --color-azur-300: #6ec3ee;
+  --color-azur-400: #2ea6e0;
+  /* The lit sign. Reserved for the primary action and live states.
+     azur-950 lettering on it measures 5.16:1. */
+  --color-azur-500: #0092d8;
+  --color-azur-600: #0072ad;
+  /* Enamel field blue: large surfaces, the hero, headers.
+     enamel-50 on it is 8.46:1; as body text on enamel-50 it is 8.46:1. */
+  --color-azur-700: #0a5075;
+  --color-azur-800: #093d5b; /* 9.37:1 on azur-100 — verified badge */
+  --color-azur-900: #082e44;
+  --color-azur-950: #041a27;
 
   /* --- Ground: vitreous enamel, cool white. Never cream. ----------------- */
-  --color-enamel-50: #fbfcfb;
-  --color-enamel-100: #f4f7f5;
-  --color-enamel-200: #e8ede9;
-  --color-enamel-300: #d5ded8;
+  --color-enamel-50: #fbfcfd;
+  --color-enamel-100: #f2f6f9;
+  --color-enamel-200: #e5ecf1;
+  --color-enamel-300: #d2dde5;
 
-  /* --- Ink: the plaque lettering, with a green cast so it belongs. ------- */
-  --color-ink-900: #0c1f17;
-  --color-ink-800: #163024;
-  --color-ink-600: #405249;
-  --color-ink-500: #5b6d64;
+  /* --- Ink: the plaque lettering, with a blue cast so it belongs. -------- */
+  --color-ink-900: #0d1c26; /* 16.88:1 on enamel-50 */
+  --color-ink-800: #16303e;
+  --color-ink-600: #3f5462;
+  --color-ink-500: #5a707e; /* 5.04:1 on enamel-50 */
   /* ink-400 carried meta text at 3.23:1; ink-300 is placeholder-only and still
      has to be readable, so both were darkened to clear AA. */
-  --color-ink-400: #64756c; /* 4.52:1 on enamel-100 */
-  --color-ink-300: #6b7c74; /* placeholder ink */
+  --color-ink-400: #5e737f; /* 4.56:1 on enamel-100 */
+  --color-ink-300: #617682; /* placeholder ink, 4.75:1 on white */
 
   /* --- Carbon copy: the Carnet donation. Status coding borrowed from the
          duplicate-book, where each flimsy colour means a different state. ---- */
@@ -99,14 +113,17 @@
 
   /* Focus is a structural element here, not an afterthought: the brief names
      low digital literacy and outdoor use, where a faint ring is invisible.
-     The first version used rod-500, which measured 2.06:1 on the green field,
-     2.43:1 on the body and 2.55:1 on a card — failing 3:1 on every ground but
-     the dark footer, the exact opposite of what the comment claimed.
+     An early version used the accent itself, which failed 3:1 on every ground
+     but the dark footer — the exact opposite of what its comment claimed.
 
-     Two layers instead, so no ground can swallow both: a dark outline that
-     reads on light surfaces (15.9:1 on the body) and an enamel halo filling the
-     offset gap that reads on dark ones (16.1:1 on the footer, 5.3:1 on the
-     green field). Worst case across the four grounds is 5.26:1. */
+     Two layers instead, so no ground can swallow both. On light surfaces the
+     dark outline carries the ring: 16.88:1 on enamel-50, 17.34:1 on white,
+     5.04:1 on the azur-500 button. On the blue field the outline drops to
+     2.00:1 and the enamel halo filling the offset gap carries it instead, at
+     8.46:1 — which is why the halo is not decoration and must not be removed.
+     Re-measured after the move from green to blue: the field is lighter than
+     the green it replaced, so the dark outline lost ground and the halo gained
+     it. Recompute both if the field changes again. */
   :focus-visible {
     outline: 3px solid var(--color-ink-900);
     outline-offset: 2px;

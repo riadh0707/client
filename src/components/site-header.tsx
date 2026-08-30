@@ -17,7 +17,7 @@ import { RodMark } from "@/components/rod-mark";
  */
 
 const NAV_LINK =
-  "flex min-h-11 shrink-0 items-center px-1 py-2.5 font-display text-xs font-bold tracking-[0.1em] text-rod-100 uppercase underline-offset-4 hover:underline sm:text-sm";
+  "flex min-h-11 shrink-0 items-center px-1 py-2.5 font-display text-xs font-bold tracking-[0.1em] text-azur-100 uppercase underline-offset-4 hover:underline sm:text-sm";
 
 export function SiteHeader({
   children,
@@ -26,13 +26,13 @@ export function SiteHeader({
   children?: React.ReactNode;
 }) {
   return (
-    <header className="bg-rod-700 text-enamel-50">
+    <header className="bg-azur-700 text-enamel-50">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-5 py-3 sm:px-8 lg:flex-row lg:items-center lg:gap-8">
         <Link
           href="/"
           className="flex min-h-11 shrink-0 items-center gap-2.5 py-1"
         >
-          <RodMark className="h-7 w-7 text-rod-500" />
+          <RodMark className="h-7 w-7 text-azur-500" />
           <span className="font-display text-xl font-bold tracking-[-0.02em]">
             DOCTORY
           </span>

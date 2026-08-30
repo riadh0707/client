@@ -163,7 +163,7 @@ export default async function RegisterPage({
 
           <button
             type="submit"
-            className="min-h-11 bg-rod-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
+            className="min-h-11 bg-azur-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-azur-950 uppercase hover:bg-azur-400"
           >
             Créer mon compte
           </button>

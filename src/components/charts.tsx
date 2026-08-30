@@ -9,18 +9,19 @@ import { useId, useState } from "react";
  * simple forms, and a dependency would add weight without adding correctness.
  *
  * Colour follows the dataviz method. Every chart here carries ONE measure, so it
- * uses ONE hue — #0a7a45, the design system's rod-700, validated against this
- * surface (lightness band, chroma floor, contrast ≥ 3:1). Category identity comes
- * from the axis labels, never from colour: giving five partner types five hues
- * would burn the colour channel on information the labels already carry, and no
- * five-hue set in this palette clears the colourblind separation threshold.
+ * uses ONE hue — #0a5075, the design system's azur-700, re-measured against this
+ * surface after the move from green to blue: 8.46:1, well past the 3:1 floor
+ * (scripts/check-contrast.mjs). Category identity comes from the axis labels,
+ * never from colour: giving ten partner types ten hues would burn the colour
+ * channel on information the labels already carry, and no ten-hue set in any
+ * palette clears the colourblind separation threshold.
  *
  * Every chart ships a table view. A tooltip enhances; it never gates a value.
  */
 
-const SERIES = "#0a7a45";
-const GRID = "#d5ded8";
-const AXIS_TEXT = "#7d8d85";
+const SERIES = "#0a5075"; /* azur-700 — 8.46:1 on the chart surface */
+const GRID = "#d2dde5"; /* enamel-300 hairline */
+const AXIS_TEXT = "#5a707e"; /* ink-500 — 5.04:1, axis labels are small */
 
 export type Point = { label: string; value: number };
 
@@ -41,7 +42,7 @@ function TableView({
 }) {
   return (
     <details className="mt-3">
-      <summary className="cursor-pointer font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-rod-700">
+      <summary className="cursor-pointer font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-azur-700">
         Voir les données
       </summary>
       <div className="mt-2 max-h-64 overflow-y-auto border border-enamel-300">
@@ -181,7 +182,7 @@ export function LineChart({
                     cy={pointY}
                     r={4}
                     fill={SERIES}
-                    stroke="#fbfcfb"
+                    stroke="#fbfcfd"
                     strokeWidth={2}
                   />
                   <text
@@ -190,7 +191,7 @@ export function LineChart({
                     textAnchor="end"
                     fontSize={11}
                     fontWeight={700}
-                    fill="#0c1f17"
+                    fill="#0d1c26"
                   >
                     {last.value}
                   </text>
@@ -215,7 +216,7 @@ export function LineChart({
                     cy={y(point.value)}
                     r={5}
                     fill={SERIES}
-                    stroke="#fbfcfb"
+                    stroke="#fbfcfd"
                     strokeWidth={2}
                   />
                 </>

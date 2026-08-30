@@ -78,7 +78,9 @@ The defensible mechanism is the generic professional/establishment model: adding
 ## Capabilities and Constraints
 
 **Confirmed scope.** Role-based access (patient / professional / secretary / admin);
-multi-category professional and establishment profiles; search by name, specialty,
+multi-category professional and establishment profiles (ten categories: doctor,
+dentist, pharmacy, laboratory, imaging centre, clinic, physiotherapist,
+psychologist, midwife, nutritionist — each one a seed row, never a code branch); search by name, specialty,
 type, Wilaya, Commune, proximity, service, availability; nearby discovery with list
 and map views; appointments with lifecycle statuses (pending, confirmed, completed,
 cancelled, no-show); professional availability and schedule management; favourites;
@@ -114,6 +116,14 @@ rather than publishing.
 Name: **DOCTORY**. No existing logo, palette, typography, or brand guideline — the
 user confirmed a blank slate, so the visual identity is to be created. No inherited
 constraint to preserve.
+
+**The palette is blue, not green.** The build shipped on the green of the
+Algerian pharmacy sign. The client asked for blue, so the field is now the
+enamel street plaque of Algiers — deeper and cyan-leaning, deliberately not the
+SaaS trust-blue. The blue reads heavier and colder than the green at equal
+coverage, so it holds roughly 25-40% of the surface where the green held 30-60%.
+Every contrast pair was recomputed, not carried over: `scripts/check-contrast.mjs`
+is the check, and it caught three failures on the first candidate scale.
 
 **The mark is the rod of Asclepius, never a cross.** The first build used the
 green pharmacy cross — accurate to the Algerian street, where it is the sign

@@ -258,7 +258,7 @@ export default async function ProRegistrationPage({
               aria-current={index === step ? "step" : undefined}
               className={`flex items-center gap-2 font-display text-[11px] font-bold tracking-[0.12em] uppercase ${
                 index === step
-                  ? "text-rod-700"
+                  ? "text-azur-700"
                   : index < step
                     ? "text-ink-600"
                     : "text-ink-300"
@@ -268,7 +268,7 @@ export default async function ProRegistrationPage({
                 aria-hidden
                 className={`flex h-6 w-6 items-center justify-center border tabular-nums ${
                   index === step
-                    ? "border-rod-700 bg-rod-700 text-enamel-50"
+                    ? "border-azur-700 bg-azur-700 text-enamel-50"
                     : index < step
                       ? "border-ink-300 text-ink-600"
                       : "border-enamel-300 text-ink-300"
@@ -341,9 +341,9 @@ function ChooseType({
               href={`/inscription/professionnel?type=${category.slug}`}
               className="group flex min-h-11 items-center gap-4 py-4 sm:gap-6"
             >
-              <RodMark className="h-5 w-5 shrink-0 text-rod-500 sm:h-6 sm:w-6" />
+              <RodMark className="h-5 w-5 shrink-0 text-azur-500 sm:h-6 sm:w-6" />
               <span className="min-w-0">
-                <span className="block font-display text-lg font-bold text-ink-900 group-hover:text-rod-700">
+                <span className="block font-display text-lg font-bold text-ink-900 group-hover:text-azur-700">
                   {category.name}
                 </span>
                 <span className="block text-sm text-ink-500">
@@ -357,7 +357,7 @@ function ChooseType({
               </span>
               <span
                 aria-hidden
-                className="ml-auto shrink-0 text-ink-300 group-hover:text-rod-700"
+                className="ml-auto shrink-0 text-ink-300 group-hover:text-azur-700"
               >
                 &rarr;
               </span>
@@ -427,7 +427,7 @@ async function ChoosePlace({
           </select>
           <button
             type="submit"
-            className="min-h-11 shrink-0 border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+            className="min-h-11 shrink-0 border border-azur-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
           >
             {wilaya ? "Changer" : "Continuer"}
           </button>
@@ -500,7 +500,7 @@ async function Details({
 
   return (
     <section className="mt-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-2 border-rod-700 bg-enamel-50 px-4 py-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-2 border-azur-700 bg-enamel-50 px-4 py-3">
         <p className="text-[15px] text-ink-900">
           <strong className="font-display">{category.name}</strong> à{" "}
           <strong className="font-display">{commune.name}</strong>,{" "}
@@ -508,7 +508,7 @@ async function Details({
         </p>
         <Link
           href={`/inscription/professionnel?type=${category.slug}&wilaya=${commune.wilayaCode}`}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase underline underline-offset-4"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase underline underline-offset-4"
         >
           Changer
         </Link>
@@ -662,7 +662,7 @@ async function Details({
 
         <button
           type="submit"
-          className="min-h-11 bg-rod-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
+          className="min-h-11 bg-azur-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-azur-950 uppercase hover:bg-azur-400"
         >
           Envoyer ma demande d&apos;inscription
         </button>

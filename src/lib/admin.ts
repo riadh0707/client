@@ -52,7 +52,7 @@ export const PARTNER_STATUS_LABELS: Record<
   },
   ACTIVE: {
     label: "Actif",
-    className: "border-rod-600/40 bg-rod-100 text-rod-800",
+    className: "border-azur-600/40 bg-azur-100 text-azur-800",
   },
   SUSPENDED: {
     label: "Suspendu",
@@ -74,7 +74,7 @@ export const VERIFICATION_LABELS: Record<
   },
   VERIFIED: {
     label: "Vérifié",
-    className: "border-rod-600/40 bg-rod-100 text-rod-800",
+    className: "border-azur-600/40 bg-azur-100 text-azur-800",
   },
   REJECTED: {
     label: "Rejeté",

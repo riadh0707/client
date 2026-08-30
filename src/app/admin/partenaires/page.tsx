@@ -248,7 +248,7 @@ export default async function AdminPartnersPage({
         <div className="flex items-end gap-3 sm:col-span-2 lg:col-span-5">
           <button
             type="submit"
-            className="min-h-11 bg-rod-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-950 uppercase hover:bg-rod-400"
+            className="min-h-11 bg-azur-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-950 uppercase hover:bg-azur-400"
           >
             Filtrer
           </button>
@@ -294,7 +294,7 @@ export default async function AdminPartnersPage({
                     <Td>
                       <Link
                         href={`/partenaire/${partner.slug}`}
-                        className="-my-3 flex min-h-11 items-center py-3 font-display font-bold text-ink-900 hover:text-rod-700"
+                        className="-my-3 flex min-h-11 items-center py-3 font-display font-bold text-ink-900 hover:text-azur-700"
                       >
                         {partner.displayName}
                       </Link>
@@ -426,7 +426,7 @@ function PageLink({
   return (
     <Link
       href={`/admin/partenaires?${next}`}
-      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
+      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline"
     >
       {label}
     </Link>
@@ -462,7 +462,7 @@ function Action({
   const className = `inline-flex min-h-11 w-full items-center justify-center border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
     tone === "reject"
       ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
-      : "border-rod-700 text-rod-700 hover:bg-rod-100"
+      : "border-azur-700 text-azur-700 hover:bg-azur-100"
   }`;
 
   if (confirmNeeded && confirmHref) {

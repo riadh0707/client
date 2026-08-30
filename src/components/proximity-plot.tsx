@@ -80,14 +80,14 @@ export function ProximityPlot({
               cy={size / 2}
               r={radius * ring}
               fill="none"
-              stroke="#d5ded8"
+              stroke="#d2dde5"
               strokeWidth={1}
             />
             <text
               x={size / 2 + 4}
               y={size / 2 - radius * ring + 11}
               fontSize={9}
-              fill="#a3b0a9"
+              fill="#9fb0bd"
               className="tabular-nums"
             >
               {formatDistance(maxDistance * ring)}
@@ -101,13 +101,13 @@ export function ProximityPlot({
           textAnchor="middle"
           fontSize={10}
           fontWeight={700}
-          fill="#7d8d85"
+          fill="#5a707e"
         >
           N
         </text>
 
         {/* The centre reads as the viewer's own position: the cross, filled. */}
-        <circle cx={size / 2} cy={size / 2} r={5} fill="#0c1f17" />
+        <circle cx={size / 2} cy={size / 2} r={5} fill="#0d1c26" />
 
         {placed.map((point) => (
           <g
@@ -119,8 +119,8 @@ export function ProximityPlot({
               cx={point.x}
               cy={point.y}
               r={active === point.slug ? 7 : 5}
-              fill="#00b85c"
-              stroke="#fbfcfb"
+              fill="#0092d8"
+              stroke="#fbfcfd"
               strokeWidth={2}
             />
             {/* Hit target well beyond the mark: a 5px dot is not a target.

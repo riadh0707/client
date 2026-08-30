@@ -71,7 +71,7 @@ export function SearchInstrument({
           autoFocus={autoFocus}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder={compact ? "Nom ou spécialité" : "Cardiologue, pharmacie, laboratoire…"}
+          placeholder={compact ? "Nom ou spécialité" : "Cardiologue, pharmacie, clinique…"}
           className={`min-h-11 w-full bg-transparent px-4 pt-1 text-ink-900 placeholder:text-ink-300 ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
         />
       </div>
@@ -101,7 +101,7 @@ export function SearchInstrument({
 
       <button
         type="submit"
-        className={`bg-rod-500 font-display font-bold tracking-wide text-rod-950 uppercase transition-colors hover:bg-rod-400 sm:py-0 ${compact ? "px-5 py-3 text-sm" : "px-8 py-4 text-base"}`}
+        className={`bg-azur-500 font-display font-bold tracking-wide text-azur-950 uppercase transition-colors hover:bg-azur-400 sm:py-0 ${compact ? "px-5 py-3 text-sm" : "px-8 py-4 text-base"}`}
       >
         Rechercher
       </button>

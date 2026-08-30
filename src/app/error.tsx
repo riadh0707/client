@@ -45,13 +45,13 @@ export default function ErrorBoundary({
         <button
           type="button"
           onClick={reset}
-          className="inline-flex min-h-11 items-center justify-center bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
+          className="inline-flex min-h-11 items-center justify-center bg-azur-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-azur-950 uppercase hover:bg-azur-400"
         >
           Réessayer
         </button>
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center justify-center border border-rod-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-700 uppercase hover:bg-rod-100"
+          className="inline-flex min-h-11 items-center justify-center border border-azur-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-azur-700 uppercase hover:bg-azur-100"
         >
           Retour à l&apos;accueil
         </Link>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { SearchInstrument } from "@/components/search-instrument";
 import { RodMark } from "@/components/rod-mark";
+import { HeroPortrait } from "@/components/hero-portrait";
 
 // Counts come from the database, never from a hardcoded marketing number:
 // PRODUCT.md forbids implying more coverage than exists.
@@ -40,32 +41,31 @@ export default async function HomePage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      {/* ---- The field. Committed green owning the whole first viewport. ---- */}
-      <section className="relative overflow-hidden bg-rod-700 text-enamel-50">
-        {/* The rod as structural module: the sign read from across the street.
-            It is held clear of both edges rather than bled off one — the coils
-            are the whole shape, and cropping any of them turns the serpent into
-            a stray wave. It sits below the header so it never muddies the
-            navigation. */}
-        <RodMark className="pointer-events-none absolute top-24 right-12 hidden h-[21rem] w-[21rem] text-rod-600 opacity-55 lg:block xl:right-20 xl:h-[24rem] xl:w-[24rem]" />
-
-        <div className="relative mx-auto w-full max-w-6xl px-5 pt-8 pb-12 sm:px-8 sm:pt-10 sm:pb-16">
+      {/* ---- The field. The blue owns the first viewport, and a photograph
+             owns its right edge: the client asked for an entrance that shows
+             people, not only lettering. The two meet on a hard vertical edge —
+             no gradient, no feather — because that is how an enamel plaque is
+             made, and a soft blend would be the one place the whole system
+             stopped being itself. ---- */}
+      <section className="relative overflow-hidden bg-azur-700 text-enamel-50">
+        <div className="relative mx-auto grid w-full max-w-[100rem] lg:grid-cols-[1fr_38%] xl:grid-cols-[1fr_42%]">
+          <div className="px-5 pt-8 pb-12 sm:px-8 sm:pt-10 sm:pb-16 lg:py-14 lg:pl-[max(2rem,calc((100vw-72rem)/2))] xl:py-16">
           <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
             <span className="flex items-center gap-2.5">
-              <RodMark className="h-7 w-7 text-rod-500 sm:h-8 sm:w-8" />
+              <RodMark className="h-7 w-7 text-azur-500 sm:h-8 sm:w-8" />
               <span className="font-display text-xl font-bold tracking-[-0.02em] sm:text-2xl">
                 DOCTORY
               </span>
             </span>
             <Link
               href="/autour-de-moi"
-              className="ml-auto inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-rod-100 uppercase underline-offset-4 hover:underline sm:text-sm"
+              className="ml-auto inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-azur-100 uppercase underline-offset-4 hover:underline sm:text-sm"
             >
               Autour de moi
             </Link>
             <Link
               href="/pro"
-              className="inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-rod-100 uppercase underline-offset-4 hover:underline sm:text-sm"
+              className="inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-azur-100 uppercase underline-offset-4 hover:underline sm:text-sm"
             >
               {/* The full label wraps to two lines on a 360px screen and crowds
                   the wordmark, so the narrow viewport gets the short form. */}
@@ -80,10 +80,22 @@ export default async function HomePage() {
               <br />
               près de chez vous.
             </h1>
-            <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-rod-100 sm:text-xl">
-              Médecins, dentistes, pharmacies, laboratoires et centres
-              d&apos;imagerie — cherchés par wilaya, par commune, ou autour de
-              vous.
+            {/* Naming ten categories takes five lines on a phone, which pushed
+                the search instrument off the first screen — the one thing a
+                patient came for. The narrow viewport gets the count; the wide
+                one, which has the room, gets the list. */}
+            <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-azur-100 sm:text-xl">
+              <span className="sm:hidden">
+                {categories.length} types de professionnels et
+                d&apos;établissements de santé, cherchés par wilaya, par commune,
+                ou autour de vous.
+              </span>
+              <span className="hidden sm:inline">
+                Médecins, cliniques, pharmacies, laboratoires,
+                kinésithérapeutes, sages-femmes&nbsp;— {categories.length} types
+                de professionnels et d&apos;établissements, cherchés par wilaya,
+                par commune, ou autour de vous.
+              </span>
             </p>
           </div>
 
@@ -96,18 +108,34 @@ export default async function HomePage() {
             <div className="flex items-baseline gap-2">
               <dt className="sr-only">Professionnels et établissements</dt>
               <dd className="text-2xl font-bold tabular-nums">{partnerCount}</dd>
-              <span className="text-rod-100">
+              <span className="text-azur-100">
                 professionnels et établissements
               </span>
+            </div>
+            <div className="flex items-baseline gap-2">
+              <dt className="sr-only">Types de partenaires</dt>
+              <dd className="text-2xl font-bold tabular-nums">
+                {categories.length}
+              </dd>
+              <span className="text-azur-100">types de partenaires</span>
             </div>
             <div className="flex items-baseline gap-2">
               <dt className="sr-only">Wilayas couvertes</dt>
               <dd className="text-2xl font-bold tabular-nums">
                 {wilayasCovered}
               </dd>
-              <span className="text-rod-100">wilayas sur 58</span>
+              <span className="text-azur-100">wilayas sur 58</span>
             </div>
           </dl>
+          </div>
+
+          {/* On a phone the photograph closes the field below the search rather
+              than sitting above it: pushing the instrument down the screen to
+              make room for an image would trade the one thing a patient came
+              for against decoration. */}
+          <div className="h-52 sm:h-64 lg:h-auto">
+            <HeroPortrait />
+          </div>
         </div>
       </section>
 
@@ -157,10 +185,10 @@ export default async function HomePage() {
               <li key={category.id}>
                 <Link
                   href={`/recherche?categorie=${category.slug}`}
-                  className="group flex items-center gap-4 py-4 transition-colors hover:bg-rod-50 sm:gap-6 sm:py-5"
+                  className="group flex items-center gap-4 py-4 transition-colors hover:bg-azur-50 sm:gap-6 sm:py-5"
                 >
-                  <RodMark className="h-5 w-5 shrink-0 text-rod-500 sm:h-6 sm:w-6" />
-                  <span className="font-display text-lg font-bold text-ink-900 group-hover:text-rod-700 sm:text-xl">
+                  <RodMark className="h-5 w-5 shrink-0 text-azur-500 sm:h-6 sm:w-6" />
+                  <span className="font-display text-lg font-bold text-ink-900 group-hover:text-azur-700 sm:text-xl">
                     {category.name}
                   </span>
                   {!category.supportsAppointments && (
@@ -178,10 +206,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <footer className="mt-auto border-t border-enamel-300 bg-rod-950 text-rod-100">
+      <footer className="mt-auto border-t border-enamel-300 bg-azur-950 text-azur-100">
         <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
           <span className="flex items-center gap-2.5 text-enamel-50">
-            <RodMark className="h-6 w-6 text-rod-500" />
+            <RodMark className="h-6 w-6 text-azur-500" />
             <span className="font-display text-lg font-bold">DOCTORY</span>
           </span>
           <p className="mt-4 max-w-[52ch] text-sm leading-relaxed">
@@ -216,9 +244,9 @@ function RolePlaque({
     // The plaque is two destinations, so it is no longer one link: registering
     // and signing in are different acts, and burying the second inside the first
     // is how both landing plaques used to dead-end at a sign-in wall.
-    <div className="group flex flex-col bg-enamel-50 p-6 transition-colors hover:bg-rod-50 sm:p-8">
+    <div className="group flex flex-col bg-enamel-50 p-6 transition-colors hover:bg-azur-50 sm:p-8">
       <Link href={href} className="flex flex-1 flex-col">
-        <span className="font-display text-[11px] font-bold tracking-[0.14em] text-rod-700 uppercase">
+        <span className="font-display text-[11px] font-bold tracking-[0.14em] text-azur-700 uppercase">
           {eyebrow}
         </span>
         <h3 className="mt-2 font-display text-2xl font-bold text-ink-900 sm:text-3xl">
@@ -229,20 +257,20 @@ function RolePlaque({
             <li key={line} className="flex gap-3 text-[15px] leading-snug">
               <span
                 aria-hidden
-                className="mt-[0.42em] h-1.5 w-1.5 shrink-0 bg-rod-500"
+                className="mt-[0.42em] h-1.5 w-1.5 shrink-0 bg-azur-500"
               />
               {line}
             </li>
           ))}
         </ul>
-        <span className="mt-7 inline-flex min-h-11 items-center gap-2 font-display text-sm font-bold text-rod-700">
+        <span className="mt-7 inline-flex min-h-11 items-center gap-2 font-display text-sm font-bold text-azur-700">
           {action}
           <span aria-hidden>&rarr;</span>
         </span>
       </Link>
       <Link
         href={secondary.href}
-        className="inline-flex min-h-11 items-center font-display text-sm text-ink-500 underline underline-offset-4 hover:text-rod-700"
+        className="inline-flex min-h-11 items-center font-display text-sm text-ink-500 underline underline-offset-4 hover:text-azur-700"
       >
         {secondary.label}
       </Link>

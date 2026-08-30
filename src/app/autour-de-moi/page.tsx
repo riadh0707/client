@@ -199,7 +199,7 @@ export default async function NearbyPage({
             </p>
             <Link
               href="/recherche"
-              className="mt-6 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+              className="mt-6 inline-flex min-h-11 items-center border border-azur-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
             >
               Aller à la recherche
             </Link>
@@ -265,8 +265,8 @@ function FilterChip({
       aria-current={active ? "true" : undefined}
       className={`flex min-h-11 flex-1 items-center justify-center px-4 py-3 text-center font-display text-xs font-bold tracking-[0.08em] uppercase ${
         active
-          ? "bg-rod-700 text-enamel-50"
-          : "bg-enamel-50 text-ink-600 hover:bg-rod-50 hover:text-rod-700"
+          ? "bg-azur-700 text-enamel-50"
+          : "bg-enamel-50 text-ink-600 hover:bg-azur-50 hover:text-azur-700"
       }`}
     >
       {label}

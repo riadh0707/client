@@ -43,6 +43,24 @@ function pickSome<T>(items: readonly T[], count: number): T[] {
 }
 
 /**
+ * How a practitioner of this category is addressed in Algeria.
+ *
+ * "Dr" is not universal: a midwife is never "Dr", and a physiotherapist or a
+ * nutritionist is addressed by "M." or "Mme". Printing "Dr Amina Belkacem" over
+ * a sage-femme's profile would be the kind of absurd demo data the brief rules
+ * out, so the title is per-category and per-gender rather than a constant.
+ */
+function practitionerTitle(categorySlug: string, female: boolean) {
+  if (categorySlug === "midwife") return female ? "Mme" : "M.";
+  if (categorySlug === "physio" || categorySlug === "nutritionist") {
+    return female ? "Mme" : "M.";
+  }
+  // Doctors, dentists and psychologists keep "Dr", which is customary for all
+  // three here.
+  return "Dr";
+}
+
+/**
  * The noun for a practitioner of a discipline: "Cardiologie" -> "Cardiologue".
  * Taken from the first search alias, which is exactly that word.
  */
@@ -121,6 +139,31 @@ const SPECIALTY_ALIASES: Record<string, string> = {
   IRM: "irm,résonance magnétique",
   Échographie: "échographie,echographie,écho,doppler",
   Mammographie: "mammographie,mammo,sein",
+  // The categories added at the client's request. Without these, a patient
+  // typing "kiné" or "psy" — which is what people actually type — gets nothing,
+  // because the discipline is stored as "Rééducation fonctionnelle". The first
+  // alias also supplies the practitioner noun used in profile text.
+  "Rééducation fonctionnelle": "kinésithérapeute,kine,kiné,kinesitherapeute,rééducation,reeducation",
+  "Kinésithérapie respiratoire": "kinésithérapeute respiratoire,kiné respiratoire,bronchiolite",
+  "Rééducation sportive": "kinésithérapeute du sport,kiné sport,blessure sportive",
+  "Rééducation neurologique": "kinésithérapeute neurologique,kiné neurologique,avc",
+  "Psychologie clinique": "psychologue,psy,psychologues,psychologie",
+  Psychothérapie: "psychothérapeute,psychotherapeute,psy,thérapie,therapie",
+  "Psychologie de l'enfant": "psychologue pour enfant,psy enfant,pédopsychologue",
+  "Thérapie de couple": "thérapeute de couple,conseiller conjugal,couple",
+  "Suivi de grossesse": "sage-femme,sage femme,grossesse,enceinte,accouchement",
+  "Préparation à la naissance": "sage-femme,préparation accouchement,naissance",
+  "Suivi post-natal": "sage-femme,post-natal,après accouchement,nourrisson",
+  "Rééducation périnéale": "sage-femme,périnée,perinee,rééducation périnéale",
+  "Nutrition clinique": "nutritionniste,diététicien,dieteticien,nutrition,régime",
+  "Diabétologie nutritionnelle": "nutritionniste,diabète,diabete,alimentation diabétique",
+  "Nutrition sportive": "nutritionniste du sport,diététicien sportif,nutrition sport",
+  "Nutrition pédiatrique": "nutritionniste enfant,diététicien enfant,alimentation enfant",
+  "Maternité": "maternité,maternite,accouchement,clinique accouchement",
+  "Cardiologie interventionnelle": "cardiologue interventionnel,coronarographie,angioplastie",
+  Traumatologie: "traumatologue,traumatologie,fracture,urgence",
+  "Soins intensifs": "réanimation,soins intensifs,usi",
+  "Hospitalisation de jour": "hôpital de jour,hospitalisation,ambulatoire",
 };
 
 const CATEGORIES = [
@@ -208,6 +251,88 @@ const CATEGORIES = [
     sortOrder: 5,
     specialties: ["Radiologie", "Scanner", "IRM", "Échographie", "Mammographie"],
   },
+  // Added at the client's request. Each one is a row here and nothing else —
+  // no migration, no branch in the interface — because the capability flags
+  // carry what differs. A clinic is an establishment that books appointments;
+  // a midwife is an individual who books them. That is the whole difference,
+  // and the flags already express it.
+  {
+    slug: "clinic",
+    name: "Clinique",
+    nameAr: "عيادة",
+    isIndividual: false,
+    supportsAppointments: true,
+    supportsOpeningHours: true,
+    sortOrder: 6,
+    specialties: [
+      "Chirurgie générale",
+      "Maternité",
+      "Cardiologie interventionnelle",
+      "Traumatologie",
+      "Soins intensifs",
+      "Hospitalisation de jour",
+    ],
+  },
+  {
+    slug: "physio",
+    name: "Kinésithérapeute",
+    nameAr: "أخصائي العلاج الطبيعي",
+    isIndividual: true,
+    supportsAppointments: true,
+    supportsOpeningHours: true,
+    sortOrder: 7,
+    specialties: [
+      "Rééducation fonctionnelle",
+      "Kinésithérapie respiratoire",
+      "Rééducation sportive",
+      "Rééducation neurologique",
+    ],
+  },
+  {
+    slug: "psychologist",
+    name: "Psychologue",
+    nameAr: "أخصائي نفساني",
+    isIndividual: true,
+    supportsAppointments: true,
+    supportsOpeningHours: true,
+    sortOrder: 8,
+    specialties: [
+      "Psychologie clinique",
+      "Psychothérapie",
+      "Psychologie de l'enfant",
+      "Thérapie de couple",
+    ],
+  },
+  {
+    slug: "midwife",
+    name: "Sage-femme",
+    nameAr: "قابلة",
+    isIndividual: true,
+    supportsAppointments: true,
+    supportsOpeningHours: true,
+    sortOrder: 9,
+    specialties: [
+      "Suivi de grossesse",
+      "Préparation à la naissance",
+      "Suivi post-natal",
+      "Rééducation périnéale",
+    ],
+  },
+  {
+    slug: "nutritionist",
+    name: "Nutritionniste",
+    nameAr: "أخصائي التغذية",
+    isIndividual: true,
+    supportsAppointments: true,
+    supportsOpeningHours: true,
+    sortOrder: 10,
+    specialties: [
+      "Nutrition clinique",
+      "Diabétologie nutritionnelle",
+      "Nutrition sportive",
+      "Nutrition pédiatrique",
+    ],
+  },
 ] as const;
 
 /**
@@ -250,6 +375,37 @@ const SERVICE_POOLS: Record<string, string[]> = {
     "Scanner",
     "IRM",
     "Mammographie",
+  ],
+  clinic: [
+    "Consultation spécialisée",
+    "Hospitalisation de jour",
+    "Bloc opératoire",
+    "Urgences",
+    "Bilan pré-opératoire",
+  ],
+  physio: [
+    "Séance de rééducation",
+    "Bilan kinésithérapique",
+    "Massage thérapeutique",
+    "Rééducation post-opératoire",
+  ],
+  psychologist: [
+    "Consultation individuelle",
+    "Bilan psychologique",
+    "Séance de suivi",
+    "Consultation familiale",
+  ],
+  midwife: [
+    "Consultation de suivi de grossesse",
+    "Séance de préparation à la naissance",
+    "Consultation post-natale",
+    "Suivi du nourrisson",
+  ],
+  nutritionist: [
+    "Bilan nutritionnel",
+    "Consultation de suivi",
+    "Programme alimentaire",
+    "Suivi du poids",
   ],
 };
 
@@ -318,6 +474,11 @@ const IMAGING_PREFIXES = [
   "Centre d'Imagerie El Nour", "Centre Radiologique Ibn Sina",
   "Imagerie Médicale du Centre", "Centre IRM El Hikma",
   "Centre d'Imagerie El Wafa",
+];
+
+const CLINIC_PREFIXES = [
+  "Clinique El Amel", "Clinique Ibn Rochd", "Clinique El Yasmine",
+  "Clinique El Feth", "Clinique Es-Salem", "Polyclinique El Nour",
 ];
 
 const STREETS = [
@@ -605,14 +766,16 @@ async function main() {
       if (category.isIndividual) {
         personFirst = firstName;
         personLast = lastName;
-        displayName = `Dr ${firstName} ${lastName}`;
+        displayName = `${practitionerTitle(category.slug, female)} ${firstName} ${lastName}`;
       } else {
         const prefix =
           category.slug === "pharmacy"
             ? pick(PHARMACY_PREFIXES)
             : category.slug === "lab"
               ? pick(LAB_PREFIXES)
-              : pick(IMAGING_PREFIXES);
+              : category.slug === "clinic"
+                ? pick(CLINIC_PREFIXES)
+                : pick(IMAGING_PREFIXES);
         const isDuty =
           category.slug === "pharmacy" &&
           FOCUS_WILAYAS.includes(wilaya.code) &&

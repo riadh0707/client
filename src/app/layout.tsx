@@ -38,7 +38,7 @@ translation. Refuses the category default of white ground, trust-blue accent and
 rounded photo cards.
 
 OWN-WORLD: Vitreous enamel plaque and lit sign green. Committed green owning
-whole fields (rod-700/500) on cool enamel white, never cream. Hard 2-4px edges,
+whole fields (azur-700/500) on cool enamel white, never cream. Hard 2-4px edges,
 hairline rules, no soft shadow. Archivo for plaque lettering, Atkinson
 Hyperlegible for text. The mark is the rod of Asclepius, used as a structural
 module: section marker, map pin, grid unit. It replaced the pharmacy cross the
@@ -51,9 +51,9 @@ STORY: A visitor understands in one screen that this covers every kind of care i
 all 58 wilayas, believes it because the geography is exact, and acts by searching
 or by declaring which side of the platform they are on.
 
-FIRST VIEWPORT: Full-bleed rod-700 field carrying the rod at 21rem, held clear
+FIRST VIEWPORT: Full-bleed azur-700 field carrying the rod at 21rem, held clear
 of both edges. DOCTORY in Archivo at display scale, left. Beneath it the search instrument as a single ruled line — query, then
-wilaya selector — the one bright rod-500 action at its right. Below the fold
+wilaya selector — the one bright azur-500 action at its right. Below the fold
 line, two plaques: patient, professional.
 
 FORM: "La Plaque" — begun as "La Croix", rank 1 of my grounded list, chosen by

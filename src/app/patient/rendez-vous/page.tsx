@@ -173,7 +173,7 @@ export default async function PatientAppointmentsPage({
       {query.nouveau && (
         <p
           role="status"
-          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900"
+          className="mt-5 border border-azur-600/40 bg-azur-100 px-4 py-3 text-[15px] text-ink-900"
         >
           Demande envoyée. Le praticien doit la confirmer&nbsp;: son statut
           restera «&nbsp;en attente&nbsp;» jusque-là.
@@ -211,7 +211,7 @@ export default async function PatientAppointmentsPage({
             </p>
             <Link
               href="/recherche"
-              className="mt-5 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+              className="mt-5 inline-flex min-h-11 items-center border border-azur-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
             >
               Chercher un professionnel
             </Link>

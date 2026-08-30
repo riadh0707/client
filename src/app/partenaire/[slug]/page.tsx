@@ -77,9 +77,9 @@ export default async function PartnerPage({
 
       {/* Identity plaque. Enamel field so the profile reads as the engraved
           nameplate outside a practice, which is the direction's core object. */}
-      <section className="bg-rod-700 text-enamel-50">
+      <section className="bg-azur-700 text-enamel-50">
         <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-12">
-          <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-rod-100">
+          <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-azur-100">
             <Link href="/recherche" className="inline-flex min-h-11 items-center py-2 hover:underline">
               Recherche
             </Link>
@@ -93,15 +93,15 @@ export default async function PartnerPage({
           </nav>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="border border-rod-400/50 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] uppercase">
+            <span className="border border-azur-400/50 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] uppercase">
               {partner.category.name}
             </span>
             {partner.verificationStatus === "VERIFIED" ? (
-              <span className="bg-rod-500 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-rod-950 uppercase">
+              <span className="bg-azur-500 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-azur-950 uppercase">
                 Profil vérifié
               </span>
             ) : (
-              <span className="border border-rod-200/40 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-rod-100 uppercase">
+              <span className="border border-azur-200/40 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-azur-100 uppercase">
                 Non vérifié
               </span>
             )}
@@ -115,7 +115,7 @@ export default async function PartnerPage({
           <h1 className="mt-4 font-display text-3xl font-bold tracking-[-0.02em] sm:text-5xl">
             {partner.displayName}
           </h1>
-          <p className="mt-2 text-lg text-rod-100">
+          <p className="mt-2 text-lg text-azur-100">
             {partner.specialty?.name ?? partner.category.name}
             {partner.subSpecialty ? ` · ${partner.subSpecialty}` : ""}
           </p>
@@ -203,7 +203,7 @@ export default async function PartnerPage({
                   body size among the address lines. */}
               <a
                 href={`tel:${partner.phone.replace(/\s/g, "")}`}
-                className="mt-4 flex min-h-11 items-center font-display text-2xl font-bold tracking-[-0.01em] text-rod-700 hover:underline"
+                className="mt-4 flex min-h-11 items-center font-display text-2xl font-bold tracking-[-0.01em] text-azur-700 hover:underline"
               >
                 {partner.phone}
               </a>
@@ -213,7 +213,7 @@ export default async function PartnerPage({
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex min-h-11 items-center justify-center border border-rod-700 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
+              className="mt-4 flex min-h-11 items-center justify-center border border-azur-700 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:bg-azur-100"
             >
               Itinéraire
             </a>
@@ -230,7 +230,7 @@ export default async function PartnerPage({
                 </p>
                 <Link
                   href={`/partenaire/${partner.slug}/rendez-vous`}
-                  className="mt-4 block bg-rod-500 px-4 py-3 text-center font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
+                  className="mt-4 block bg-azur-500 px-4 py-3 text-center font-display text-sm font-bold tracking-[0.06em] text-azur-950 uppercase hover:bg-azur-400"
                 >
                   Prendre rendez-vous
                 </Link>
@@ -270,22 +270,22 @@ function Panel({
 function OpenNow({ state }: { state: OpenState }) {
   if (state.status === "open") {
     return (
-      <span className="inline-flex items-center gap-2 bg-rod-500 px-3 py-1.5 font-display text-sm font-bold text-rod-950">
-        <span aria-hidden className="h-2 w-2 bg-rod-950" />
+      <span className="inline-flex items-center gap-2 bg-azur-500 px-3 py-1.5 font-display text-sm font-bold text-azur-950">
+        <span aria-hidden className="h-2 w-2 bg-azur-950" />
         Ouvert · ferme à {state.closesAt}
       </span>
     );
   }
   if (state.status === "closed") {
     return (
-      <span className="inline-flex items-center gap-2 border border-rod-200/50 px-3 py-1.5 font-display text-sm text-rod-100">
+      <span className="inline-flex items-center gap-2 border border-azur-200/50 px-3 py-1.5 font-display text-sm text-azur-100">
         <span aria-hidden className="h-2 w-2 bg-carbon-rose" />
         Fermé · ouvre à {state.opensAt}
       </span>
     );
   }
   return (
-    <span className="font-display text-sm text-rod-100">
+    <span className="font-display text-sm text-azur-100">
       Horaires non renseignés
     </span>
   );

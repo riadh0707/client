@@ -157,7 +157,7 @@ export default async function AdminUsersPage({
             ))}
           </select>
         </div>
-        <button type="submit" className="min-h-11 bg-rod-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-950 uppercase hover:bg-rod-400">
+        <button type="submit" className="min-h-11 bg-azur-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-azur-950 uppercase hover:bg-azur-400">
           Filtrer
         </button>
         <Link href="/admin/utilisateurs" className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4">
@@ -188,7 +188,7 @@ export default async function AdminUsersPage({
                 <td className="px-3 py-3">
                   <span className={`border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                     user.isActive
-                      ? "border-rod-600/40 bg-rod-100 text-rod-800"
+                      ? "border-azur-600/40 bg-azur-100 text-azur-800"
                       : "border-carbon-rose/50 bg-carbon-rose-soft text-carbon-rose"
                   }`}>
                     {user.isActive ? "Actif" : "Désactivé"}
@@ -201,7 +201,7 @@ export default async function AdminUsersPage({
                     <button type="submit" className={`min-h-11 w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                       user.isActive
                         ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
-                        : "border-rod-700 text-rod-700 hover:bg-rod-100"
+                        : "border-azur-700 text-azur-700 hover:bg-azur-100"
                     }`}>
                       {user.isActive ? "Désactiver" : "Réactiver"}
                     </button>
@@ -228,7 +228,7 @@ function PageLink({ query, page, label }: { query: URLSearchParams; page: number
   const next = new URLSearchParams(query);
   next.set("page", String(page));
   return (
-    <Link href={`/admin/utilisateurs?${next}`} className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline">
+    <Link href={`/admin/utilisateurs?${next}`} className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-azur-700 uppercase hover:underline">
       {label}
     </Link>
   );
