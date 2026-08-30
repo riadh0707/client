@@ -84,7 +84,9 @@ and map views; appointments with lifecycle statuses (pending, confirmed, complet
 cancelled, no-show); professional availability and schedule management; favourites;
 notifications; professional verification workflow; subscriptions with plans and
 expiry; sponsored placement; admin back-office with partner, user, subscription,
-appointment, statistics, and activity-log sections.
+appointment, statistics, and activity-log sections; self-registration for both
+patients and partners, with partner registrations entering the moderation queue
+rather than publishing.
 
 **Constraints and honesty rules.**
 
@@ -93,6 +95,10 @@ appointment, statistics, and activity-log sections.
   payment flow.
 - **Sponsored results must be visibly distinguishable** from organic ones. Search
   ranking must not be covertly manipulated.
+- **Nobody publishes themselves.** A partner registration creates a PENDING record
+  visible only to its owner and the administration. It is absent from search *and*
+  from its own public URL until an administrator publishes it — an unreviewed
+  practitioner reachable by direct link would defeat the review entirely.
 - **Demo data is fictional.** No real person may be used as a fake partner. Data must
   be realistic enough that the product does not read as an empty shell.
 - Build order agreed with the user: foundations and design system, then the patient

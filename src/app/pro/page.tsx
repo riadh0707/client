@@ -24,16 +24,24 @@ export default async function ProDashboard({
           Aucun établissement rattaché
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-ink-600">
-          Votre compte n&apos;est rattaché à aucun profil professionnel.
-          Contactez l&apos;administration de DOCTORY pour faire créer votre
-          fiche, ou revenez une fois l&apos;inscription validée.
+          Votre compte n&apos;est rattaché à aucune fiche. Inscrivez votre
+          structure pour en créer une, ou demandez à son responsable de vous
+          ajouter comme secrétaire.
         </p>
-        <Link
-          href="/"
-          className="mt-6 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
-        >
-          Retour à l&apos;accueil
-        </Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/inscription/professionnel"
+            className="inline-flex min-h-11 items-center justify-center bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
+          >
+            Inscrire ma structure
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex min-h-11 items-center justify-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+          >
+            Retour à l&apos;accueil
+          </Link>
+        </div>
       </main>
     );
   }
@@ -110,7 +118,44 @@ export default async function ProDashboard({
         </p>
       )}
 
-      {partner.verificationStatus !== "VERIFIED" && (
+      {query.bienvenue && (
+        <p
+          role="status"
+          className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] leading-relaxed text-ink-900"
+        >
+          Bienvenue sur DOCTORY. Votre fiche est enregistrée et attend la
+          validation de notre équipe. Vous pouvez dès maintenant renseigner vos
+          horaires et vos prestations&nbsp;: elles seront en place le jour où
+          elle passe en ligne.
+        </p>
+      )}
+
+      {partner.status === "PENDING" && (
+        <p
+          role="status"
+          className="mt-5 border border-carbon-blue/40 bg-carbon-blue-soft px-4 py-3 text-[15px] leading-relaxed text-ink-900"
+        >
+          <strong className="font-display">
+            Fiche en attente de validation.
+          </strong>{" "}
+          Elle n&apos;apparaît pas encore dans les recherches et ne reçoit pas
+          encore de demandes de rendez-vous. Notre équipe la relit avant
+          publication.
+        </p>
+      )}
+
+      {partner.status === "SUSPENDED" && (
+        <p
+          role="alert"
+          className="mt-5 border border-carbon-rose/50 bg-carbon-rose-soft px-4 py-3 text-[15px] leading-relaxed text-ink-900"
+        >
+          <strong className="font-display">Fiche suspendue.</strong> Elle
+          n&apos;est plus visible des patients. Contactez l&apos;administration
+          de DOCTORY pour en connaître la raison.
+        </p>
+      )}
+
+      {partner.status === "ACTIVE" && partner.verificationStatus !== "VERIFIED" && (
         <p className="mt-5 border border-carbon-amber/50 bg-carbon-amber-soft px-4 py-3 text-[15px] text-ink-900">
           Votre profil n&apos;est pas encore vérifié. Les profils vérifiés
           apparaissent avec un badge et inspirent davantage confiance aux

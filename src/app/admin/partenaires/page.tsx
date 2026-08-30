@@ -57,6 +57,24 @@ async function moderate(formData: FormData) {
 
   // Verification outcomes are the partner's business, so the owners hear about
   // them rather than discovering the change on their own profile.
+  if (action === "activate" && partner.status === "PENDING") {
+    const members = await db.partnerMember.findMany({
+      where: { partnerId: partner.id },
+      select: { userId: true },
+    });
+    if (members.length > 0) {
+      await db.notification.createMany({
+        data: members.map((member) => ({
+          userId: member.userId,
+          kind: "PARTNER_REGISTERED" as const,
+          title: "Votre fiche est en ligne",
+          body: `${partner.displayName} apparaît désormais dans les recherches.`,
+          href: "/pro",
+        })),
+      });
+    }
+  }
+
   if (action === "verify" || action === "reject") {
     const members = await db.partnerMember.findMany({
       where: { partnerId: partner.id },
@@ -306,6 +324,7 @@ export default async function AdminPartnersPage({
                           id={partner.id}
                           action={confirming.action}
                           partnerName={partner.displayName}
+                          partnerStatus={partner.status}
                           back={back}
                         />
                       ) : (
@@ -324,13 +343,23 @@ export default async function AdminPartnersPage({
                               confirmHref={confirmHref(currentQuery, partner.id, "reject")}
                             />
                           )}
-                          {partner.status === "SUSPENDED" ? (
+                          {/* A registration that nobody has published yet is
+                              approved, not "reactivated"; and refusing one is
+                              not the same act as suspending a live profile,
+                              even though both land on SUSPENDED. The row said
+                              "Suspendre" over a PENDING file and offered no way
+                              at all to put it online. */}
+                          {partner.status === "PENDING" && (
+                            <Action id={partner.id} action="activate" label="Publier" back={back} />
+                          )}
+                          {partner.status === "SUSPENDED" && (
                             <Action id={partner.id} action="activate" label="Réactiver" back={back} />
-                          ) : (
+                          )}
+                          {partner.status !== "SUSPENDED" && (
                             <Action
                               id={partner.id}
                               action="suspend"
-                              label="Suspendre"
+                              label={partner.status === "PENDING" ? "Refuser" : "Suspendre"}
                               back={back}
                               tone="reject"
                               confirmNeeded
@@ -460,20 +489,30 @@ function ConfirmAction({
   id,
   action,
   partnerName,
+  partnerStatus,
   back,
 }: {
   id: string;
   action: string;
   partnerName: string;
+  partnerStatus: string;
   back: string;
 }) {
   const prompts: Record<string, { question: string; consequence: string; confirm: string }> = {
-    suspend: {
-      question: `Suspendre ${partnerName} ?`,
-      consequence:
-        "Sa fiche disparaît de la recherche et son lien direct renvoie une page introuvable.",
-      confirm: "Oui, suspendre",
-    },
+    suspend:
+      partnerStatus === "PENDING"
+        ? {
+            question: `Refuser l'inscription de ${partnerName} ?`,
+            consequence:
+              "La fiche ne sera pas publiée. Son responsable garde l'accès à son espace et peut la corriger.",
+            confirm: "Oui, refuser",
+          }
+        : {
+            question: `Suspendre ${partnerName} ?`,
+            consequence:
+              "Sa fiche disparaît de la recherche et son lien direct renvoie une page introuvable.",
+            confirm: "Oui, suspendre",
+          },
     reject: {
       question: `Rejeter la vérification de ${partnerName} ?`,
       consequence: "Le partenaire en est notifié.",

@@ -128,6 +128,28 @@ export default async function SignInPage({
           </button>
         </form>
 
+        {/* The way past the wall. Until registration existed this page was a
+            dead end for anyone not already seeded into the database. */}
+        <div className="mt-8 border-t border-enamel-300 pt-6">
+          <h2 className="font-display text-[11px] font-bold tracking-[0.16em] text-ink-500 uppercase">
+            Pas encore de compte&nbsp;?
+          </h2>
+          <div className="mt-3 flex flex-col gap-2">
+            <Link
+              href={`/inscription${next ? `?next=${encodeURIComponent(next)}` : ""}`}
+              className="inline-flex min-h-11 items-center justify-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+            >
+              Créer un compte patient
+            </Link>
+            <Link
+              href="/inscription/professionnel"
+              className="inline-flex min-h-11 items-center justify-center border border-enamel-300 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-cross-600 hover:text-cross-700"
+            >
+              Inscrire une structure de santé
+            </Link>
+          </div>
+        </div>
+
         {/* Demo credentials, stated plainly. Hiding them would make the build
             unreviewable; the accounts are fictional and the database is a demo
             fixture. */}

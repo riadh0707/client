@@ -122,7 +122,7 @@ export default async function HomePage() {
         </h2>
         <div className="mt-5 grid gap-px bg-ink-900/15 sm:grid-cols-2">
           <RolePlaque
-            href="/patient"
+            href="/inscription"
             eyebrow="Je suis patient"
             title="Trouver et prendre rendez-vous"
             lines={[
@@ -131,10 +131,11 @@ export default async function HomePage() {
               "Prendre et suivre vos rendez-vous",
               "Enregistrer vos favoris",
             ]}
-            action="Accéder à l'espace patient"
+            action="Créer un compte patient"
+            secondary={{ href: "/connexion?next=%2Fpatient", label: "J'ai déjà un compte" }}
           />
           <RolePlaque
-            href="/pro"
+            href="/inscription/professionnel"
             eyebrow="Je suis professionnel"
             title="Gérer ma présence et mon agenda"
             lines={[
@@ -143,7 +144,8 @@ export default async function HomePage() {
               "Recevoir et gérer vos rendez-vous",
               "Suivre votre abonnement",
             ]}
-            action="Accéder à l'espace professionnel"
+            action="Inscrire votre structure"
+            secondary={{ href: "/connexion?next=%2Fpro", label: "J'ai déjà une fiche" }}
           />
         </div>
       </section>
@@ -207,39 +209,50 @@ function RolePlaque({
   title,
   lines,
   action,
+  secondary,
 }: {
   href: string;
   eyebrow: string;
   title: string;
   lines: string[];
   action: string;
+  /** The quieter way in, for someone who already has an account. */
+  secondary: { href: string; label: string };
 }) {
   return (
-    <Link
-      href={href}
-      className="group flex flex-col bg-enamel-50 p-6 transition-colors hover:bg-cross-50 sm:p-8"
-    >
-      <span className="font-display text-[11px] font-bold tracking-[0.14em] text-cross-700 uppercase">
-        {eyebrow}
-      </span>
-      <h3 className="mt-2 font-display text-2xl font-bold text-ink-900 sm:text-3xl">
-        {title}
-      </h3>
-      <ul className="mt-5 flex flex-col gap-2.5 text-ink-600">
-        {lines.map((line) => (
-          <li key={line} className="flex gap-3 text-[15px] leading-snug">
-            <span
-              aria-hidden
-              className="mt-[0.42em] h-1.5 w-1.5 shrink-0 bg-cross-500"
-            />
-            {line}
-          </li>
-        ))}
-      </ul>
-      <span className="mt-7 inline-flex items-center gap-2 font-display text-sm font-bold text-cross-700 group-hover:gap-3">
-        {action}
-        <span aria-hidden>&rarr;</span>
-      </span>
-    </Link>
+    // The plaque is two destinations, so it is no longer one link: registering
+    // and signing in are different acts, and burying the second inside the first
+    // is how both landing plaques used to dead-end at a sign-in wall.
+    <div className="group flex flex-col bg-enamel-50 p-6 transition-colors hover:bg-cross-50 sm:p-8">
+      <Link href={href} className="flex flex-1 flex-col">
+        <span className="font-display text-[11px] font-bold tracking-[0.14em] text-cross-700 uppercase">
+          {eyebrow}
+        </span>
+        <h3 className="mt-2 font-display text-2xl font-bold text-ink-900 sm:text-3xl">
+          {title}
+        </h3>
+        <ul className="mt-5 flex flex-col gap-2.5 text-ink-600">
+          {lines.map((line) => (
+            <li key={line} className="flex gap-3 text-[15px] leading-snug">
+              <span
+                aria-hidden
+                className="mt-[0.42em] h-1.5 w-1.5 shrink-0 bg-cross-500"
+              />
+              {line}
+            </li>
+          ))}
+        </ul>
+        <span className="mt-7 inline-flex min-h-11 items-center gap-2 font-display text-sm font-bold text-cross-700">
+          {action}
+          <span aria-hidden>&rarr;</span>
+        </span>
+      </Link>
+      <Link
+        href={secondary.href}
+        className="inline-flex min-h-11 items-center font-display text-sm text-ink-500 underline underline-offset-4 hover:text-cross-700"
+      >
+        {secondary.label}
+      </Link>
+    </div>
   );
 }

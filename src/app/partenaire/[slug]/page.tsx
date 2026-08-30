@@ -57,7 +57,12 @@ export default async function PartnerPage({
 
   // A suspended partner must not be reachable by direct link either: hiding it
   // from search while leaving the URL live would defeat the moderation action.
-  if (!partner || partner.status === "SUSPENDED") notFound();
+  // Only a listed partner has a public page. A PENDING profile is one nobody has
+  // reviewed yet: excluding it from search but serving it on a direct link would
+  // publish an unvetted practitioner to anyone holding the URL, which is the one
+  // thing the moderation step exists to prevent — and would make both the
+  // registration notice and the 404 copy false.
+  if (!partner || partner.status !== "ACTIVE") notFound();
 
   const openState = partner.category.supportsOpeningHours
     ? resolveOpenState(partner.openingHours as Interval[])

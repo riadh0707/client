@@ -172,7 +172,7 @@ export function SearchFilters({
                     setGeoState("idle");
                     update({ lat: null, lng: null });
                   }}
-                  className="self-start font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline underline-offset-4"
+                  className="inline-flex min-h-11 items-center self-start font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline underline-offset-4"
                 >
                   Désactiver
                 </button>
@@ -183,7 +183,7 @@ export function SearchFilters({
                   type="button"
                   onClick={requestLocation}
                   disabled={geoState === "asking"}
-                  className="self-start border border-cross-700 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
+                  className="inline-flex min-h-11 items-center self-start border border-cross-700 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
                 >
                   {geoState === "asking"
                     ? "Localisation…"
@@ -215,7 +215,7 @@ export function SearchFilters({
                 setGeoState("idle");
                 startTransition(() => router.push(`/recherche?${query}`));
               }}
-              className="self-start font-display text-xs font-bold tracking-[0.08em] text-carbon-rose uppercase underline underline-offset-4"
+              className="inline-flex min-h-11 items-center self-start font-display text-xs font-bold tracking-[0.08em] text-carbon-rose uppercase underline underline-offset-4"
             >
               Réinitialiser les filtres
             </button>
@@ -253,7 +253,7 @@ function Field({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
+        className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
       >
         <option value="">{emptyLabel}</option>
         {options.map((option) => (
@@ -281,7 +281,7 @@ function Toggle({
   return (
     <label
       htmlFor={id}
-      className="flex cursor-pointer items-center gap-3 text-[15px] text-ink-900"
+      className="flex min-h-11 cursor-pointer items-center gap-3 text-[15px] text-ink-900"
     >
       <input
         id={id}

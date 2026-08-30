@@ -22,6 +22,7 @@ export default async function FavouritesPage() {
         select: {
           id: true,
           slug: true,
+          status: true,
           displayName: true,
           address: true,
           phone: true,
@@ -44,15 +45,22 @@ export default async function FavouritesPage() {
     },
   });
 
+  // A partner favourited while listed can be suspended afterwards. Rendering the
+  // card anyway gave a patient a result that led to a 404; dropping the row
+  // silently would leave them wondering where it went. So the listed ones are
+  // cards, and the rest are named as no longer listed.
+  const listed = favorites.filter(({ partner }) => partner.status === "ACTIVE");
+  const unlisted = favorites.filter(({ partner }) => partner.status !== "ACTIVE");
+
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8 sm:px-8 sm:py-10">
       <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
         Favoris
       </h1>
       <p className="mt-2 text-[15px] text-ink-600">
-        {favorites.length} professionnel{favorites.length === 1 ? "" : "s"} et
-        établissement{favorites.length === 1 ? "" : "s"} enregistré
-        {favorites.length === 1 ? "" : "s"}.
+        {listed.length} professionnel{listed.length === 1 ? "" : "s"} et
+        établissement{listed.length === 1 ? "" : "s"} enregistré
+        {listed.length === 1 ? "" : "s"}.
       </p>
 
       {favorites.length === 0 ? (
@@ -73,7 +81,7 @@ export default async function FavouritesPage() {
         </div>
       ) : (
         <div className="mt-6 flex flex-col gap-px bg-ink-900/10">
-          {favorites.map(({ partner }) => (
+          {listed.map(({ partner }) => (
             <PartnerCard
               key={partner.id}
               partner={{
@@ -86,6 +94,28 @@ export default async function FavouritesPage() {
             />
           ))}
         </div>
+      )}
+
+      {unlisted.length > 0 && (
+        <section className="mt-8">
+          <h2 className="font-display text-[11px] font-bold tracking-[0.16em] text-ink-500 uppercase">
+            Plus référencés
+          </h2>
+          <ul className="ruled mt-2 border-y border-enamel-300 text-[15px] text-ink-600">
+            {unlisted.map(({ partner }) => (
+              <li key={partner.id} className="py-3">
+                <span className="font-display font-bold text-ink-900">
+                  {partner.displayName}
+                </span>{" "}
+                — {partner.commune.name}, {partner.wilaya.name}
+                <span className="block text-sm text-ink-500">
+                  Cette fiche n&apos;est plus publiée sur DOCTORY. Son numéro
+                  reste valable&nbsp;: {partner.phone}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </main>
   );
