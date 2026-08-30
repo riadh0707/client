@@ -107,12 +107,27 @@ export function PartnerCard({
               Rendez-vous
             </span>
           ) : (
-            <span className="font-display text-xs tracking-[0.04em] text-ink-400">
-              {partner.phone}
+            <span className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase">
+              Sans rendez-vous
             </span>
           )}
         </div>
       </Link>
+
+      {/* Outside the card's link, because an anchor cannot nest in an anchor.
+          For a partner with no agenda the call is the whole interaction, so the
+          number is dialable rather than printed. */}
+      {!partner.category.supportsAppointments && (
+        <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+          <a
+            href={`tel:${partner.phone.replace(/\s/g, "")}`}
+            className="inline-flex min-h-11 items-center gap-2 border border-cross-700 px-4 py-2 font-display text-sm font-bold tabular-nums text-cross-700 hover:bg-cross-100"
+          >
+            <span className="text-xs tracking-[0.08em] uppercase">Appeler</span>
+            {partner.phone}
+          </a>
+        </div>
+      )}
     </article>
   );
 }

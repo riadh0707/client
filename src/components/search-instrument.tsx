@@ -16,10 +16,20 @@ type WilayaOption = { code: number; name: string };
  */
 export function SearchInstrument({
   wilayas,
+  defaultQuery = "",
+  defaultWilaya = "",
   autoFocus = false,
   compact = false,
 }: {
   wilayas: WilayaOption[];
+  /**
+   * What the fields show on arrival. On a results page they must carry the
+   * search that produced those results: the instrument used to render empty
+   * over a filtered list, so the query a patient had just typed disappeared and
+   * refining it meant typing the whole thing again.
+   */
+  defaultQuery?: string;
+  defaultWilaya?: string;
   autoFocus?: boolean;
   /**
    * Header density. The full-width hero can carry a long example placeholder;
@@ -29,8 +39,8 @@ export function SearchInstrument({
   compact?: boolean;
 }) {
   const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [wilaya, setWilaya] = useState("");
+  const [query, setQuery] = useState(defaultQuery);
+  const [wilaya, setWilaya] = useState(defaultWilaya);
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -42,6 +52,8 @@ export function SearchInstrument({
 
   return (
     <form
+      action="/recherche"
+      method="get"
       onSubmit={submit}
       className="flex w-full flex-col gap-px bg-ink-900/15 sm:flex-row"
     >

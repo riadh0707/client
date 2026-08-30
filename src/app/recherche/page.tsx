@@ -75,7 +75,16 @@ export default async function SearchPage({
   return (
     <main className="flex flex-1 flex-col">
       <SiteHeader>
-        <SearchInstrument wilayas={wilayaOptions} compact />
+        <SearchInstrument
+          // Remounted when the URL's own search changes, so a wilaya picked in
+          // the sidebar is reflected in the header field rather than leaving the
+          // two disagreeing about where the patient is looking.
+          key={`${params.q ?? ""}|${params.wilaya ?? ""}`}
+          wilayas={wilayaOptions}
+          defaultQuery={params.q ?? ""}
+          defaultWilaya={params.wilaya ? String(params.wilaya) : ""}
+          compact
+        />
       </SiteHeader>
 
       <div className="mx-auto grid w-full max-w-6xl flex-1 gap-px bg-ink-900/10 lg:grid-cols-[17rem_1fr]">
