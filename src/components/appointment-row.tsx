@@ -72,7 +72,7 @@ export function AppointmentRow({
             {perspective === "patient" ? (
               <Link
                 href={`/partenaire/${appointment.partner.slug}`}
-                className="font-display text-base font-bold text-ink-900 hover:text-cross-700 sm:text-lg"
+                className="flex min-h-11 items-center font-display text-base font-bold text-ink-900 hover:text-cross-700 sm:text-lg"
               >
                 {appointment.partner.displayName}
               </Link>

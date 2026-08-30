@@ -65,7 +65,7 @@ export function Locator({
             <button
               type="button"
               onClick={() => push({ lat: null, lng: null })}
-              className="border border-enamel-300 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-carbon-rose hover:text-carbon-rose"
+              className="min-h-11 border border-enamel-300 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-carbon-rose hover:text-carbon-rose"
             >
               Ne plus utiliser ma position
             </button>
@@ -74,7 +74,7 @@ export function Locator({
               type="button"
               onClick={locate}
               disabled={state === "asking"}
-              className="border border-cross-700 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
+              className="min-h-11 border border-cross-700 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
             >
               {state === "asking" ? "Localisation…" : "Me localiser"}
             </button>
@@ -89,7 +89,7 @@ export function Locator({
             id="loc-wilaya"
             value={params.get("wilaya") ?? ""}
             onChange={(e) => push({ wilaya: e.target.value, commune: null, lat: null, lng: null })}
-            className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
+            className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
           >
             <option value="">Choisir une wilaya</option>
             {wilayas.map((w) => (
@@ -109,7 +109,7 @@ export function Locator({
               id="loc-commune"
               value={params.get("commune") ?? ""}
               onChange={(e) => push({ commune: e.target.value })}
-              className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
+              className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
             >
               <option value="">Toute la wilaya</option>
               {communes.map((c) => (

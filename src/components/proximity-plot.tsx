@@ -123,11 +123,13 @@ export function ProximityPlot({
               stroke="#fbfcfb"
               strokeWidth={2}
             />
-            {/* Hit target well beyond the mark: a 5px dot is not a target. */}
+            {/* Hit target well beyond the mark: a 5px dot is not a target.
+                r=14 in a 320-unit viewBox rendered ~27px on a phone, under the
+                44px floor; r=23 clears it at the widths this plot is shown at. */}
             <circle
               cx={point.x}
               cy={point.y}
-              r={14}
+              r={23}
               fill="transparent"
               tabIndex={0}
               role="button"

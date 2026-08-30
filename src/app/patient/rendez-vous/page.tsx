@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { AppointmentRow } from "@/components/appointment-row";
+import {
+  AppointmentRow,
+  formatAppointmentDate,
+} from "@/components/appointment-row";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -53,6 +56,61 @@ async function cancelAppointment(formData: FormData) {
   redirect("/patient/rendez-vous?annule=1");
 }
 
+/**
+ * Two-step cancellation.
+ *
+ * Cancelling a medical appointment is irreversible and the slot returns to the
+ * pool immediately, so a single tap is not a safe affordance — least of all for
+ * the older users and imprecise one-handed use PRODUCT.md names. The confirm
+ * step restates who and when, because "are you sure?" without the object is a
+ * question nobody can answer.
+ *
+ * Rendered from a query parameter rather than a dialog: no JavaScript needed,
+ * matching the discipline the booking form already follows.
+ */
+function ConfirmCancel({
+  appointment,
+}: {
+  appointment: {
+    id: string;
+    startAt: Date;
+    partner: { displayName: string };
+  };
+}) {
+  return (
+    <div className="w-56 border border-carbon-rose/50 bg-carbon-rose-soft p-3">
+      <p className="text-sm leading-snug text-ink-900">
+        Annuler votre rendez-vous du{" "}
+        <strong className="font-display">
+          {formatAppointmentDate(appointment.startAt)}
+        </strong>{" "}
+        avec {appointment.partner.displayName}&nbsp;?
+      </p>
+      <p className="mt-1.5 text-xs text-ink-600">
+        Le créneau sera immédiatement libéré.
+      </p>
+      <div className="mt-3 flex flex-col gap-2">
+        <form action={cancelAppointment}>
+          <input type="hidden" name="id" value={appointment.id} />
+          <button
+            type="submit"
+            className="min-h-11 w-full border border-carbon-rose bg-carbon-rose px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-enamel-50 uppercase hover:bg-carbon-rose/90"
+          >
+            Oui, annuler
+          </button>
+        </form>
+        <Link
+          href="/patient/rendez-vous"
+          scroll={false}
+          className="inline-flex min-h-11 w-full items-center justify-center border border-ink-300 bg-enamel-50 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-ink-900 uppercase hover:bg-enamel-200"
+        >
+          Non, garder
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default async function PatientAppointmentsPage({
   searchParams,
 }: {
@@ -76,6 +134,9 @@ export default async function PatientAppointmentsPage({
       },
     },
   };
+
+  const confirmingId =
+    typeof query.confirmer === "string" ? query.confirmer : null;
 
   const now = new Date();
   const [upcoming, past] = await Promise.all([
@@ -152,7 +213,7 @@ export default async function PatientAppointmentsPage({
             </p>
             <Link
               href="/recherche"
-              className="mt-5 inline-block border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-5 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
             >
               Chercher un professionnel
             </Link>
@@ -165,15 +226,17 @@ export default async function PatientAppointmentsPage({
                 appointment={appointment}
                 perspective="patient"
                 action={
-                  <form action={cancelAppointment}>
-                    <input type="hidden" name="id" value={appointment.id} />
-                    <button
-                      type="submit"
-                      className="border border-carbon-rose/60 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-carbon-rose uppercase hover:bg-carbon-rose-soft"
+                  confirmingId === appointment.id ? (
+                    <ConfirmCancel appointment={appointment} />
+                  ) : (
+                    <Link
+                      href={`/patient/rendez-vous?confirmer=${appointment.id}`}
+                      scroll={false}
+                      className="inline-flex min-h-11 items-center border border-carbon-rose/60 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-carbon-rose uppercase hover:bg-carbon-rose-soft"
                     >
                       Annuler
-                    </button>
-                  </form>
+                    </Link>
+                  )
                 }
               />
             ))}

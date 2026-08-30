@@ -155,7 +155,18 @@ export default async function AdminPartnersPage({
     if (value === undefined) continue;
     currentQuery.set(key, Array.isArray(value) ? value[0] : value);
   }
-  const back = `/admin/partenaires?${currentQuery}`;
+  // `back` must not carry the confirm state, or cancelling would re-open it.
+  const backQuery = new URLSearchParams(currentQuery);
+  backQuery.delete("confirmer");
+  backQuery.delete("acte");
+  const back = `/admin/partenaires?${backQuery}`;
+
+  const confirmerId = one("confirmer");
+  const confirmerAction = one("acte");
+  const confirming =
+    confirmerId && (confirmerAction === "suspend" || confirmerAction === "reject")
+      ? { id: confirmerId, action: confirmerAction }
+      : null;
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8 sm:px-8 sm:py-10">
@@ -176,7 +187,7 @@ export default async function AdminPartnersPage({
             name="q"
             defaultValue={q}
             placeholder="Nom du partenaire"
-            className="w-full border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
+            className="w-full min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
           />
         </Filter>
         <Filter label="Statut" htmlFor="statut">
@@ -219,13 +230,13 @@ export default async function AdminPartnersPage({
         <div className="flex items-end gap-3 sm:col-span-2 lg:col-span-5">
           <button
             type="submit"
-            className="bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
+            className="min-h-11 bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
           >
             Filtrer
           </button>
           <Link
             href="/admin/partenaires"
-            className="font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4"
           >
             Réinitialiser
           </Link>
@@ -265,7 +276,7 @@ export default async function AdminPartnersPage({
                     <Td>
                       <Link
                         href={`/partenaire/${partner.slug}`}
-                        className="font-display font-bold text-ink-900 hover:text-cross-700"
+                        className="-my-3 flex min-h-11 items-center py-3 font-display font-bold text-ink-900 hover:text-cross-700"
                       >
                         {partner.displayName}
                       </Link>
@@ -290,19 +301,44 @@ export default async function AdminPartnersPage({
                         : "—"}
                     </Td>
                     <Td>
-                      <div className="flex flex-col gap-1.5">
-                        {partner.verificationStatus !== "VERIFIED" && (
-                          <Action id={partner.id} action="verify" label="Vérifier" back={back} />
-                        )}
-                        {partner.verificationStatus === "PENDING" && (
-                          <Action id={partner.id} action="reject" label="Rejeter" back={back} tone="reject" />
-                        )}
-                        {partner.status === "SUSPENDED" ? (
-                          <Action id={partner.id} action="activate" label="Réactiver" back={back} />
-                        ) : (
-                          <Action id={partner.id} action="suspend" label="Suspendre" back={back} tone="reject" />
-                        )}
-                      </div>
+                      {confirming?.id === partner.id ? (
+                        <ConfirmAction
+                          id={partner.id}
+                          action={confirming.action}
+                          partnerName={partner.displayName}
+                          back={back}
+                        />
+                      ) : (
+                        <div className="flex flex-col gap-1.5">
+                          {partner.verificationStatus !== "VERIFIED" && (
+                            <Action id={partner.id} action="verify" label="Vérifier" back={back} />
+                          )}
+                          {partner.verificationStatus === "PENDING" && (
+                            <Action
+                              id={partner.id}
+                              action="reject"
+                              label="Rejeter"
+                              back={back}
+                              tone="reject"
+                              confirmNeeded
+                              confirmHref={confirmHref(currentQuery, partner.id, "reject")}
+                            />
+                          )}
+                          {partner.status === "SUSPENDED" ? (
+                            <Action id={partner.id} action="activate" label="Réactiver" back={back} />
+                          ) : (
+                            <Action
+                              id={partner.id}
+                              action="suspend"
+                              label="Suspendre"
+                              back={back}
+                              tone="reject"
+                              confirmNeeded
+                              confirmHref={confirmHref(currentQuery, partner.id, "suspend")}
+                            />
+                          )}
+                        </div>
+                      )}
                     </Td>
                   </tr>
                 );
@@ -336,6 +372,17 @@ export default async function AdminPartnersPage({
   );
 }
 
+function confirmHref(
+  query: URLSearchParams,
+  id: string,
+  action: string,
+) {
+  const next = new URLSearchParams(query);
+  next.set("confirmer", id);
+  next.set("acte", action);
+  return `/admin/partenaires?${next}`;
+}
+
 function PageLink({
   query,
   page,
@@ -350,42 +397,118 @@ function PageLink({
   return (
     <Link
       href={`/admin/partenaires?${next}`}
-      className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
     >
       {label}
     </Link>
   );
 }
 
+/**
+ * Suspending a partner pulls a paying listing off the public site, and
+ * rejecting a verification is a decision the partner is told about. Both get a
+ * confirm step naming the partner; verifying and reactivating do not, because
+ * they are additive and trivially reversible.
+ *
+ * The confirm lives in a query parameter rather than a dialog, so it works
+ * without JavaScript and survives a reload.
+ */
 function Action({
   id,
   action,
   label,
   back,
   tone = "accept",
+  confirmNeeded = false,
+  confirmHref,
 }: {
   id: string;
   action: string;
   label: string;
   back: string;
   tone?: "accept" | "reject";
+  confirmNeeded?: boolean;
+  confirmHref?: string;
 }) {
+  const className = `inline-flex min-h-11 w-full items-center justify-center border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
+    tone === "reject"
+      ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
+      : "border-cross-700 text-cross-700 hover:bg-cross-100"
+  }`;
+
+  if (confirmNeeded && confirmHref) {
+    return (
+      <Link href={confirmHref} scroll={false} className={className}>
+        {label}
+      </Link>
+    );
+  }
+
   return (
     <form action={moderate}>
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="action" value={action} />
       <input type="hidden" name="back" value={back} />
-      <button
-        type="submit"
-        className={`w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
-          tone === "reject"
-            ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
-            : "border-cross-700 text-cross-700 hover:bg-cross-100"
-        }`}
-      >
+      <button type="submit" className={className}>
         {label}
       </button>
     </form>
+  );
+}
+
+function ConfirmAction({
+  id,
+  action,
+  partnerName,
+  back,
+}: {
+  id: string;
+  action: string;
+  partnerName: string;
+  back: string;
+}) {
+  const prompts: Record<string, { question: string; consequence: string; confirm: string }> = {
+    suspend: {
+      question: `Suspendre ${partnerName} ?`,
+      consequence:
+        "Sa fiche disparaît de la recherche et son lien direct renvoie une page introuvable.",
+      confirm: "Oui, suspendre",
+    },
+    reject: {
+      question: `Rejeter la vérification de ${partnerName} ?`,
+      consequence: "Le partenaire en est notifié.",
+      confirm: "Oui, rejeter",
+    },
+  };
+  const prompt = prompts[action] ?? prompts.suspend;
+
+  return (
+    <div className="border border-carbon-rose/50 bg-carbon-rose-soft p-2.5">
+      <p className="text-xs leading-snug text-ink-900">{prompt.question}</p>
+      <p className="mt-1 text-xs leading-snug text-ink-600">
+        {prompt.consequence}
+      </p>
+      <div className="mt-2 flex flex-col gap-1.5">
+        <form action={moderate}>
+          <input type="hidden" name="id" value={id} />
+          <input type="hidden" name="action" value={action} />
+          <input type="hidden" name="back" value={back} />
+          <button
+            type="submit"
+            className="min-h-11 w-full border border-carbon-rose bg-carbon-rose px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] text-enamel-50 uppercase"
+          >
+            {prompt.confirm}
+          </button>
+        </form>
+        <Link
+          href={back}
+          scroll={false}
+          className="inline-flex min-h-11 w-full items-center justify-center border border-ink-300 bg-enamel-50 px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] text-ink-900 uppercase"
+        >
+          Annuler
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -457,7 +580,7 @@ function Select({
       id={id}
       name={name}
       defaultValue={value}
-      className="w-full border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
+      className="w-full min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
     >
       <option value="">{empty}</option>
       {options.map((option) => (

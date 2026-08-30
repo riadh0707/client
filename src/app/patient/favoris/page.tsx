@@ -66,7 +66,7 @@ export default async function FavouritesPage() {
           </p>
           <Link
             href="/recherche"
-            className="mt-5 inline-block border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+            className="mt-5 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
           >
             Chercher un professionnel
           </Link>

@@ -56,7 +56,7 @@ export async function FavouriteButton({
     return (
       <Link
         href={`/connexion?next=${encodeURIComponent(`/partenaire/${slug}`)}`}
-        className="mt-3 block border border-enamel-300 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-cross-600 hover:text-cross-700"
+        className="mt-3 flex min-h-11 items-center justify-center border border-enamel-300 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-cross-600 hover:text-cross-700"
       >
         Enregistrer dans mes favoris
       </Link>
@@ -77,7 +77,7 @@ export async function FavouriteButton({
       <button
         type="submit"
         aria-pressed={isFavourite}
-        className={`w-full border px-3 py-2 font-display text-xs font-bold tracking-[0.08em] uppercase ${
+        className={`min-h-11 w-full border px-3 py-2 font-display text-xs font-bold tracking-[0.08em] uppercase ${
           isFavourite
             ? "border-cross-700 bg-cross-100 text-cross-800 hover:bg-cross-200"
             : "border-enamel-300 text-ink-600 hover:border-cross-600 hover:text-cross-700"

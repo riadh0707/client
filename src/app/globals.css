@@ -98,10 +98,19 @@
   }
 
   /* Focus is a structural element here, not an afterthought: the brief names
-     low digital literacy and outdoor use, where a faint ring is invisible. */
+     low digital literacy and outdoor use, where a faint ring is invisible.
+     The first version used cross-500, which measured 2.06:1 on the green field,
+     2.43:1 on the body and 2.55:1 on a card — failing 3:1 on every ground but
+     the dark footer, the exact opposite of what the comment claimed.
+
+     Two layers instead, so no ground can swallow both: a dark outline that
+     reads on light surfaces (15.9:1 on the body) and an enamel halo filling the
+     offset gap that reads on dark ones (16.1:1 on the footer, 5.3:1 on the
+     green field). Worst case across the four grounds is 5.26:1. */
   :focus-visible {
-    outline: 3px solid var(--color-cross-500);
+    outline: 3px solid var(--color-ink-900);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-enamel-50);
   }
 }
 

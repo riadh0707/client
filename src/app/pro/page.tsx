@@ -30,7 +30,7 @@ export default async function ProDashboard({
         </p>
         <Link
           href="/"
-          className="mt-6 inline-block border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+          className="mt-6 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
         >
           Retour à l&apos;accueil
         </Link>
@@ -95,7 +95,7 @@ export default async function ProDashboard({
         </div>
         <Link
           href={`/partenaire/${partner.slug}`}
-          className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
         >
           Voir ma fiche publique
         </Link>
@@ -144,7 +144,7 @@ export default async function ProDashboard({
           </h2>
           <Link
             href="/pro/agenda"
-            className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
           >
             Ouvrir l&apos;agenda
           </Link>

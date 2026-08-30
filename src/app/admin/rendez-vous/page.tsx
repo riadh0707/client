@@ -89,7 +89,7 @@ export default async function AdminAppointmentsPage({
             name="q"
             defaultValue={q}
             placeholder="Patient ou partenaire"
-            className="w-full border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
+            className="w-full min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ export default async function AdminAppointmentsPage({
             id="statut"
             name="statut"
             defaultValue={statut}
-            className="border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
+            className="min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900"
           >
             <option value="">Tous</option>
             <option value="PENDING">En attente</option>
@@ -112,13 +112,13 @@ export default async function AdminAppointmentsPage({
         </div>
         <button
           type="submit"
-          className="bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
+          className="min-h-11 bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
         >
           Filtrer
         </button>
         <Link
           href="/admin/rendez-vous"
-          className="font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4"
         >
           Réinitialiser
         </Link>
@@ -147,7 +147,10 @@ export default async function AdminAppointmentsPage({
                     {a.patient.firstName} {a.patient.lastName}
                   </td>
                   <td className="px-3 py-3 text-sm">
-                    <Link href={`/partenaire/${a.partner.slug}`} className="text-ink-900 hover:text-cross-700">
+                    <Link
+                      href={`/partenaire/${a.partner.slug}`}
+                      className="-my-3 flex min-h-11 items-center py-3 text-ink-900 hover:text-cross-700"
+                    >
                       {a.partner.displayName}
                     </Link>
                   </td>
@@ -183,7 +186,7 @@ function PageLink({ query, page, label }: { query: URLSearchParams; page: number
   return (
     <Link
       href={`/admin/rendez-vous?${next}`}
-      className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
     >
       {label}
     </Link>

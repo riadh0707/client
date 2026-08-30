@@ -51,7 +51,7 @@ export default async function HomePage() {
         />
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pt-8 pb-12 sm:px-8 sm:pt-10 sm:pb-16">
-          <header className="flex items-center justify-between gap-4">
+          <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
             <span className="flex items-center gap-2.5">
               <span
                 aria-hidden
@@ -63,13 +63,13 @@ export default async function HomePage() {
             </span>
             <Link
               href="/autour-de-moi"
-              className="ml-auto shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
+              className="ml-auto inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
             >
               Autour de moi
             </Link>
             <Link
               href="/pro"
-              className="shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
+              className="inline-flex min-h-11 shrink-0 items-center py-2.5 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
             >
               {/* The full label wraps to two lines on a 360px screen and crowds
                   the wordmark, so the narrow viewport gets the short form. */}

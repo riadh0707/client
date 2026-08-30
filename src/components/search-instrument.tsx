@@ -60,7 +60,7 @@ export function SearchInstrument({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={compact ? "Nom ou spécialité" : "Cardiologue, pharmacie, laboratoire…"}
-          className={`w-full bg-transparent px-4 pt-1 text-ink-900 outline-none placeholder:text-ink-300 ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
+          className={`min-h-11 w-full bg-transparent px-4 pt-1 text-ink-900 placeholder:text-ink-300 ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
         />
       </div>
 
@@ -76,7 +76,7 @@ export function SearchInstrument({
           name="wilaya"
           value={wilaya}
           onChange={(event) => setWilaya(event.target.value)}
-          className={`w-full appearance-none bg-transparent px-4 pt-1 text-ink-900 outline-none ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
+          className={`min-h-11 w-full appearance-none bg-transparent px-4 pt-1 text-ink-900 ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
         >
           <option value="">Toute l&apos;Algérie</option>
           {wilayas.map((w) => (

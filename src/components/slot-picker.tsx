@@ -70,8 +70,8 @@ export function SlotPicker({
                           onClick={() => setSelected(slot.startAt)}
                           className={
                             isSelected
-                              ? "border border-cross-700 bg-cross-500 px-3 py-2.5 font-display text-sm font-bold tabular-nums text-cross-950"
-                              : "border border-enamel-300 bg-white px-3 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-cross-600 hover:text-cross-700"
+                              ? "min-h-11 border border-cross-700 bg-cross-500 px-3 py-2.5 font-display text-sm font-bold tabular-nums text-cross-950"
+                              : "min-h-11 border border-enamel-300 bg-white px-3 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-cross-600 hover:text-cross-700"
                           }
                         >
                           {slot.label}
@@ -98,7 +98,7 @@ export function SlotPicker({
             <select
               id="serviceName"
               name="serviceName"
-              className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
+              className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
             >
               <option value="">Consultation</option>
               {services.map((service) => (

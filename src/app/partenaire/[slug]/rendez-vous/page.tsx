@@ -146,10 +146,13 @@ export default async function BookingPage({
       <SiteHeader />
 
       <div className="mx-auto w-full max-w-2xl flex-1 px-5 py-8 sm:px-8 sm:py-12">
-        <nav aria-label="Fil d'Ariane" className="mb-5 text-sm text-ink-500">
+        <nav
+          aria-label="Fil d'Ariane"
+          className="mb-5 flex items-center gap-1 text-sm text-ink-500"
+        >
           <Link
             href={`/partenaire/${partner.slug}`}
-            className="underline underline-offset-4 hover:text-cross-700"
+            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-cross-700"
           >
             {partner.displayName}
           </Link>
@@ -180,7 +183,7 @@ export default async function BookingPage({
             Vous devrez vous connecter pour confirmer la demande.{" "}
             <Link
               href={`/connexion?next=${encodeURIComponent(`/partenaire/${partner.slug}/rendez-vous`)}`}
-              className="font-bold underline underline-offset-4"
+              className="inline-flex min-h-11 items-center font-bold underline underline-offset-4"
             >
               Se connecter maintenant
             </Link>

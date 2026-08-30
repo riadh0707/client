@@ -143,24 +143,24 @@ export default async function AdminUsersPage({
             Recherche
           </label>
           <input id="q" name="q" defaultValue={q} placeholder="Nom ou e-mail"
-            className="w-full border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900" />
+            className="w-full min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900" />
         </div>
         <div>
           <label htmlFor="role" className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
             Rôle
           </label>
           <select id="role" name="role" defaultValue={role}
-            className="border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900">
+            className="min-h-11 border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900">
             <option value="">Tous</option>
             {Object.entries(ROLE_LABELS).map(([value, label]) => (
               <option key={value} value={value}>{label}</option>
             ))}
           </select>
         </div>
-        <button type="submit" className="bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400">
+        <button type="submit" className="min-h-11 bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400">
           Filtrer
         </button>
-        <Link href="/admin/utilisateurs" className="font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4">
+        <Link href="/admin/utilisateurs" className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-500 uppercase underline underline-offset-4">
           Réinitialiser
         </Link>
       </form>
@@ -198,7 +198,7 @@ export default async function AdminUsersPage({
                   <form action={toggleActive}>
                     <input type="hidden" name="id" value={user.id} />
                     <input type="hidden" name="back" value={back} />
-                    <button type="submit" className={`w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
+                    <button type="submit" className={`min-h-11 w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                       user.isActive
                         ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
                         : "border-cross-700 text-cross-700 hover:bg-cross-100"
@@ -228,7 +228,7 @@ function PageLink({ query, page, label }: { query: URLSearchParams; page: number
   const next = new URLSearchParams(query);
   next.set("page", String(page));
   return (
-    <Link href={`/admin/utilisateurs?${next}`} className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline">
+    <Link href={`/admin/utilisateurs?${next}`} className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline">
       {label}
     </Link>
   );

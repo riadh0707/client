@@ -47,12 +47,12 @@ export default async function ProLayout({
 
       <div className="border-b border-enamel-300 bg-enamel-50">
         <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-3 sm:px-8">
-          <nav className="flex flex-wrap gap-x-5 gap-y-2">
+          <nav className="flex flex-wrap gap-x-5 gap-y-1">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-cross-700 hover:underline"
+                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-cross-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -68,7 +68,7 @@ export default async function ProLayout({
             <form action={signOut}>
               <button
                 type="submit"
-                className="font-display text-xs font-bold tracking-[0.08em] text-ink-400 uppercase underline-offset-4 hover:text-carbon-rose hover:underline"
+                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-400 uppercase underline-offset-4 hover:text-carbon-rose hover:underline"
               >
                 Déconnexion
               </button>

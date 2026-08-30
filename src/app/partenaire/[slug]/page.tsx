@@ -75,13 +75,13 @@ export default async function PartnerPage({
       <section className="bg-cross-700 text-enamel-50">
         <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-12">
           <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-cross-100">
-            <Link href="/recherche" className="hover:underline">
+            <Link href="/recherche" className="inline-flex min-h-11 items-center py-2 hover:underline">
               Recherche
             </Link>
             <span aria-hidden> / </span>
             <Link
               href={`/recherche?wilaya=${partner.wilaya.code}`}
-              className="hover:underline"
+              className="inline-flex min-h-11 items-center py-2 hover:underline"
             >
               {partner.wilaya.name}
             </Link>
@@ -198,7 +198,7 @@ export default async function PartnerPage({
                   body size among the address lines. */}
               <a
                 href={`tel:${partner.phone.replace(/\s/g, "")}`}
-                className="mt-4 block font-display text-2xl font-bold tracking-[-0.01em] text-cross-700 hover:underline"
+                className="mt-4 flex min-h-11 items-center font-display text-2xl font-bold tracking-[-0.01em] text-cross-700 hover:underline"
               >
                 {partner.phone}
               </a>
@@ -208,7 +208,7 @@ export default async function PartnerPage({
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 block border border-cross-700 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-4 flex min-h-11 items-center justify-center border border-cross-700 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
             >
               Itinéraire
             </a>

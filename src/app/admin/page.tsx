@@ -124,7 +124,7 @@ export default async function AdminDashboard() {
           </h2>
           <Link
             href="/admin/partenaires?statut=PENDING"
-            className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
           >
             Gérer les partenaires
           </Link>
@@ -145,7 +145,7 @@ export default async function AdminDashboard() {
                 <div className="min-w-0">
                   <Link
                     href={`/partenaire/${partner.slug}`}
-                    className="font-display text-[15px] font-bold text-ink-900 hover:text-cross-700"
+                    className="inline-flex min-h-11 items-center font-display text-[15px] font-bold text-ink-900 hover:text-cross-700"
                   >
                     {partner.displayName}
                   </Link>
@@ -183,7 +183,7 @@ export default async function AdminDashboard() {
             </h2>
             <Link
               href="/admin/rendez-vous"
-              className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+              className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
             >
               Tout voir
             </Link>
@@ -220,7 +220,7 @@ export default async function AdminDashboard() {
             </h2>
             <Link
               href="/admin/activite"
-              className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+              className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
             >
               Journal complet
             </Link>

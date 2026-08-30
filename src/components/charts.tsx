@@ -107,7 +107,7 @@ export function LineChart({
   const ticks = [0, 0.5, 1].map((fraction) => Math.round(max * fraction));
 
   return (
-    <figure className="bg-enamel-50 p-5">
+    <figure className="min-w-0 bg-enamel-50 p-5">
       <figcaption className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
         {title}
       </figcaption>
@@ -284,7 +284,7 @@ export function BarChart({
   const max = Math.max(...points.map((p) => p.value), 1);
 
   return (
-    <figure className="bg-enamel-50 p-5">
+    <figure className="min-w-0 bg-enamel-50 p-5">
       <figcaption className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
         {title}
       </figcaption>

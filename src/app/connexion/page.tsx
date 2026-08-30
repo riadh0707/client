@@ -145,7 +145,7 @@ export default async function SignInPage({
         </section>
 
         <p className="mt-8 text-sm text-ink-500">
-          <Link href="/" className="underline underline-offset-4">
+          <Link href="/" className="inline-flex min-h-11 items-center underline underline-offset-4">
             Retour à l&apos;accueil
           </Link>
         </p>

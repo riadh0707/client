@@ -138,7 +138,7 @@ export default async function PatientDashboard() {
           </h2>
           <Link
             href="/patient/rendez-vous"
-            className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
           >
             Tout voir
           </Link>
@@ -168,7 +168,7 @@ export default async function PatientDashboard() {
           </h2>
           <Link
             href="/patient/favoris"
-            className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+            className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
           >
             Tout voir
           </Link>
