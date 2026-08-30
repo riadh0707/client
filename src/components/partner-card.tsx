@@ -27,8 +27,8 @@ export type PartnerCardData = {
  * boxes.
  *
  * `sponsored` renders a visible label. PRODUCT.md requires a paid result to be
- * distinguishable, so this is not optional styling: the badge and the ruled
- * accent are the disclosure.
+ * distinguishable, so this is not optional styling: the badge, plus the carbon
+ * paper colour and the labelled band above the block, are the disclosure.
  */
 export function PartnerCard({
   partner,
@@ -41,9 +41,15 @@ export function PartnerCard({
 
   return (
     <article
-      className={`bg-enamel-50 transition-colors hover:bg-cross-50 ${
-        sponsored ? "border-l-4 border-l-cross-500" : ""
-      }`}
+      className={
+        sponsored
+          ? // The carbon-copy flimsy: a different paper colour means a different
+            // state. It groups the sponsored block without a side rule, which
+            // added no disclosure the amber band and the badge do not already
+            // carry.
+            "bg-carbon-amber-soft transition-colors hover:bg-carbon-amber-soft/60"
+          : "bg-enamel-50 transition-colors hover:bg-cross-50"
+      }
     >
       <Link
         href={`/partenaire/${partner.slug}`}
@@ -60,7 +66,7 @@ export function PartnerCard({
               {partner.displayName}
             </h3>
             {sponsored && (
-              <span className="border border-carbon-amber/50 bg-carbon-amber-soft px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-carbon-amber uppercase">
+              <span className="border border-carbon-amber/50 bg-enamel-50 px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-carbon-amber uppercase">
                 Sponsorisé
               </span>
             )}
