@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { db } from "@/lib/db";
+import { formatDzd } from "@/lib/format";
 import {
   groupByWeekday,
   resolveOpenState,
@@ -146,7 +147,7 @@ export default async function PartnerPage({
                       {/* Null price means "not published", which is common in
                           Algeria. Rendering it as free would be a lie. */}
                       {service.priceDzd !== null
-                        ? `${service.priceDzd.toLocaleString("fr-DZ")} DZD`
+                        ? formatDzd(service.priceDzd)
                         : "Tarif non communiqué"}
                       {service.durationMinutes
                         ? ` · ${service.durationMinutes} min`
