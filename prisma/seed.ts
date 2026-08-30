@@ -12,13 +12,16 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { scryptSync, randomBytes } from "node:crypto";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client.js";
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./prisma/dev.db",
-});
-const db = new PrismaClient({ adapter });
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error(
+    "DATABASE_URL n'est pas défini. Renseignez la chaîne de connexion PostgreSQL avant de peupler la base.",
+  );
+}
+const db = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
 
 // Deterministic pseudo-random so reseeding produces the same demo, which makes
 // screenshots and review comments stable across runs.

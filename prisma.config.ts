@@ -4,7 +4,12 @@ import { defineConfig } from "prisma/config";
 // Prisma 7 moved the connection out of schema.prisma: the CLI (migrate, studio,
 // db push) reads it from here. The runtime client builds its own adapter in
 // src/lib/db.ts, so no adapter is needed at this layer.
-const DATABASE_URL = process.env.DATABASE_URL ?? "file:./prisma/dev.db";
+// Deliberately not throwing when it is absent: `prisma generate` runs from
+// postinstall and needs no database, so failing here would break `npm install`
+// on a fresh clone. The commands that do need a connection — migrate, seed,
+// studio — fail on their own with a clear message, and the runtime client in
+// src/lib/db.ts refuses to start without it.
+const DATABASE_URL = process.env.DATABASE_URL ?? "";
 
 export default defineConfig({
   schema: path.join("prisma", "schema.prisma"),

@@ -7,9 +7,16 @@
 // separate tables — so adding "physiotherapist" or "clinic" is a seed row plus
 // content, never a migration of the existing types.
 //
-// Datasource is SQLite for portable demos. The models stay Postgres-compatible:
-// no SQLite-only types, and the few places a richer database would use a native
-// array or enum use a documented delimited string instead.
+// Datasource is PostgreSQL. The first build ran on SQLite for a portable demo,
+// and the models were written from the start to survive the move: no SQLite-only
+// type, and the few places a richer database would reach for a native array use
+// a documented delimited string instead. That discipline is what made this a
+// one-line change to the provider rather than a rewrite.
+//
+// Note for a possible MySQL target: this schema carries no `@db.` annotation, so
+// on MySQL every String becomes VARCHAR(191) and the free-text columns — bio,
+// description, body, reason, summary — would silently truncate. PostgreSQL maps
+// String to text, which is why nothing else here had to change.
 
 generator client {
   provider = "prisma-client-js"
@@ -17,7 +24,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ---------------------------------------------------------------------------
