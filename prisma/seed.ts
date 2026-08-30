@@ -324,8 +324,41 @@ const STREETS = [
   "Rue Hassiba Ben Bouali",
 ];
 
-/** Wilayas that carry the bulk of the demo population, per the brief. */
-const FOCUS_WILAYAS = [16, 31, 25, 19, 9, 23, 39, 6, 15, 5, 22, 21];
+/**
+ * Wilayas carrying the bulk of the demo population, with the extra doctors each
+ * receives on top of the guaranteed per-category coverage.
+ *
+ * The weights are deliberately uneven: a "top ten wilayas" chart where every row
+ * shows the same number is not a ranking, and real coverage concentrates in
+ * Alger and Oran before spreading.
+ */
+const FOCUS_WILAYAS_WEIGHTED: [number, number][] = [
+  [16, 12], // Alger
+  [31, 9], // Oran
+  [25, 7], // Constantine
+  [19, 5], // Sétif
+  [9, 4], // Blida
+  [23, 4], // Annaba
+  [6, 3], // Béjaïa
+  [15, 3], // Tizi Ouzou
+  [5, 2], // Batna
+  [39, 2], // El Oued
+  [22, 1], // Sidi Bel Abbès
+  [21, 1], // Skikda
+];
+const FOCUS_WILAYAS = FOCUS_WILAYAS_WEIGHTED.map(([code]) => code);
+
+/**
+ * Creation dates spread over the past 14 months, weighted toward recent months.
+ *
+ * Seeding everything with "now" made the growth charts meaningless: a flat line
+ * at zero followed by a vertical spike on the last point. A platform that has
+ * been running has a history, and the demo has to show one.
+ */
+function pastCreationDate() {
+  const daysAgo = Math.floor(420 * rand() ** 1.7);
+  return new Date(Date.now() - daysAgo * 86400000);
+}
 
 async function main() {
   console.log("Clearing existing data…");
@@ -441,7 +474,7 @@ async function main() {
   });
 
   const patients = [];
-  for (let i = 0; i < 24; i += 1) {
+  for (let i = 0; i < 90; i += 1) {
     const female = rand() > 0.5;
     const firstName = pick(female ? FIRST_NAMES_F : FIRST_NAMES_M);
     const lastName = pick(FAMILY_NAMES);
@@ -454,6 +487,7 @@ async function main() {
           lastName,
           role: "PATIENT",
           phone: `+213 5${Math.floor(rand() * 90000000 + 10000000)}`,
+          createdAt: pastCreationDate(),
         },
       }),
     );
@@ -511,8 +545,13 @@ async function main() {
         lab: 3,
         imaging: 3,
       };
+      const extraDoctors =
+        FOCUS_WILAYAS_WEIGHTED.find(([code]) => code === w.code)?.[1] ?? 0;
       for (const category of CATEGORIES) {
-        for (let round = 0; round < (roundsByCategory[category.slug] ?? 3); round += 1) {
+        const rounds =
+          (roundsByCategory[category.slug] ?? 3) +
+          (category.slug === "doctor" ? extraDoctors : 0);
+        for (let round = 0; round < rounds; round += 1) {
           dealt.push(category);
         }
       }
@@ -635,6 +674,7 @@ async function main() {
           verificationStatus,
           verifiedAt: verificationStatus === "VERIFIED" ? new Date() : null,
           slotDurationMinutes: pick([15, 20, 30, 30, 45]),
+          createdAt: pastCreationDate(),
         },
       });
       partnerIds.push(partner.id);
@@ -784,6 +824,13 @@ async function main() {
       startAt.getTime() + partner.slotDurationMinutes * 60000,
     );
 
+    // Booked some days before the visit, and never after it: without this every
+    // appointment carries the seed's own timestamp and "rendez-vous ce mois"
+    // reports the entire table.
+    const bookedAt = new Date(
+      startAt.getTime() - Math.floor(rand() * 21 + 1) * 86400000,
+    );
+
     await db.appointment.create({
       data: {
         partnerId: partner.id,
@@ -791,6 +838,7 @@ async function main() {
         startAt,
         endAt,
         status,
+        createdAt: bookedAt,
         reason: pick([
           "Consultation de contrôle",
           "Première consultation",

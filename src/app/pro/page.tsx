@@ -4,6 +4,7 @@ import { AppointmentRow } from "@/components/appointment-row";
 import { db } from "@/lib/db";
 import { requirePartnerContext } from "@/lib/pro";
 import { dateOnly } from "@/lib/format";
+import { StatTile } from "@/components/stat-tile";
 
 export const metadata: Metadata = { title: "Espace professionnel" };
 export const dynamic = "force-dynamic";
@@ -118,12 +119,16 @@ export default async function ProDashboard({
       )}
 
       <section className="mt-8 grid gap-px bg-ink-900/10 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Demandes en attente" value={pending} emphasis={pending > 0} />
-        <Stat label="Rendez-vous ce mois" value={monthCount} />
-        <Stat label="Consultations terminées" value={completedCount} />
-        <Stat
+        <StatTile
+          label="Demandes en attente"
+          value={pending}
+          tone={pending > 0 ? "attention" : "neutral"}
+        />
+        <StatTile label="Rendez-vous ce mois" value={monthCount} />
+        <StatTile label="Consultations terminées" value={completedCount} />
+        <StatTile
           label="Abonnement"
-          text={subscription ? subscription.plan.name : "Aucun"}
+          value={subscription ? subscription.plan.name : "Aucun"}
           hint={
             subscription
               ? `${subscription.status === "ACTIVE" ? "Actif jusqu'au" : "Expiré le"} ${dateOnly.format(subscription.expiresAt)}`
@@ -171,35 +176,5 @@ export default async function ProDashboard({
         </p>
       )}
     </main>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  text,
-  hint,
-  emphasis = false,
-}: {
-  label: string;
-  value?: number;
-  text?: string;
-  hint?: string;
-  emphasis?: boolean;
-}) {
-  return (
-    <div className="bg-enamel-50 p-5">
-      <p className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
-        {label}
-      </p>
-      <p
-        className={`mt-2 font-display text-3xl font-bold tabular-nums ${
-          emphasis ? "text-carbon-amber" : "text-ink-900"
-        }`}
-      >
-        {value !== undefined ? value : text}
-      </p>
-      {hint && <p className="mt-1 text-sm text-ink-500">{hint}</p>}
-    </div>
   );
 }
