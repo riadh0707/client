@@ -39,6 +39,17 @@ function pickSome<T>(items: readonly T[], count: number): T[] {
   return out;
 }
 
+/**
+ * The noun for a practitioner of a discipline: "Cardiologie" -> "Cardiologue".
+ * Taken from the first search alias, which is exactly that word.
+ */
+function practitionerNoun(specialtyName: string | undefined) {
+  if (!specialtyName) return "Praticien";
+  const first = SPECIALTY_ALIASES[specialtyName]?.split(",")[0];
+  if (!first) return specialtyName;
+  return first.charAt(0).toUpperCase() + first.slice(1);
+}
+
 function hashPassword(plain: string) {
   const salt = randomBytes(16).toString("hex");
   const hash = scryptSync(plain, salt, 64).toString("hex");
@@ -195,6 +206,49 @@ const CATEGORIES = [
     specialties: ["Radiologie", "Scanner", "IRM", "Échographie", "Mammographie"],
   },
 ] as const;
+
+/**
+ * What a partner actually sells, per category. Drawing services from the
+ * category's whole specialty list produced nonsense — a cardiologist listing
+ * "Gastro-entérologie" and "Urologie" as services — which the brief rules out.
+ * Individual practitioners get consultation types plus their own discipline;
+ * establishments get the acts they perform.
+ */
+const SERVICE_POOLS: Record<string, string[]> = {
+  doctor: [
+    "Consultation",
+    "Consultation de suivi",
+    "Certificat médical",
+    "Bilan de santé",
+  ],
+  dentist: [
+    "Consultation",
+    "Détartrage",
+    "Soin de carie",
+    "Extraction",
+    "Radiographie dentaire",
+  ],
+  pharmacy: [
+    "Conseil pharmaceutique",
+    "Délivrance sur ordonnance",
+    "Prise de tension",
+    "Matériel médical",
+  ],
+  lab: [
+    "Prélèvement sanguin",
+    "Bilan biologique complet",
+    "Test de glycémie",
+    "Sérologie",
+    "Prélèvement à domicile",
+  ],
+  imaging: [
+    "Radiographie standard",
+    "Échographie abdominale",
+    "Scanner",
+    "IRM",
+    "Mammographie",
+  ],
+};
 
 const PLANS = [
   {
@@ -564,8 +618,11 @@ async function main() {
           displayName,
           categoryId: categoryBySlug.get(category.slug)!,
           specialtyId: specialty?.id ?? null,
+          // "Cardiologie installé à …" is not French. The first alias is the
+          // practitioner noun ("cardiologue"); the discipline name is only a
+          // fallback for specialties that have no alias.
           bio: category.isIndividual
-            ? `${specialty?.name ?? "Praticien"} installé${female ? "e" : ""} à ${commune.name}. Consultations sur rendez-vous.`
+            ? `${practitionerNoun(specialty?.name)} installé${female ? "e" : ""} à ${commune.name}. Consultations sur rendez-vous.`
             : `${category.name} à ${commune.name}, wilaya de ${wilaya.name}.`,
           wilayaCode: wilaya.code,
           communeCode: commune.code,
@@ -626,13 +683,13 @@ async function main() {
       }
 
       // Services
-      const serviceNames =
-        specialties.length > 0
-          ? pickSome(
-              specialties.map((s) => s.name),
-              Math.min(3, specialties.length),
-            )
-          : ["Conseil pharmaceutique", "Vente de médicaments"];
+      // The partner's own discipline leads, then acts drawn from its category's
+      // pool — never another specialty from the same category.
+      const pool = SERVICE_POOLS[category.slug] ?? ["Consultation"];
+      const serviceNames = [
+        ...(specialty ? [specialty.name] : []),
+        ...pickSome(pool, 3),
+      ].filter((name, index, all) => all.indexOf(name) === index);
       for (const name of serviceNames) {
         await db.service.create({
           data: {
