@@ -1,26 +1,131 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   DOCTORY — design tokens
+   Direction: "La Croix". The world is Algerian medical street signage — the lit
+   pharmacy cross, the vitreous-enamel practice plaque, the hand-painted shopfront.
+   That is literally the system patients already use to find care; this is its
+   screen translation.
+
+   Colour strategy: Committed. One saturated green owns whole regions of the
+   surface — fields, not accents scattered over neutral. The ground is enamel
+   white (cool, not cream), because the scene is a phone held outdoors in Algerian
+   daylight, where a dark UI is unreadable and a warm ground goes muddy.
+
+   Raised by "Le Carnet", the direction it beat: that world's donation is
+   administrative precision — ruled tables, index tabs, and carbon-copy status
+   coding. Its discipline, not its clothes.
+   ========================================================================== */
+
+@theme {
+  /* --- Green: the cross. Carries 30-60% of the surface. ------------------ */
+  --color-cross-50: #eefdf5;
+  --color-cross-100: #d5f8e6;
+  --color-cross-200: #aeefd0;
+  --color-cross-300: #74e0b1;
+  --color-cross-400: #34c98d;
+  /* The lit cross at night. Reserved for the primary action and live states. */
+  --color-cross-500: #00b85c;
+  --color-cross-600: #009a4d;
+  /* Enamel field green: large surfaces, the hero, headers. */
+  --color-cross-700: #0a7a45;
+  --color-cross-800: #085c37;
+  --color-cross-900: #06452b;
+  --color-cross-950: #032418;
+
+  /* --- Ground: vitreous enamel, cool white. Never cream. ----------------- */
+  --color-enamel-50: #fbfcfb;
+  --color-enamel-100: #f4f7f5;
+  --color-enamel-200: #e8ede9;
+  --color-enamel-300: #d5ded8;
+
+  /* --- Ink: the plaque lettering, with a green cast so it belongs. ------- */
+  --color-ink-900: #0c1f17;
+  --color-ink-800: #163024;
+  --color-ink-600: #405249;
+  --color-ink-500: #5b6d64;
+  --color-ink-400: #7d8d85;
+  --color-ink-300: #a3b0a9;
+
+  /* --- Carbon copy: the Carnet donation. Status coding borrowed from the
+         duplicate-book, where each flimsy colour means a different state. ---- */
+  --color-carbon-rose: #e26d7a;
+  --color-carbon-rose-soft: #fbe6e8;
+  --color-carbon-amber: #d99514;
+  --color-carbon-amber-soft: #fdf2dc;
+  --color-carbon-blue: #3d7ea6;
+  --color-carbon-blue-soft: #e3eff6;
+
+  /* --- Type ------------------------------------------------------------- */
+  /* Archivo: the grotesque of the enamel plaque and the official form — solid,
+     institutional, authoritative at width. */
+  --font-display: var(--font-archivo), system-ui, sans-serif;
+  /* Atkinson Hyperlegible: drawn by the Braille Institute to disambiguate
+     letterforms for low-vision readers. Chosen for PRODUCT.md's accessibility
+     requirement, not for its looks. */
+  --font-sans: var(--font-atkinson), system-ui, sans-serif;
+
+  /* --- Structure -------------------------------------------------------- */
+  --radius-plaque: 2px;
+  --radius-card: 4px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-enamel-100);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+  }
+
+  /* The plaque never softens: enamel signage has crisp corners and a hard
+     edge, so the whole system runs at 2-4px radius, never pill-rounded. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  /* Focus is a structural element here, not an afterthought: the brief names
+     low digital literacy and outdoor use, where a faint ring is invisible. */
+  :focus-visible {
+    outline: 3px solid var(--color-cross-500);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* The cross as structural module — used as a section marker and map pin,
+     drawn rather than imported so it inherits colour and scales cleanly. */
+  .cross-mark {
+    --cross-bar: 32%;
+    background:
+      linear-gradient(
+          to right,
+          transparent 0 calc(50% - var(--cross-bar) / 2),
+          currentColor calc(50% - var(--cross-bar) / 2)
+            calc(50% + var(--cross-bar) / 2),
+          transparent calc(50% + var(--cross-bar) / 2) 100%
+        )
+        no-repeat,
+      linear-gradient(
+          to bottom,
+          transparent 0 calc(50% - var(--cross-bar) / 2),
+          currentColor calc(50% - var(--cross-bar) / 2)
+            calc(50% + var(--cross-bar) / 2),
+          transparent calc(50% + var(--cross-bar) / 2) 100%
+        )
+        no-repeat;
+  }
+
+  /* Ruled rows — the Carnet's tabular discipline. Hairlines, not shadows. */
+  .ruled > * + * {
+    border-top: 1px solid var(--color-enamel-300);
+  }
 }

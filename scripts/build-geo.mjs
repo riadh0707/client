@@ -97,6 +97,7 @@ const warnings = [];
 // entries describe the same territory, so the wilaya is created once and the
 // communes of either entry are routed to it.
 const created = new Set();
+const seenCommunes = new Set();
 
 for (const w of source) {
   wilayas.push({
@@ -138,6 +139,12 @@ for (const w of source) {
     }
 
     for (const commune of baladyiats) {
+      // The six double-listed dairas repeat their communes verbatim under the
+      // same codes. Both copies are identical, so the first wins and the
+      // duplicate is dropped rather than colliding on the primary key at seed.
+      if (seenCommunes.has(commune.code)) continue;
+      seenCommunes.add(commune.code);
+
       communes.push({
         code: commune.code,
         wilayaCode: owningWilaya,
@@ -168,6 +175,25 @@ for (const wilaya of wilayas) {
 
 if (missingCoordinates.length > 0) {
   throw new Error(`Missing coordinates for: ${missingCoordinates.join(", ")}`);
+}
+
+// A duplicate commune code would collide on the primary key at seed time; catch
+// it here, where the message points at the data, rather than in a Prisma stack.
+const communeCodes = new Set();
+const duplicateCommunes = [];
+for (const commune of communes) {
+  if (communeCodes.has(commune.code)) duplicateCommunes.push(commune.code);
+  communeCodes.add(commune.code);
+}
+if (duplicateCommunes.length > 0) {
+  throw new Error(`Duplicate commune codes: ${duplicateCommunes.join(", ")}`);
+}
+
+const emptyWilayas = wilayas
+  .filter((w) => !communes.some((c) => c.wilayaCode === w.code))
+  .map((w) => `${w.code} ${w.name}`);
+if (emptyWilayas.length > 0) {
+  throw new Error(`Wilayas with no communes: ${emptyWilayas.join(", ")}`);
 }
 
 const expectedWilayas = 58;

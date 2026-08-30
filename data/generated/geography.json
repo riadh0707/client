@@ -7107,13 +7107,6 @@
       "nameAr": "عين قزام"
     },
     {
-      "code": 1104,
-      "wilayaCode": 54,
-      "daira": "Ain Guezzam",
-      "name": "Ain Guezzam",
-      "nameAr": "عين قزام"
-    },
-    {
       "code": 1105,
       "wilayaCode": 11,
       "daira": "Tazrouk",
@@ -7142,25 +7135,11 @@
       "nameAr": "عين صالح"
     },
     {
-      "code": 1108,
-      "wilayaCode": 53,
-      "daira": "Ain Salah",
-      "name": "Ain Salah",
-      "nameAr": "عين صالح"
-    },
-    {
       "code": 1109,
       "wilayaCode": 11,
       "daira": "Tamanrasset",
       "name": "Ain Amguel",
       "nameAr": "عين امقل"
-    },
-    {
-      "code": 1110,
-      "wilayaCode": 53,
-      "daira": "Ain Salah",
-      "name": "Foggaret Ezzoua",
-      "nameAr": "فقارة الزوى"
     },
     {
       "code": 1110,
@@ -12294,32 +12273,11 @@
       "nameAr": "تبسبست"
     },
     {
-      "code": 3007,
-      "wilayaCode": 55,
-      "daira": "Touggourt",
-      "name": "Tebesbest",
-      "nameAr": "تبسبست"
-    },
-    {
       "code": 3008,
       "wilayaCode": 55,
       "daira": "Touggourt",
       "name": "Nezla",
       "nameAr": "النزلة"
-    },
-    {
-      "code": 3008,
-      "wilayaCode": 55,
-      "daira": "Touggourt",
-      "name": "Nezla",
-      "nameAr": "النزلة"
-    },
-    {
-      "code": 3009,
-      "wilayaCode": 55,
-      "daira": "Touggourt",
-      "name": "Zaouia El Abidia",
-      "nameAr": "الزاوية العابدية"
     },
     {
       "code": 3009,
@@ -12348,13 +12306,6 @@
       "daira": "Sidi Khouiled",
       "name": "Hassi Ben Abdellah",
       "nameAr": "حاسي بن عبد الله"
-    },
-    {
-      "code": 3013,
-      "wilayaCode": 55,
-      "daira": "Touggourt",
-      "name": "Touggourt",
-      "nameAr": "تقرت"
     },
     {
       "code": 3013,
@@ -12728,13 +12679,6 @@
       "nameAr": "جانت"
     },
     {
-      "code": 3302,
-      "wilayaCode": 56,
-      "daira": "Djanet",
-      "name": "Djanet",
-      "nameAr": "جانت"
-    },
-    {
       "code": 3303,
       "wilayaCode": 33,
       "daira": "Ain Amenas",
@@ -12747,13 +12691,6 @@
       "daira": "Ain Amenas",
       "name": "Bordj Omar Driss",
       "nameAr": "برج عمر إدريس"
-    },
-    {
-      "code": 3305,
-      "wilayaCode": 56,
-      "daira": "Djanet",
-      "name": "Bordj El Haouass",
-      "nameAr": "برج الحواس"
     },
     {
       "code": 3305,
@@ -13715,25 +13652,11 @@
       "nameAr": "سطيل"
     },
     {
-      "code": 3921,
-      "wilayaCode": 57,
-      "daira": "El Meghaier",
-      "name": "Still",
-      "nameAr": "سطيل"
-    },
-    {
       "code": 3922,
       "wilayaCode": 39,
       "daira": "Djamaa",
       "name": "M'Rara",
       "nameAr": "المرارة"
-    },
-    {
-      "code": 3923,
-      "wilayaCode": 57,
-      "daira": "El Meghaier",
-      "name": "Sidi Khelil",
-      "nameAr": "سيدي خليل"
     },
     {
       "code": 3923,
@@ -13771,25 +13694,11 @@
       "nameAr": "المغير"
     },
     {
-      "code": 3927,
-      "wilayaCode": 57,
-      "daira": "El Meghaier",
-      "name": "El-M'Ghaier",
-      "nameAr": "المغير"
-    },
-    {
       "code": 3928,
       "wilayaCode": 39,
       "daira": "Djamaa",
       "name": "Djamaa",
       "nameAr": "جامعة"
-    },
-    {
-      "code": 3929,
-      "wilayaCode": 57,
-      "daira": "El Meghaier",
-      "name": "Oum Touyour",
-      "nameAr": "أم الطيور"
     },
     {
       "code": 3929,
@@ -15101,13 +15010,6 @@
       "nameAr": "المنيعة"
     },
     {
-      "code": 4702,
-      "wilayaCode": 58,
-      "daira": "El Menia",
-      "name": "El Meniaa",
-      "nameAr": "المنيعة"
-    },
-    {
       "code": 4703,
       "wilayaCode": 47,
       "daira": "Dhayet Ben Dhahoua",
@@ -15169,13 +15071,6 @@
       "daira": "Mansourah",
       "name": "Hassi Fehal",
       "nameAr": "حاسي الفحل"
-    },
-    {
-      "code": 4712,
-      "wilayaCode": 58,
-      "daira": "El Menia",
-      "name": "Hassi Gara",
-      "nameAr": "حاسي القارة"
     },
     {
       "code": 4712,
