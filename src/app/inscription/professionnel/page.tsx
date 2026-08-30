@@ -502,7 +502,7 @@ async function Details({
 
   return (
     <section className="mt-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-l-4 border-cross-500 bg-enamel-50 px-4 py-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-2 border-cross-700 bg-enamel-50 px-4 py-3">
         <p className="text-[15px] text-ink-900">
           <strong className="font-display">{category.name}</strong> à{" "}
           <strong className="font-display">{commune.name}</strong>,{" "}

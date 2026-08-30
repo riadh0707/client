@@ -93,8 +93,8 @@ export function SlotPicker({
             aria-live="polite"
             className={
               chosen
-                ? "border-l-4 border-cross-500 bg-white px-4 py-3"
-                : "border-l-4 border-enamel-300 bg-white px-4 py-3"
+                ? "border-2 border-cross-700 bg-white px-4 py-3"
+                : "border border-enamel-300 bg-white px-4 py-3"
             }
           >
             <span className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
