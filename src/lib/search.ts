@@ -53,10 +53,18 @@ function buildWhere(params: SearchParams): Prisma.PartnerWhereInput {
 
 export type SearchResult = Awaited<ReturnType<typeof searchPartners>>;
 
-export async function searchPartners(params: SearchParams) {
+export async function searchPartners(
+  params: SearchParams,
+  /**
+   * Injectable so the sponsored-filter rule can be pinned to a known hour in a
+   * test. PRODUCT.md forbids covert ranking manipulation, and "a paid listing
+   * must obey the visitor's own filter" is exactly the kind of rule that decays
+   * silently unless something enforces it.
+   */
+  now: Date = new Date(),
+) {
   const where = buildWhere(params);
   const page = Math.max(1, params.page ?? 1);
-  const now = new Date();
 
   // Sponsored placement is fetched as its own list and shown in a labelled
   // block above the organic results. PRODUCT.md forbids covert ranking
@@ -100,12 +108,20 @@ export async function searchPartners(params: SearchParams) {
     openingHours: { select: { weekday: true, opensAt: true, closesAt: true } },
   } satisfies Prisma.PartnerSelect;
 
+  // The organic query excludes sponsored ids, so the count must exclude them
+  // too. Counting `where` alone made totals larger than the rows that can ever
+  // be paginated, which manufactured a final page that renders empty.
+  const organicWhere: Prisma.PartnerWhereInput =
+    sponsoredIds.length > 0
+      ? { AND: [where, { id: { notIn: sponsoredIds } }] }
+      : where;
+
   const [sponsoredRows, organicRows, total] = await Promise.all([
     sponsoredIds.length > 0
       ? db.partner.findMany({ where: { id: { in: sponsoredIds } }, select })
       : Promise.resolve([]),
     db.partner.findMany({
-      where: sponsoredIds.length > 0 ? { AND: [where, { id: { notIn: sponsoredIds } }] } : where,
+      where: organicWhere,
       select,
       orderBy: { displayName: "asc" },
       // Distance and "open now" are computed in JS, so when either is active the
@@ -113,7 +129,7 @@ export async function searchPartners(params: SearchParams) {
       skip: params.ouvert || params.lat === undefined ? (page - 1) * PAGE_SIZE : 0,
       take: params.ouvert || params.lat !== undefined ? 500 : PAGE_SIZE,
     }),
-    db.partner.count({ where }),
+    db.partner.count({ where: organicWhere }),
   ]);
 
   const decorate = (row: (typeof organicRows)[number]) => {
@@ -128,12 +144,18 @@ export async function searchPartners(params: SearchParams) {
   };
 
   let organic = organicRows.map(decorate);
+  // Paid placement buys position, never exemption from the visitor's own
+  // filter. Showing a closed pharmacy to someone who asked for open ones is the
+  // covert ranking manipulation PRODUCT.md forbids, disclosure or not.
+  let sponsored = sponsoredRows.map(decorate);
 
   if (params.ouvert) {
     organic = organic.filter((row) => row.openState.status === "open");
+    sponsored = sponsored.filter((row) => row.openState.status === "open");
   }
   if (params.lat !== undefined) {
     organic.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
+    sponsored.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
   }
 
   // When post-filtering ran, the true count is what survived it, and pagination
@@ -145,7 +167,9 @@ export async function searchPartners(params: SearchParams) {
     : organic;
 
   return {
-    sponsored: sponsoredRows.map(decorate),
+    // Sponsored rows lead page one only; repeating them on every page would
+    // pad each page with the same three paid listings.
+    sponsored: page === 1 ? sponsored : [],
     items,
     total: effectiveTotal,
     page,

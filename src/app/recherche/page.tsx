@@ -57,6 +57,16 @@ export default async function SearchPage({
     }),
   ]);
 
+  const hasActiveFilters = Boolean(
+    params.categorie ||
+      params.specialite ||
+      params.wilaya ||
+      params.commune ||
+      params.verifie ||
+      params.ouvert ||
+      params.lat !== undefined,
+  );
+
   const describedPlace =
     facets.communes.find((c) => c.code === params.commune)?.name ??
     facets.wilayas.find((w) => w.code === params.wilaya)?.name ??
@@ -121,7 +131,7 @@ export default async function SearchPage({
           )}
 
           {results.items.length === 0 ? (
-            <EmptyState hasFilters={results.total === 0} query={params.q} />
+            <EmptyState filtersActive={hasActiveFilters} query={params.q} />
           ) : (
             <div className="flex flex-col gap-px bg-ink-900/10">
               {results.items.map((partner) => (
@@ -144,10 +154,11 @@ export default async function SearchPage({
 }
 
 function EmptyState({
-  hasFilters,
+  filtersActive,
   query,
 }: {
-  hasFilters: boolean;
+  /** Whether the visitor actually narrowed anything — the advice depends on it. */
+  filtersActive: boolean;
   query?: string;
 }) {
   return (
@@ -163,9 +174,9 @@ function EmptyState({
         {query
           ? `Aucun partenaire ne correspond à « ${query} » avec ces filtres.`
           : "Aucun partenaire ne correspond à ces filtres."}{" "}
-        {hasFilters
-          ? "Essayez une autre wilaya, ou élargissez le type de partenaire."
-          : "Essayez de retirer « ouvert maintenant » ou d'élargir la zone."}
+        {filtersActive
+          ? "Retirez un filtre, élargissez la wilaya, ou changez le type de partenaire."
+          : "Essayez un autre terme, ou parcourez les partenaires par type."}
       </p>
       <Link
         href="/recherche"

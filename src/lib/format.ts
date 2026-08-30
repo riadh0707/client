@@ -8,6 +8,8 @@
  * reintroducing the bug.
  */
 
+import { APP_TIME_ZONE } from "@/lib/time";
+
 const LOCALE = "fr-DZ";
 
 export const dateTimeLong = new Intl.DateTimeFormat(LOCALE, {
@@ -17,6 +19,7 @@ export const dateTimeLong = new Intl.DateTimeFormat(LOCALE, {
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
+  timeZone: APP_TIME_ZONE,
 });
 
 export const dateTimeShort = new Intl.DateTimeFormat(LOCALE, {
@@ -25,18 +28,21 @@ export const dateTimeShort = new Intl.DateTimeFormat(LOCALE, {
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
+  timeZone: APP_TIME_ZONE,
 });
 
 export const dateOnly = new Intl.DateTimeFormat(LOCALE, {
   day: "numeric",
   month: "long",
   year: "numeric",
+  timeZone: APP_TIME_ZONE,
 });
 
 export const timeOnly = new Intl.DateTimeFormat(LOCALE, {
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
+  timeZone: APP_TIME_ZONE,
 });
 
 /** Algerian dinars, with the unit spelled rather than symbol-guessed. */

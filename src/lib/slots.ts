@@ -1,5 +1,11 @@
 import { db } from "@/lib/db";
 import type { Interval } from "@/lib/hours";
+import {
+  addZonedDays,
+  startOfZonedDay,
+  zonedParts,
+  zonedTimeToInstant,
+} from "@/lib/time";
 
 /**
  * Availability computation.
@@ -45,11 +51,13 @@ function toMinutes(time: string) {
 }
 
 function isoDate(date: Date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  const p = zonedParts(date);
+  return `${p.year}-${String(p.month).padStart(2, "0")}-${String(p.day).padStart(2, "0")}`;
 }
 
 function dayLabel(date: Date) {
-  return `${DAY_LABELS[date.getDay()]} ${date.getDate()} ${MONTH_LABELS[date.getMonth()]}`;
+  const p = zonedParts(date);
+  return `${DAY_LABELS[p.weekday]} ${p.day} ${MONTH_LABELS[p.month - 1]}`;
 }
 
 /**
@@ -73,10 +81,10 @@ export async function getAvailability(
   });
   if (!partner) return [];
 
-  const rangeStart = new Date(now);
-  rangeStart.setHours(0, 0, 0, 0);
-  const rangeEnd = new Date(rangeStart);
-  rangeEnd.setDate(rangeEnd.getDate() + days);
+  // Day boundaries on the Algerian calendar. Host-local midnight would shift the
+  // whole grid by the offset and drop or duplicate a day at the edges.
+  const rangeStart = startOfZonedDay(now);
+  const rangeEnd = addZonedDays(now, days);
 
   const [appointments, timeOff] = await Promise.all([
     db.appointment.findMany({
@@ -102,11 +110,11 @@ export async function getAvailability(
   const result: DayAvailability[] = [];
 
   for (let offset = 0; offset < days; offset += 1) {
-    const date = new Date(rangeStart);
-    date.setDate(date.getDate() + offset);
+    const date = addZonedDays(rangeStart, offset);
+    const dayParts = zonedParts(date);
 
     const todays = intervals
-      .filter((interval) => interval.weekday === date.getDay())
+      .filter((interval) => interval.weekday === dayParts.weekday)
       .sort((a, b) => toMinutes(a.opensAt) - toMinutes(b.opensAt));
 
     const slots: Slot[] = [];
@@ -116,8 +124,15 @@ export async function getAvailability(
       const closes = toMinutes(interval.closesAt);
 
       for (let minute = opens; minute + step <= closes; minute += step) {
-        const startAt = new Date(date);
-        startAt.setHours(Math.floor(minute / 60), minute % 60, 0, 0);
+        // "08:00" means eight o'clock in Algiers; the instant that denotes is
+        // what gets stored and compared.
+        const startAt = zonedTimeToInstant(
+          dayParts.year,
+          dayParts.month,
+          dayParts.day,
+          Math.floor(minute / 60),
+          minute % 60,
+        );
         const endAt = new Date(startAt.getTime() + step * 60000);
 
         const overlapped = busy.some(
@@ -126,7 +141,7 @@ export async function getAvailability(
 
         slots.push({
           startAt: startAt.toISOString(),
-          label: `${String(startAt.getHours()).padStart(2, "0")}:${String(startAt.getMinutes()).padStart(2, "0")}`,
+          label: `${String(Math.floor(minute / 60)).padStart(2, "0")}:${String(minute % 60).padStart(2, "0")}`,
           available: !overlapped && startAt > now,
         });
       }
@@ -165,11 +180,11 @@ export async function isSlotBookable(partnerId: string, startAt: Date) {
     return { ok: false as const, reason: "Ce créneau est déjà passé." };
 
   const endAt = new Date(startAt.getTime() + partner.slotDurationMinutes * 60000);
-  const minutes = startAt.getHours() * 60 + startAt.getMinutes();
+  const { weekday, minutesOfDay: minutes } = zonedParts(startAt);
 
   const withinHours = (partner.openingHours as Interval[]).some(
     (interval) =>
-      interval.weekday === startAt.getDay() &&
+      interval.weekday === weekday &&
       minutes >= toMinutes(interval.opensAt) &&
       minutes + partner.slotDurationMinutes <= toMinutes(interval.closesAt),
   );

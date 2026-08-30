@@ -1,3 +1,5 @@
+import { zonedParts } from "@/lib/time";
+
 /**
  * Opening-hours logic.
  *
@@ -57,8 +59,9 @@ export function resolveOpenState(
 ): OpenState {
   if (intervals.length === 0) return { status: "unknown" };
 
-  const weekday = now.getDay();
-  const minutesNow = now.getHours() * 60 + now.getMinutes();
+  // Algerian wall clock, never the host's: on a UTC host these getters put the
+  // whole platform an hour behind the country it serves.
+  const { weekday, minutesOfDay: minutesNow } = zonedParts(now);
 
   const todays = intervals
     .filter((interval) => interval.weekday === weekday)
