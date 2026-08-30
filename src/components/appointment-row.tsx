@@ -91,7 +91,7 @@ export function AppointmentRow({
           </p>
 
           <p className="mt-1 text-sm text-ink-500">
-            {appointment.serviceName ?? "Consultation"}
+            {appointment.serviceName ?? "Motif non précisé"}
             {perspective === "patient"
               ? ` · ${appointment.partner.commune.name}`
               : appointment.patient?.phone

@@ -158,7 +158,7 @@ export default async function AdminAppointmentsPage({
                   <td className="px-3 py-3 text-sm tabular-nums text-ink-600">
                     {formatAppointmentDate(a.startAt)}
                   </td>
-                  <td className="px-3 py-3 text-sm text-ink-600">{a.serviceName ?? "Consultation"}</td>
+                  <td className="px-3 py-3 text-sm text-ink-600">{a.serviceName ?? "Motif non précisé"}</td>
                   <td className="px-3 py-3"><StatusBadge status={a.status} /></td>
                 </tr>
               ))}

@@ -27,6 +27,17 @@ export default async function ProLayout({
 
   const isSecretary = user.memberships[0]?.role === "SECRETARY";
 
+  // Reading the capability flag, not the slug. A category for which "open right
+  // now" is meaningless has no hours to edit and gets no tab.
+  const membership = user.memberships[0];
+  const partner = membership
+    ? await db.partner.findUnique({
+        where: { id: membership.partnerId },
+        select: { category: { select: { supportsOpeningHours: true } } },
+      })
+    : null;
+  const hasHours = partner?.category.supportsOpeningHours ?? false;
+
   // A secretary runs the agenda and nothing else: profile and subscription are
   // the owner's. Hiding the tabs matches the permission the server enforces,
   // rather than showing links that would bounce.
@@ -37,6 +48,7 @@ export default async function ProLayout({
       ? []
       : [
           { href: "/pro/profil", label: "Profil" },
+          ...(hasHours ? [{ href: "/pro/horaires", label: "Horaires" }] : []),
           { href: "/pro/abonnement", label: "Abonnement" },
         ]),
   ];

@@ -128,7 +128,7 @@ export function SlotPicker({
                 name="serviceName"
                 className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
               >
-                <option value="">Consultation</option>
+                <option value="">Motif non précisé</option>
                 {services.map((service) => (
                   <option key={service.id} value={service.name}>
                     {service.name}
