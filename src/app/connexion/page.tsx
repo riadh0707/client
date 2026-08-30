@@ -8,6 +8,18 @@ import { getCurrentUser, startSession, verifyPassword } from "@/lib/auth";
 export const metadata: Metadata = { title: "Connexion" };
 export const dynamic = "force-dynamic";
 
+/**
+ * Only a path inside this site is an acceptable landing place.
+ *
+ * `next` arrives from the query string, so without this an attacker could send
+ * a patient a /connexion?next=https://… link: they would sign in on the real
+ * DOCTORY and be handed straight to a copy of it. `//host` is rejected too — the
+ * browser reads it as protocol-relative and leaves the site just the same.
+ */
+function safeNext(next: string) {
+  return next.startsWith("/") && !next.startsWith("//") ? next : "";
+}
+
 /** Where each role lands after signing in. */
 function homeForRole(role: string) {
   if (role === "ADMIN") return "/admin";
@@ -20,7 +32,7 @@ async function signIn(formData: FormData) {
 
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
-  const next = String(formData.get("next") ?? "");
+  const next = safeNext(String(formData.get("next") ?? ""));
 
   const user = await db.user.findUnique({
     where: { email },
@@ -44,7 +56,7 @@ export default async function SignInPage({
 }) {
   const params = await searchParams;
   const user = await getCurrentUser();
-  const next = typeof params.next === "string" ? params.next : "";
+  const next = safeNext(typeof params.next === "string" ? params.next : "");
 
   if (user) redirect(next || homeForRole(user.role));
 

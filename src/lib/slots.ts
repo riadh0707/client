@@ -27,7 +27,11 @@ export type Slot = {
 export type DayAvailability = {
   /** "2026-08-31" */
   date: string;
+  /** "lundi 21 septembre", for the heading that names the chosen day. */
   label: string;
+  /** "lun." and 21, for the day strip where the full label will not fit. */
+  weekdayShort: string;
+  dayNumber: number;
   slots: Slot[];
 };
 
@@ -39,6 +43,15 @@ const DAY_LABELS = [
   "jeudi",
   "vendredi",
   "samedi",
+];
+const DAY_LABELS_SHORT = [
+  "dim.",
+  "lun.",
+  "mar.",
+  "mer.",
+  "jeu.",
+  "ven.",
+  "sam.",
 ];
 const MONTH_LABELS = [
   "janvier", "février", "mars", "avril", "mai", "juin",
@@ -147,7 +160,13 @@ export async function getAvailability(
       }
     }
 
-    result.push({ date: isoDate(date), label: dayLabel(date), slots });
+    result.push({
+      date: isoDate(date),
+      label: dayLabel(date),
+      weekdayShort: DAY_LABELS_SHORT[dayParts.weekday],
+      dayNumber: dayParts.day,
+      slots,
+    });
   }
 
   return result;

@@ -5,129 +5,207 @@ import { useFormStatus } from "react-dom";
 import type { DayAvailability } from "@/lib/slots";
 
 /**
- * Slot picker.
+ * Slot picker — one day at a time.
  *
- * Days are horizontal columns on desktop and a vertical list on mobile, because
- * a week-grid squeezed onto a 360px screen produces tap targets too small for
- * the one-handed outdoor use PRODUCT.md describes.
+ * An earlier version printed every free slot of the next fortnight at once:
+ * 164 identical buttons, 3965px of page on a 390px phone, nearly five screens
+ * of scroll before the submit button came into view. Choosing an appointment is
+ * a two-part decision — which day, then what time — and flattening it into one
+ * undifferentiated wall made both parts harder.
  *
- * The chosen slot rides in a hidden field so the whole thing is one ordinary
- * form post: no fetch, no client-side error plumbing, and it still works while
- * JavaScript is loading.
+ * So the day is chosen first, in a strip that shows how many slots each day
+ * actually holds, and only that day's times are rendered. The strip is built
+ * from links in the page above this component, so picking a day works with
+ * JavaScript off; only the final time selection needs the client.
+ *
+ * Times are grouped into morning and afternoon. A patient asks for "Tuesday
+ * morning", not "the eleventh button".
+ *
+ * The chosen slot is restated in full immediately above the submit button.
+ * Committing to a medical appointment while the only trace of the choice is a
+ * highlighted rectangle somewhere further up the page is how people book the
+ * wrong hour.
  */
 export function SlotPicker({
-  availability,
+  day,
+  initialSlot,
+  partnerName,
+  durationMinutes,
   services,
 }: {
-  availability: DayAvailability[];
+  day: DayAvailability;
+  /** A slot carried back through the sign-in detour, re-selected on arrival. */
+  initialSlot?: string | null;
+  partnerName: string;
+  durationMinutes: number;
   services: { id: string; name: string }[];
 }) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const free = day.slots.filter((slot) => slot.available);
 
-  const daysWithSlots = availability.filter((day) => day.slots.length > 0);
-  const anyAvailable = daysWithSlots.some((day) =>
-    day.slots.some((slot) => slot.available),
+  // Only honour the resumed slot if it is still free: someone else may have
+  // taken it while the patient was signing in.
+  const [selected, setSelected] = useState<string | null>(
+    initialSlot && free.some((slot) => slot.startAt === initialSlot)
+      ? initialSlot
+      : null,
   );
-
-  if (!anyAvailable) {
-    return (
-      <div className="bg-enamel-50 p-6 text-center">
-        <p className="font-display text-lg font-bold text-ink-900">
-          Aucun créneau disponible
-        </p>
-        <p className="mx-auto mt-2 max-w-sm text-[15px] leading-relaxed text-ink-600">
-          Ce praticien n&apos;a pas de créneau libre dans les quatorze prochains
-          jours. Appelez le cabinet pour connaître ses prochaines disponibilités.
-        </p>
-      </div>
-    );
-  }
+  const morning = free.filter((slot) => Number(slot.label.slice(0, 2)) < 12);
+  const afternoon = free.filter((slot) => Number(slot.label.slice(0, 2)) >= 12);
+  const chosen = free.find((slot) => slot.startAt === selected) ?? null;
 
   return (
     <>
       <input type="hidden" name="startAt" value={selected ?? ""} />
 
-      <div className="flex flex-col gap-px bg-ink-900/10">
-        {daysWithSlots.map((day) => {
-          const free = day.slots.filter((slot) => slot.available);
-          return (
-            <section key={day.date} className="bg-enamel-50 p-4 sm:p-5">
-              <h3 className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
-                {day.label}
-              </h3>
+      <section className="bg-enamel-50 p-4 sm:p-5">
+        <h2 className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
+          Horaire du {day.label}
+        </h2>
 
-              {free.length === 0 ? (
-                <p className="mt-2 text-sm text-ink-400">Complet</p>
-              ) : (
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {free.map((slot) => {
-                    const isSelected = selected === slot.startAt;
-                    return (
-                      <li key={slot.startAt}>
-                        <button
-                          type="button"
-                          aria-pressed={isSelected}
-                          onClick={() => setSelected(slot.startAt)}
-                          className={
-                            isSelected
-                              ? "min-h-11 border border-cross-700 bg-cross-500 px-3 py-2.5 font-display text-sm font-bold tabular-nums text-cross-950"
-                              : "min-h-11 border border-enamel-300 bg-white px-3 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-cross-600 hover:text-cross-700"
-                          }
-                        >
-                          {slot.label}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </section>
-          );
-        })}
-      </div>
-
-      <div className="bg-enamel-50 p-4 sm:p-5">
-        {services.length > 0 && (
-          <div className="mb-4">
-            <label
-              htmlFor="serviceName"
-              className="mb-1.5 block font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase"
-            >
-              Motif
-            </label>
-            <select
-              id="serviceName"
-              name="serviceName"
-              className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
-            >
-              <option value="">Consultation</option>
-              {services.map((service) => (
-                <option key={service.id} value={service.name}>
-                  {service.name}
-                </option>
-              ))}
-            </select>
+        {free.length === 0 ? (
+          <p className="mt-3 text-[15px] leading-relaxed text-ink-600">
+            Aucun créneau libre ce jour-là. Choisissez une autre date
+            ci-dessus.
+          </p>
+        ) : (
+          <div className="mt-4 flex flex-col gap-5">
+            <SlotGroup
+              title="Matin"
+              slots={morning}
+              selected={selected}
+              onSelect={setSelected}
+            />
+            <SlotGroup
+              title="Après-midi"
+              slots={afternoon}
+              selected={selected}
+              onSelect={setSelected}
+            />
           </div>
         )}
+      </section>
 
-        <label
-          htmlFor="reason"
-          className="mb-1.5 block font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase"
-        >
-          Précisions (facultatif)
-        </label>
-        <textarea
-          id="reason"
-          name="reason"
-          rows={3}
-          maxLength={400}
-          placeholder="Décrivez brièvement votre demande."
-          className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900 placeholder:text-ink-300"
-        />
+      {free.length > 0 && (
+        <section className="bg-enamel-50 p-4 sm:p-5">
+          {/* The commitment panel. Everything the patient is about to send,
+              in words, in one place. */}
+          <div
+            aria-live="polite"
+            className={
+              chosen
+                ? "border-l-4 border-cross-500 bg-white px-4 py-3"
+                : "border-l-4 border-enamel-300 bg-white px-4 py-3"
+            }
+          >
+            <span className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase">
+              Votre demande
+            </span>
+            {chosen ? (
+              <p className="mt-1 text-[15px] leading-snug text-ink-900">
+                <strong className="font-display">
+                  {day.label} à {chosen.label}
+                </strong>
+                <br />
+                {partnerName} · {durationMinutes} minutes
+              </p>
+            ) : (
+              <p className="mt-1 text-[15px] leading-snug text-ink-500">
+                Choisissez une heure ci-dessus.
+              </p>
+            )}
+          </div>
 
-        <SubmitButton disabled={!selected} />
-      </div>
+          {services.length > 0 && (
+            <div className="mt-5">
+              <label
+                htmlFor="serviceName"
+                className="mb-1.5 block font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase"
+              >
+                Motif
+              </label>
+              <select
+                id="serviceName"
+                name="serviceName"
+                className="min-h-11 w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900"
+              >
+                <option value="">Consultation</option>
+                {services.map((service) => (
+                  <option key={service.id} value={service.name}>
+                    {service.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className="mt-5">
+            <label
+              htmlFor="reason"
+              className="mb-1.5 block font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase"
+            >
+              Précisions (facultatif)
+            </label>
+            <textarea
+              id="reason"
+              name="reason"
+              rows={3}
+              maxLength={400}
+              placeholder="Décrivez brièvement votre demande."
+              className="w-full border border-enamel-300 bg-white px-3 py-2.5 text-[15px] text-ink-900 placeholder:text-ink-300"
+            />
+          </div>
+
+          <SubmitButton disabled={!chosen} />
+        </section>
+      )}
     </>
+  );
+}
+
+/**
+ * Morning or afternoon. The group is omitted entirely when empty rather than
+ * shown as a heading over nothing.
+ */
+function SlotGroup({
+  title,
+  slots,
+  selected,
+  onSelect,
+}: {
+  title: string;
+  slots: { startAt: string; label: string }[];
+  selected: string | null;
+  onSelect: (startAt: string) => void;
+}) {
+  if (slots.length === 0) return null;
+
+  return (
+    <div>
+      <h3 className="font-display text-[11px] font-bold tracking-[0.14em] text-ink-400 uppercase">
+        {title}
+      </h3>
+      <ul className="mt-2 grid grid-cols-[repeat(auto-fill,minmax(4.75rem,1fr))] gap-2">
+        {slots.map((slot) => {
+          const isSelected = selected === slot.startAt;
+          return (
+            <li key={slot.startAt}>
+              <button
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => onSelect(slot.startAt)}
+                className={
+                  isSelected
+                    ? "flex min-h-11 w-full items-center justify-center border-2 border-cross-700 bg-cross-500 px-2 py-2.5 font-display text-sm font-bold tabular-nums text-cross-950"
+                    : "flex min-h-11 w-full items-center justify-center border border-enamel-300 bg-white px-2 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-cross-600 hover:text-cross-700"
+                }
+              >
+                {slot.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -137,12 +215,12 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled || pending}
-      className="mt-4 w-full bg-cross-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400 disabled:cursor-not-allowed disabled:bg-enamel-300 disabled:text-ink-400"
+      className="mt-5 min-h-11 w-full bg-cross-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400 disabled:cursor-not-allowed disabled:bg-enamel-300 disabled:text-ink-400"
     >
       {pending
         ? "Envoi en cours…"
         : disabled
-          ? "Choisissez un créneau"
+          ? "Choisissez une heure"
           : "Demander ce rendez-vous"}
     </button>
   );
