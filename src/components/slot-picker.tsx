@@ -93,7 +93,7 @@ export function SlotPicker({
             aria-live="polite"
             className={
               chosen
-                ? "border-2 border-cross-700 bg-white px-4 py-3"
+                ? "border-2 border-rod-700 bg-white px-4 py-3"
                 : "border border-enamel-300 bg-white px-4 py-3"
             }
           >
@@ -195,8 +195,8 @@ function SlotGroup({
                 onClick={() => onSelect(slot.startAt)}
                 className={
                   isSelected
-                    ? "flex min-h-11 w-full items-center justify-center border-2 border-cross-700 bg-cross-500 px-2 py-2.5 font-display text-sm font-bold tabular-nums text-cross-950"
-                    : "flex min-h-11 w-full items-center justify-center border border-enamel-300 bg-white px-2 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-cross-600 hover:text-cross-700"
+                    ? "flex min-h-11 w-full items-center justify-center border-2 border-rod-700 bg-rod-500 px-2 py-2.5 font-display text-sm font-bold tabular-nums text-rod-950"
+                    : "flex min-h-11 w-full items-center justify-center border border-enamel-300 bg-white px-2 py-2.5 font-display text-sm tabular-nums text-ink-900 hover:border-rod-600 hover:text-rod-700"
                 }
               >
                 {slot.label}
@@ -215,7 +215,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled || pending}
-      className="mt-5 min-h-11 w-full bg-cross-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400 disabled:cursor-not-allowed disabled:bg-enamel-300 disabled:text-ink-400"
+      className="mt-5 min-h-11 w-full bg-rod-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400 disabled:cursor-not-allowed disabled:bg-enamel-300 disabled:text-ink-400"
     >
       {pending
         ? "Envoi en cours…"

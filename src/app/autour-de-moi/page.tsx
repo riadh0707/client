@@ -6,6 +6,7 @@ import { ProximityPlot, type PlotPoint } from "@/components/proximity-plot";
 import { Locator } from "./locator";
 import { db } from "@/lib/db";
 import { distanceKm, resolveOpenState, type Interval } from "@/lib/hours";
+import { RodMark } from "@/components/rod-mark";
 
 export const metadata: Metadata = {
   title: "Professionnels près de vous",
@@ -178,7 +179,7 @@ export default async function NearbyPage({
 
         {!centre ? (
           <div className="mt-8 bg-enamel-50 px-5 py-16 text-center">
-            <span aria-hidden className="cross-mark mx-auto block h-10 w-10 text-enamel-300" />
+            <RodMark className="mx-auto block h-12 w-12 text-enamel-300" />
             <h2 className="mt-5 font-display text-xl font-bold text-ink-900">
               Où cherchez-vous&nbsp;?
             </h2>
@@ -189,7 +190,7 @@ export default async function NearbyPage({
           </div>
         ) : nearest.length === 0 ? (
           <div className="mt-8 bg-enamel-50 px-5 py-16 text-center">
-            <span aria-hidden className="cross-mark mx-auto block h-10 w-10 text-enamel-300" />
+            <RodMark className="mx-auto block h-12 w-12 text-enamel-300" />
             <h2 className="mt-5 font-display text-xl font-bold text-ink-900">
               Aucun partenaire dans cette zone
             </h2>
@@ -198,7 +199,7 @@ export default async function NearbyPage({
             </p>
             <Link
               href="/recherche"
-              className="mt-6 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-6 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
             >
               Aller à la recherche
             </Link>
@@ -264,8 +265,8 @@ function FilterChip({
       aria-current={active ? "true" : undefined}
       className={`flex min-h-11 flex-1 items-center justify-center px-4 py-3 text-center font-display text-xs font-bold tracking-[0.08em] uppercase ${
         active
-          ? "bg-cross-700 text-enamel-50"
-          : "bg-enamel-50 text-ink-600 hover:bg-cross-50 hover:text-cross-700"
+          ? "bg-rod-700 text-enamel-50"
+          : "bg-enamel-50 text-ink-600 hover:bg-rod-50 hover:text-rod-700"
       }`}
     >
       {label}

@@ -74,7 +74,7 @@ export function Locator({
               type="button"
               onClick={locate}
               disabled={state === "asking"}
-              className="min-h-11 border border-cross-700 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
+              className="min-h-11 border border-rod-700 px-3 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100 disabled:opacity-60"
             >
               {state === "asking" ? "Localisation…" : "Me localiser"}
             </button>

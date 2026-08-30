@@ -154,7 +154,7 @@ model PartnerCategory {
 }
 
 // A specialty belongs to a category: "Cardiologie" under doctor, "Orthodontie"
-// under dentist, "IRM" under imaging. Scoping them prevents the cross-category
+// under dentist, "IRM" under imaging. Scoping them prevents the rod-category
 // nonsense a single flat list would allow.
 model Specialty {
   id     String @id @default(cuid())

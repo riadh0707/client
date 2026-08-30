@@ -112,7 +112,7 @@ export default async function AdminAppointmentsPage({
         </div>
         <button
           type="submit"
-          className="min-h-11 bg-cross-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-950 uppercase hover:bg-cross-400"
+          className="min-h-11 bg-rod-500 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-950 uppercase hover:bg-rod-400"
         >
           Filtrer
         </button>
@@ -149,7 +149,7 @@ export default async function AdminAppointmentsPage({
                   <td className="px-3 py-3 text-sm">
                     <Link
                       href={`/partenaire/${a.partner.slug}`}
-                      className="-my-3 flex min-h-11 items-center py-3 text-ink-900 hover:text-cross-700"
+                      className="-my-3 flex min-h-11 items-center py-3 text-ink-900 hover:text-rod-700"
                     >
                       {a.partner.displayName}
                     </Link>
@@ -186,7 +186,7 @@ function PageLink({ query, page, label }: { query: URLSearchParams; page: number
   return (
     <Link
       href={`/admin/rendez-vous?${next}`}
-      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+      className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
     >
       {label}
     </Link>

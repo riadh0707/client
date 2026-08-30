@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatDistance, type OpenState } from "@/lib/hours";
+import { RodMark } from "@/components/rod-mark";
 
 export type PartnerCardData = {
   slug: string;
@@ -48,17 +49,14 @@ export function PartnerCard({
             // added no disclosure the amber band and the badge do not already
             // carry.
             "bg-carbon-amber-soft transition-colors hover:bg-carbon-amber-soft/60"
-          : "bg-enamel-50 transition-colors hover:bg-cross-50"
+          : "bg-enamel-50 transition-colors hover:bg-rod-50"
       }
     >
       <Link
         href={`/partenaire/${partner.slug}`}
         className="flex flex-col gap-3 p-5 sm:flex-row sm:items-start sm:gap-6 sm:p-6"
       >
-        <span
-          aria-hidden
-          className="cross-mark mt-1 hidden h-5 w-5 shrink-0 text-cross-500 sm:block"
-        />
+        <RodMark className="mt-0.5 hidden h-6 w-6 shrink-0 text-rod-500 sm:block" />
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -71,7 +69,7 @@ export function PartnerCard({
               </span>
             )}
             {partner.verificationStatus === "VERIFIED" && (
-              <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-800 uppercase">
+              <span className="border border-rod-600/40 bg-rod-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-rod-800 uppercase">
                 Vérifié
               </span>
             )}
@@ -103,11 +101,11 @@ export function PartnerCard({
           )}
 
           {partner.category.supportsAppointments ? (
-            <span className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase">
+            <span className="font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase">
               Rendez-vous
             </span>
           ) : (
-            <span className="font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase">
+            <span className="font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase">
               Sans rendez-vous
             </span>
           )}
@@ -121,7 +119,7 @@ export function PartnerCard({
         <div className="px-5 pb-5 sm:px-6 sm:pb-6">
           <a
             href={`tel:${partner.phone.replace(/\s/g, "")}`}
-            className="inline-flex min-h-11 items-center gap-2 border border-cross-700 px-4 py-2 font-display text-sm font-bold tabular-nums text-cross-700 hover:bg-cross-100"
+            className="inline-flex min-h-11 items-center gap-2 border border-rod-700 px-4 py-2 font-display text-sm font-bold tabular-nums text-rod-700 hover:bg-rod-100"
           >
             <span className="text-xs tracking-[0.08em] uppercase">Appeler</span>
             {partner.phone}
@@ -135,8 +133,8 @@ export function PartnerCard({
 function OpenBadge({ state }: { state: OpenState }) {
   if (state.status === "open") {
     return (
-      <span className="inline-flex items-center gap-1.5 font-display text-xs font-bold text-cross-700">
-        <span aria-hidden className="h-2 w-2 bg-cross-500" />
+      <span className="inline-flex items-center gap-1.5 font-display text-xs font-bold text-rod-700">
+        <span aria-hidden className="h-2 w-2 bg-rod-500" />
         Ouvert · ferme à {state.closesAt}
       </span>
     );

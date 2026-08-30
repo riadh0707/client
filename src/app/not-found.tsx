@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
+import { RodMark } from "@/components/rod-mark";
 
 export const metadata: Metadata = { title: "Page introuvable" };
 
@@ -19,7 +20,7 @@ export default function NotFound() {
       <SiteHeader />
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-5 py-16 sm:px-8 sm:py-24">
-        <span aria-hidden className="cross-mark h-10 w-10 text-enamel-300" />
+        <RodMark className="h-12 w-12 text-enamel-300" />
         <h1 className="mt-6 font-display text-3xl font-bold text-ink-900 sm:text-4xl">
           Cette page n&apos;existe pas
         </h1>
@@ -32,13 +33,13 @@ export default function NotFound() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/recherche"
-            className="inline-flex min-h-11 items-center justify-center bg-cross-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+            className="inline-flex min-h-11 items-center justify-center bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
           >
             Chercher un professionnel
           </Link>
           <Link
             href="/autour-de-moi"
-            className="inline-flex min-h-11 items-center justify-center border border-cross-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-700 uppercase hover:bg-cross-100"
+            className="inline-flex min-h-11 items-center justify-center border border-rod-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-700 uppercase hover:bg-rod-100"
           >
             Autour de moi
           </Link>

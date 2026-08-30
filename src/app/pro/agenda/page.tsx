@@ -92,7 +92,7 @@ function DecisionButton({
 }) {
   const styles = {
     accept:
-      "border-cross-700 bg-cross-500 text-cross-950 hover:bg-cross-400",
+      "border-rod-700 bg-rod-500 text-rod-950 hover:bg-rod-400",
     reject:
       "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft",
     neutral: "border-enamel-300 text-ink-600 hover:bg-enamel-200",

@@ -3,7 +3,7 @@
 /* ==========================================================================
    DOCTORY — design tokens
    Direction: "La Croix". The world is Algerian medical street signage — the lit
-   pharmacy cross, the vitreous-enamel practice plaque, the hand-painted shopfront.
+   rod of Asclepius, the vitreous-enamel practice plaque, the hand-painted shopfront.
    That is literally the system patients already use to find care; this is its
    screen translation.
 
@@ -18,20 +18,20 @@
    ========================================================================== */
 
 @theme {
-  /* --- Green: the cross. Carries 30-60% of the surface. ------------------ */
-  --color-cross-50: #eefdf5;
-  --color-cross-100: #d5f8e6;
-  --color-cross-200: #aeefd0;
-  --color-cross-300: #74e0b1;
-  --color-cross-400: #34c98d;
-  /* The lit cross at night. Reserved for the primary action and live states. */
-  --color-cross-500: #00b85c;
-  --color-cross-600: #009a4d;
+  /* --- Green: the sign green. Carries 30-60% of the surface. ------------- */
+  --color-rod-50: #eefdf5;
+  --color-rod-100: #d5f8e6;
+  --color-rod-200: #aeefd0;
+  --color-rod-300: #74e0b1;
+  --color-rod-400: #34c98d;
+  /* The lit sign at night. Reserved for the primary action and live states. */
+  --color-rod-500: #00b85c;
+  --color-rod-600: #009a4d;
   /* Enamel field green: large surfaces, the hero, headers. */
-  --color-cross-700: #0a7a45;
-  --color-cross-800: #085c37;
-  --color-cross-900: #06452b;
-  --color-cross-950: #032418;
+  --color-rod-700: #0a7a45;
+  --color-rod-800: #085c37;
+  --color-rod-900: #06452b;
+  --color-rod-950: #032418;
 
   /* --- Ground: vitreous enamel, cool white. Never cream. ----------------- */
   --color-enamel-50: #fbfcfb;
@@ -99,7 +99,7 @@
 
   /* Focus is a structural element here, not an afterthought: the brief names
      low digital literacy and outdoor use, where a faint ring is invisible.
-     The first version used cross-500, which measured 2.06:1 on the green field,
+     The first version used rod-500, which measured 2.06:1 on the green field,
      2.43:1 on the body and 2.55:1 on a card — failing 3:1 on every ground but
      the dark footer, the exact opposite of what the comment claimed.
 
@@ -115,29 +115,8 @@
 }
 
 @layer utilities {
-  /* The cross as structural module — used as a section marker and map pin,
+  /* The rod as structural module — used as a section marker and map pin,
      drawn rather than imported so it inherits colour and scales cleanly. */
-  .cross-mark {
-    --cross-bar: 32%;
-    background:
-      linear-gradient(
-          to right,
-          transparent 0 calc(50% - var(--cross-bar) / 2),
-          currentColor calc(50% - var(--cross-bar) / 2)
-            calc(50% + var(--cross-bar) / 2),
-          transparent calc(50% + var(--cross-bar) / 2) 100%
-        )
-        no-repeat,
-      linear-gradient(
-          to bottom,
-          transparent 0 calc(50% - var(--cross-bar) / 2),
-          currentColor calc(50% - var(--cross-bar) / 2)
-            calc(50% + var(--cross-bar) / 2),
-          transparent calc(50% + var(--cross-bar) / 2) 100%
-        )
-        no-repeat;
-  }
-
   /* Ruled rows — the Carnet's tabular discipline. Hairlines, not shadows. */
   .ruled > * + * {
     border-top: 1px solid var(--color-enamel-300);

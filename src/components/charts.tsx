@@ -9,7 +9,7 @@ import { useId, useState } from "react";
  * simple forms, and a dependency would add weight without adding correctness.
  *
  * Colour follows the dataviz method. Every chart here carries ONE measure, so it
- * uses ONE hue — #0a7a45, the design system's cross-700, validated against this
+ * uses ONE hue — #0a7a45, the design system's rod-700, validated against this
  * surface (lightness band, chroma floor, contrast ≥ 3:1). Category identity comes
  * from the axis labels, never from colour: giving five partner types five hues
  * would burn the colour channel on information the labels already carry, and no
@@ -41,7 +41,7 @@ function TableView({
 }) {
   return (
     <details className="mt-3">
-      <summary className="cursor-pointer font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-cross-700">
+      <summary className="cursor-pointer font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-rod-700">
         Voir les données
       </summary>
       <div className="mt-2 max-h-64 overflow-y-auto border border-enamel-300">

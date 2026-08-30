@@ -138,7 +138,7 @@ export default async function ProfilePage({
       <p className="mt-1 text-[15px] text-ink-600">{partner.displayName}</p>
 
       {query.enregistre && (
-        <p role="status" className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900">
+        <p role="status" className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900">
           Modifications enregistrées.
         </p>
       )}
@@ -153,7 +153,7 @@ export default async function ProfilePage({
         </p>
       )}
       {query.prestations && (
-        <p role="status" className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900">
+        <p role="status" className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900">
           Prestations enregistrées. Elles apparaissent sur votre fiche et parmi
           les motifs proposés aux patients.
         </p>
@@ -231,7 +231,7 @@ export default async function ProfilePage({
 
         <button
           type="submit"
-          className="self-start bg-cross-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+          className="self-start bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
         >
           Enregistrer
         </button>
@@ -317,7 +317,7 @@ export default async function ProfilePage({
           </p>
           <button
             type="submit"
-            className="mt-4 min-h-11 bg-cross-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+            className="mt-4 min-h-11 bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
           >
             Enregistrer les prestations
           </button>
@@ -342,7 +342,7 @@ export default async function ProfilePage({
         </ul>
         <Link
           href="/pro/horaires"
-          className="mt-4 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+          className="mt-4 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
         >
           Modifier mes horaires
         </Link>

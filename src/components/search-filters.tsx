@@ -86,7 +86,7 @@ export function SearchFilters({
         Filtres
         <span className="flex items-center gap-2 font-normal tracking-normal normal-case">
           {activeCount > 0 && (
-            <span className="bg-cross-500 px-2 py-0.5 font-display text-xs font-bold text-cross-950">
+            <span className="bg-rod-500 px-2 py-0.5 font-display text-xs font-bold text-rod-950">
               {activeCount}
             </span>
           )}
@@ -163,7 +163,7 @@ export function SearchFilters({
             </span>
             {geoState === "granted" ? (
               <div className="mt-2.5 flex flex-col gap-2">
-                <p className="text-sm text-cross-700">
+                <p className="text-sm text-rod-700">
                   Résultats triés par distance.
                 </p>
                 <button
@@ -183,7 +183,7 @@ export function SearchFilters({
                   type="button"
                   onClick={requestLocation}
                   disabled={geoState === "asking"}
-                  className="inline-flex min-h-11 items-center self-start border border-cross-700 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100 disabled:opacity-60"
+                  className="inline-flex min-h-11 items-center self-start border border-rod-700 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100 disabled:opacity-60"
                 >
                   {geoState === "asking"
                     ? "Localisation…"
@@ -288,7 +288,7 @@ function Toggle({
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
-        className="h-5 w-5 shrink-0 accent-cross-600"
+        className="h-5 w-5 shrink-0 accent-rod-600"
       />
       {label}
     </label>

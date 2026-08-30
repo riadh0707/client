@@ -252,7 +252,7 @@ export default async function HoursPage({
       {query.enregistre && (
         <p
           role="status"
-          className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900"
+          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900"
         >
           Horaires enregistrés. La grille de rendez-vous proposée aux patients
           est mise à jour.
@@ -261,7 +261,7 @@ export default async function HoursPage({
       {query.ferme && (
         <p
           role="status"
-          className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900"
+          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900"
         >
           Fermeture enregistrée. Aucun créneau n&apos;est proposé sur cette
           période.
@@ -270,7 +270,7 @@ export default async function HoursPage({
       {query.rouvert && (
         <p
           role="status"
-          className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900"
+          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900"
         >
           Fermeture supprimée. Les créneaux de cette période redeviennent
           disponibles.
@@ -380,7 +380,7 @@ export default async function HoursPage({
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           <button
             type="submit"
-            className="min-h-11 bg-cross-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+            className="min-h-11 bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
           >
             Enregistrer les horaires
           </button>
@@ -390,7 +390,7 @@ export default async function HoursPage({
             type="submit"
             name="intent"
             value="copier"
-            className="min-h-11 border border-cross-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-700 uppercase hover:bg-cross-100"
+            className="min-h-11 border border-rod-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-700 uppercase hover:bg-rod-100"
           >
             Recopier dimanche sur lun.–jeu. et sam.
           </button>
@@ -503,7 +503,7 @@ export default async function HoursPage({
           </div>
           <button
             type="submit"
-            className="min-h-11 self-start border border-cross-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-700 uppercase hover:bg-cross-100"
+            className="min-h-11 self-start border border-rod-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-700 uppercase hover:bg-rod-100"
           >
             Ajouter une fermeture
           </button>

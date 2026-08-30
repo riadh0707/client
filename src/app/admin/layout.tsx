@@ -43,7 +43,7 @@ export default async function AdminLayout({
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-cross-700 hover:underline"
+                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-rod-700 hover:underline"
               >
                 {link.label}
               </Link>
@@ -51,7 +51,7 @@ export default async function AdminLayout({
           </nav>
 
           <div className="flex items-center gap-4">
-            <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-800 uppercase">
+            <span className="border border-rod-600/40 bg-rod-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-rod-800 uppercase">
               Administration
             </span>
             <form action={signOut}>

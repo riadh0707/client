@@ -6,6 +6,7 @@ import { SearchFilters } from "@/components/search-filters";
 import { PartnerCard } from "@/components/partner-card";
 import { getSearchFacets, searchPartners, type SearchParams } from "@/lib/search";
 import { db } from "@/lib/db";
+import { RodMark } from "@/components/rod-mark";
 
 export const metadata: Metadata = {
   title: "Recherche",
@@ -140,7 +141,17 @@ export default async function SearchPage({
           )}
 
           {results.items.length === 0 ? (
-            <EmptyState filtersActive={hasActiveFilters} query={params.q} />
+            // "Aucun résultat" over a visible sponsored listing is a
+            // contradiction; when the only match is a paid one, say that.
+            results.sponsored.length > 0 ? (
+              <p className="bg-enamel-50 px-5 py-8 text-center text-[15px] leading-relaxed text-ink-600 sm:px-6">
+                Aucun autre partenaire ne correspond à cette recherche.
+                Élargissez la wilaya ou retirez un filtre pour en voir
+                davantage.
+              </p>
+            ) : (
+              <EmptyState filtersActive={hasActiveFilters} query={params.q} />
+            )
           ) : (
             <div className="flex flex-col gap-px bg-ink-900/10">
               {results.items.map((partner) => (
@@ -172,10 +183,7 @@ function EmptyState({
 }) {
   return (
     <div className="bg-enamel-50 px-5 py-16 text-center sm:px-6">
-      <span
-        aria-hidden
-        className="cross-mark mx-auto block h-10 w-10 text-enamel-300"
-      />
+      <RodMark className="mx-auto block h-12 w-12 text-enamel-300" />
       <h2 className="mt-5 font-display text-xl font-bold text-ink-900">
         Aucun résultat
       </h2>
@@ -189,7 +197,7 @@ function EmptyState({
       </p>
       <Link
         href="/recherche"
-        className="mt-6 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+        className="mt-6 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
       >
         Voir tous les partenaires
       </Link>
@@ -224,7 +232,7 @@ function Pagination({
       {page > 1 ? (
         <Link
           href={href(page - 1)}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
         >
           &larr; Précédent
         </Link>
@@ -237,7 +245,7 @@ function Pagination({
       {page < pageCount ? (
         <Link
           href={href(page + 1)}
-          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:underline"
+          className="inline-flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:underline"
         >
           Suivant &rarr;
         </Link>

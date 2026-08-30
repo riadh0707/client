@@ -8,6 +8,7 @@ import {
 } from "@/components/appointment-row";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { RodMark } from "@/components/rod-mark";
 
 export const metadata: Metadata = { title: "Mes rendez-vous" };
 export const dynamic = "force-dynamic";
@@ -172,7 +173,7 @@ export default async function PatientAppointmentsPage({
       {query.nouveau && (
         <p
           role="status"
-          className="mt-5 border border-cross-600/40 bg-cross-100 px-4 py-3 text-[15px] text-ink-900"
+          className="mt-5 border border-rod-600/40 bg-rod-100 px-4 py-3 text-[15px] text-ink-900"
         >
           Demande envoyée. Le praticien doit la confirmer&nbsp;: son statut
           restera «&nbsp;en attente&nbsp;» jusque-là.
@@ -201,10 +202,7 @@ export default async function PatientAppointmentsPage({
         </h2>
         {upcoming.length === 0 ? (
           <div className="mt-3 bg-enamel-50 px-5 py-10 text-center">
-            <span
-              aria-hidden
-              className="cross-mark mx-auto block h-8 w-8 text-enamel-300"
-            />
+            <RodMark className="mx-auto block h-12 w-12 text-enamel-300" />
             <p className="mt-4 font-display text-lg font-bold text-ink-900">
               Aucun rendez-vous à venir
             </p>
@@ -213,7 +211,7 @@ export default async function PatientAppointmentsPage({
             </p>
             <Link
               href="/recherche"
-              className="mt-5 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-5 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
             >
               Chercher un professionnel
             </Link>

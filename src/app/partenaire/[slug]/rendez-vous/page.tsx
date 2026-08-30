@@ -192,7 +192,7 @@ export default async function BookingPage({
         >
           <Link
             href={`/partenaire/${partner.slug}`}
-            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-cross-700"
+            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-rod-700"
           >
             {partner.displayName}
           </Link>
@@ -245,7 +245,7 @@ export default async function BookingPage({
             </p>
             <a
               href={`tel:${partner.phone.replace(/\s/g, "")}`}
-              className="mt-5 inline-flex min-h-11 items-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-5 inline-flex min-h-11 items-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
             >
               Appeler le {partner.phone}
             </a>
@@ -300,8 +300,8 @@ export default async function BookingPage({
                         aria-label={`${day.label} : ${free} créneau${free > 1 ? "x" : ""} libre${free > 1 ? "s" : ""}`}
                         className={
                           isSelected
-                            ? `${shared} border-cross-700 bg-cross-700 text-enamel-50`
-                            : `${shared} border-enamel-300 bg-white text-ink-900 hover:border-cross-600`
+                            ? `${shared} border-rod-700 bg-rod-700 text-enamel-50`
+                            : `${shared} border-enamel-300 bg-white text-ink-900 hover:border-rod-600`
                         }
                       >
                         <span className="font-display text-[11px] tracking-[0.06em] uppercase">
@@ -313,7 +313,7 @@ export default async function BookingPage({
                         <span
                           className={
                             isSelected
-                              ? "text-[10px] leading-none tabular-nums text-cross-100"
+                              ? "text-[10px] leading-none tabular-nums text-rod-100"
                               : "text-[10px] leading-none tabular-nums text-ink-500"
                           }
                         >

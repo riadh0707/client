@@ -32,28 +32,33 @@ export const metadata: Metadata = {
 const DIRECTION_CONTRACT = `<!--
 DOCTORY — DIRECTION CONTRACT
 
-THESIS: The pharmacy cross is not decoration, it is Algeria's existing wayfinding
-system for care; DOCTORY is its screen translation. Refuses the category default
-of white ground, trust-blue accent and rounded photo cards.
+THESIS: The enamel practice plaque is Algeria's existing wayfinding system for
+care — the lit green sign, the painted shopfront lettering; DOCTORY is its screen
+translation. Refuses the category default of white ground, trust-blue accent and
+rounded photo cards.
 
-OWN-WORLD: Vitreous enamel plaque and lit pharmacy cross. Committed green owning
-whole fields (cross-700/500) on cool enamel white, never cream. Hard 2-4px edges,
+OWN-WORLD: Vitreous enamel plaque and lit sign green. Committed green owning
+whole fields (rod-700/500) on cool enamel white, never cream. Hard 2-4px edges,
 hairline rules, no soft shadow. Archivo for plaque lettering, Atkinson
-Hyperlegible for text. The cross is a structural module: section marker, map pin,
-grid unit. Raised by Le Carnet with ruled tabular rows and carbon-copy status
+Hyperlegible for text. The mark is the rod of Asclepius, used as a structural
+module: section marker, map pin, grid unit. It replaced the pharmacy cross the
+first build carried — accurate to the Algerian street, but read as a Christian
+symbol by much of the audience, which is why the Red Crescent exists beside the
+Red Cross. Raised by Le Carnet with ruled tabular rows and carbon-copy status
 colour.
 
 STORY: A visitor understands in one screen that this covers every kind of care in
 all 58 wilayas, believes it because the geography is exact, and acts by searching
 or by declaring which side of the platform they are on.
 
-FIRST VIEWPORT: Full-bleed cross-700 field. DOCTORY in Archivo at display scale,
-left. Beneath it the search instrument as a single ruled line — query, then
-wilaya selector — the one bright cross-500 action at its right. Below the fold
+FIRST VIEWPORT: Full-bleed rod-700 field carrying the rod at 21rem, held clear
+of both edges. DOCTORY in Archivo at display scale, left. Beneath it the search instrument as a single ruled line — query, then
+wilaya selector — the one bright rod-500 action at its right. Below the fold
 line, two plaques: patient, professional.
 
-FORM: "La Croix", rank 1 of my grounded list, chosen by the user over the roll's
-assignment (index 3, "Le Carnet"). Seed key 2590fc2b.
+FORM: "La Plaque" — begun as "La Croix", rank 1 of my grounded list, chosen by
+the user over the roll's assignment (index 3, "Le Carnet"); the mark was changed
+at the user's direction, the plaque world it sits in was not. Seed key 2590fc2b.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->`;

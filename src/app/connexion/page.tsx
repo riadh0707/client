@@ -122,7 +122,7 @@ export default async function SignInPage({
 
           <button
             type="submit"
-            className="bg-cross-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+            className="bg-rod-500 px-4 py-3.5 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
           >
             Se connecter
           </button>
@@ -137,13 +137,13 @@ export default async function SignInPage({
           <div className="mt-3 flex flex-col gap-2">
             <Link
               href={`/inscription${next ? `?next=${encodeURIComponent(next)}` : ""}`}
-              className="inline-flex min-h-11 items-center justify-center border border-cross-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="inline-flex min-h-11 items-center justify-center border border-rod-700 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100"
             >
               Créer un compte patient
             </Link>
             <Link
               href="/inscription/professionnel"
-              className="inline-flex min-h-11 items-center justify-center border border-enamel-300 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-cross-600 hover:text-cross-700"
+              className="inline-flex min-h-11 items-center justify-center border border-enamel-300 px-4 py-2.5 font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase hover:border-rod-600 hover:text-rod-700"
             >
               Inscrire une structure de santé
             </Link>

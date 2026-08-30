@@ -47,7 +47,7 @@ export default async function NotificationsPage() {
                   aria-hidden
                   className={`mt-1.5 h-2 w-2 shrink-0 ${
                     unreadIds.includes(notification.id)
-                      ? "bg-cross-500"
+                      ? "bg-rod-500"
                       : "bg-enamel-300"
                   }`}
                 />
@@ -56,7 +56,7 @@ export default async function NotificationsPage() {
                     {notification.href ? (
                       <Link
                         href={notification.href}
-                        className="hover:text-cross-700"
+                        className="hover:text-rod-700"
                       >
                         {notification.title}
                       </Link>

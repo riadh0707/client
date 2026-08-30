@@ -50,7 +50,7 @@ export default async function PatientLayout({
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-cross-700 hover:underline"
+                className="flex min-h-11 items-center font-display text-xs font-bold tracking-[0.08em] text-ink-600 uppercase underline-offset-4 hover:text-rod-700 hover:underline"
               >
                 {link.label}
               </Link>

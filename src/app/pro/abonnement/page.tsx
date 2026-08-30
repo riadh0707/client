@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Abonnement" };
 export const dynamic = "force-dynamic";
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
-  ACTIVE: { label: "Actif", className: "border-cross-600/40 bg-cross-100 text-cross-800" },
+  ACTIVE: { label: "Actif", className: "border-rod-600/40 bg-rod-100 text-rod-800" },
   EXPIRED: { label: "Expiré", className: "border-carbon-rose/50 bg-carbon-rose-soft text-carbon-rose" },
   CANCELLED: { label: "Résilié", className: "border-ink-300/50 bg-enamel-200 text-ink-600" },
   PENDING_PAYMENT: { label: "En attente de paiement", className: "border-carbon-amber/50 bg-carbon-amber-soft text-carbon-amber" },

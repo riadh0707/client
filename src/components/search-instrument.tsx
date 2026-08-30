@@ -101,7 +101,7 @@ export function SearchInstrument({
 
       <button
         type="submit"
-        className={`bg-cross-500 font-display font-bold tracking-wide text-cross-950 uppercase transition-colors hover:bg-cross-400 sm:py-0 ${compact ? "px-5 py-3 text-sm" : "px-8 py-4 text-base"}`}
+        className={`bg-rod-500 font-display font-bold tracking-wide text-rod-950 uppercase transition-colors hover:bg-rod-400 sm:py-0 ${compact ? "px-5 py-3 text-sm" : "px-8 py-4 text-base"}`}
       >
         Rechercher
       </button>

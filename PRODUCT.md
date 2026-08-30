@@ -115,6 +115,14 @@ Name: **DOCTORY**. No existing logo, palette, typography, or brand guideline —
 user confirmed a blank slate, so the visual identity is to be created. No inherited
 constraint to preserve.
 
+**The mark is the rod of Asclepius, never a cross.** The first build used the
+green pharmacy cross — accurate to the Algerian street, where it is the sign
+above every pharmacy. The user, who knows this market, ruled it out: carried as a
+platform emblem rather than a shop sign, a cross reads as a Christian symbol to
+much of the audience. This is the same reason the Red Crescent exists beside the
+Red Cross, and it is not a matter of taste to be revisited. The green stays; it
+is the sign green, not the cross.
+
 ## Evidence on Hand
 
 - **None yet.** No real partners, no real patients, no testimonials, no usage

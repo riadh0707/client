@@ -15,7 +15,7 @@ export const STATUS_STYLES: Record<
   },
   CONFIRMED: {
     label: "Confirmé",
-    className: "border-cross-600/40 bg-cross-100 text-cross-800",
+    className: "border-rod-600/40 bg-rod-100 text-rod-800",
   },
   COMPLETED: {
     label: "Terminé",
@@ -72,7 +72,7 @@ export function AppointmentRow({
             {perspective === "patient" ? (
               <Link
                 href={`/partenaire/${appointment.partner.slug}`}
-                className="flex min-h-11 items-center font-display text-base font-bold text-ink-900 hover:text-cross-700 sm:text-lg"
+                className="flex min-h-11 items-center font-display text-base font-bold text-ink-900 hover:text-rod-700 sm:text-lg"
               >
                 {appointment.partner.displayName}
               </Link>
@@ -86,7 +86,7 @@ export function AppointmentRow({
             <StatusBadge status={appointment.status} />
           </div>
 
-          <p className="mt-1 font-display text-sm tabular-nums text-cross-700">
+          <p className="mt-1 font-display text-sm tabular-nums text-rod-700">
             {formatAppointmentDate(appointment.startAt)}
           </p>
 

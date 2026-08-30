@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Abonnements" };
 export const dynamic = "force-dynamic";
 
 const STATUS: Record<string, { label: string; className: string }> = {
-  ACTIVE: { label: "Actif", className: "border-cross-600/40 bg-cross-100 text-cross-800" },
+  ACTIVE: { label: "Actif", className: "border-rod-600/40 bg-rod-100 text-rod-800" },
   EXPIRED: { label: "Expiré", className: "border-carbon-rose/50 bg-carbon-rose-soft text-carbon-rose" },
   CANCELLED: { label: "Résilié", className: "border-ink-300/50 bg-enamel-200 text-ink-600" },
   PENDING_PAYMENT: { label: "Paiement attendu", className: "border-carbon-amber/50 bg-carbon-amber-soft text-carbon-amber" },
@@ -106,13 +106,13 @@ export default async function AdminSubscriptionsPage({
           <form method="get" className="flex items-center gap-2">
             <label htmlFor="statut" className="font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">Statut</label>
             <select id="statut" name="statut" defaultValue={statut}
-              className="border border-enamel-300 bg-white px-2.5 py-1.5 text-sm text-ink-900">
+              className="min-h-11 border border-enamel-300 bg-white px-2.5 py-1.5 text-sm text-ink-900">
               <option value="">Tous</option>
               {Object.entries(STATUS).map(([value, meta]) => (
                 <option key={value} value={value}>{meta.label}</option>
               ))}
             </select>
-            <button type="submit" className="border border-cross-700 px-3 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100">
+            <button type="submit" className="min-h-11 border border-rod-700 px-3 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] text-rod-700 uppercase hover:bg-rod-100">
               Filtrer
             </button>
           </form>
@@ -133,7 +133,10 @@ export default async function AdminSubscriptionsPage({
                 return (
                   <tr key={s.id} className="align-top">
                     <td className="px-3 py-3 text-sm">
-                      <Link href={`/partenaire/${s.partner.slug}`} className="text-ink-900 hover:text-cross-700">
+                      <Link
+                        href={`/partenaire/${s.partner.slug}`}
+                        className="-my-3 flex min-h-11 items-center py-3 text-ink-900 hover:text-rod-700"
+                      >
                         {s.partner.displayName}
                       </Link>
                     </td>

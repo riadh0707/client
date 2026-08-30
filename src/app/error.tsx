@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { RodMark } from "@/components/rod-mark";
 
 /**
  * The uncaught-error boundary.
@@ -30,7 +31,7 @@ export default function ErrorBoundary({
 
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-5 py-16 sm:px-8 sm:py-24">
-      <span aria-hidden className="cross-mark h-10 w-10 text-carbon-rose/40" />
+      <RodMark className="h-12 w-12 text-carbon-rose/40" />
       <h1 className="mt-6 font-display text-3xl font-bold text-ink-900 sm:text-4xl">
         Une erreur est survenue
       </h1>
@@ -44,13 +45,13 @@ export default function ErrorBoundary({
         <button
           type="button"
           onClick={reset}
-          className="inline-flex min-h-11 items-center justify-center bg-cross-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-950 uppercase hover:bg-cross-400"
+          className="inline-flex min-h-11 items-center justify-center bg-rod-500 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-950 uppercase hover:bg-rod-400"
         >
           Réessayer
         </button>
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center justify-center border border-cross-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-cross-700 uppercase hover:bg-cross-100"
+          className="inline-flex min-h-11 items-center justify-center border border-rod-700 px-5 py-3 font-display text-sm font-bold tracking-[0.06em] text-rod-700 uppercase hover:bg-rod-100"
         >
           Retour à l&apos;accueil
         </Link>

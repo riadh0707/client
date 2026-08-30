@@ -171,8 +171,15 @@ export async function searchPartners(
     // pad each page with the same three paid listings.
     sponsored: page === 1 ? sponsored : [],
     items,
-    total: effectiveTotal,
+    // What the visitor is told they found. Sponsored partners match the query
+    // like any other — they are pulled out of the organic set to avoid printing
+    // them twice, not because they are not results — so leaving them out of the
+    // headline produced "0 résultats" above a visible listing. Counted on every
+    // page, so the number does not change under the reader when they paginate.
+    total: effectiveTotal + sponsored.length,
     page,
+    // Pagination still runs over the organic set alone: the sponsored block is
+    // an addition to page one, not a row in the paged sequence.
     pageCount: Math.max(1, Math.ceil(effectiveTotal / PAGE_SIZE)),
   };
 }
