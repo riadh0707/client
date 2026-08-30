@@ -163,7 +163,7 @@ export default async function AdminDashboard() {
                       : VERIFICATION_LABELS.PENDING;
                   return (
                     <span
-                      className={`shrink-0 border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${reason.className}`}
+                      className={`shrink-0 border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${reason.className}`}
                     >
                       {reason.label}
                     </span>

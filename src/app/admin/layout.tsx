@@ -51,7 +51,7 @@ export default async function AdminLayout({
           </nav>
 
           <div className="flex items-center gap-4">
-            <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-cross-800 uppercase">
+            <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-800 uppercase">
               Administration
             </span>
             <form action={signOut}>

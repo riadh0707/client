@@ -44,16 +44,21 @@
   --color-ink-800: #163024;
   --color-ink-600: #405249;
   --color-ink-500: #5b6d64;
-  --color-ink-400: #7d8d85;
-  --color-ink-300: #a3b0a9;
+  /* ink-400 carried meta text at 3.23:1; ink-300 is placeholder-only and still
+     has to be readable, so both were darkened to clear AA. */
+  --color-ink-400: #64756c; /* 4.52:1 on enamel-100 */
+  --color-ink-300: #6b7c74; /* placeholder ink */
 
   /* --- Carbon copy: the Carnet donation. Status coding borrowed from the
          duplicate-book, where each flimsy colour means a different state. ---- */
-  --color-carbon-rose: #e26d7a;
+  /* Each carbon ink is set against its own soft ground, not chosen by eye: the
+     first pass shipped amber at 2.29:1 and rose at 2.62:1 against the very
+     backgrounds they sit on. These clear WCAG AA for body text (>= 4.5:1). */
+  --color-carbon-rose: #b32d3e; /* 5.23:1 on rose-soft */
   --color-carbon-rose-soft: #fbe6e8;
-  --color-carbon-amber: #d99514;
+  --color-carbon-amber: #8a5e00; /* 5.14:1 on amber-soft */
   --color-carbon-amber-soft: #fdf2dc;
-  --color-carbon-blue: #3d7ea6;
+  --color-carbon-blue: #2c6382; /* 5.58:1 on blue-soft */
   --color-carbon-blue-soft: #e3eff6;
 
   /* --- Type ------------------------------------------------------------- */

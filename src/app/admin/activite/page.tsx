@@ -26,7 +26,7 @@ export default async function ActivityLogPage() {
       <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
         Journal d&apos;activité
       </h1>
-      <p className="mt-1 max-w-2xl text-[15px] leading-relaxed text-ink-600">
+      <p className="mt-1 max-w-[52ch] text-[15px] leading-relaxed text-ink-600">
         Cent dernières actions administratives. Le libellé est figé au moment de
         l&apos;action&nbsp;: renommer un partenaire plus tard ne réécrit pas
         l&apos;historique.

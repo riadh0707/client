@@ -84,7 +84,7 @@ export default async function HomePage() {
               <br />
               près de chez vous.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-cross-100 sm:text-xl">
+            <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-cross-100 sm:text-xl">
               Médecins, dentistes, pharmacies, laboratoires et centres
               d&apos;imagerie — cherchés par wilaya, par commune, ou autour de
               vous.
@@ -100,7 +100,7 @@ export default async function HomePage() {
             <div className="flex items-baseline gap-2">
               <dt className="sr-only">Professionnels et établissements</dt>
               <dd className="text-2xl font-bold tabular-nums">{partnerCount}</dd>
-              <span className="text-cross-200">
+              <span className="text-cross-100">
                 professionnels et établissements
               </span>
             </div>
@@ -109,7 +109,7 @@ export default async function HomePage() {
               <dd className="text-2xl font-bold tabular-nums">
                 {wilayasCovered}
               </dd>
-              <span className="text-cross-200">wilayas sur 58</span>
+              <span className="text-cross-100">wilayas sur 58</span>
             </div>
           </dl>
         </div>
@@ -169,7 +169,7 @@ export default async function HomePage() {
                     {category.name}
                   </span>
                   {!category.supportsAppointments && (
-                    <span className="border border-carbon-blue/40 bg-carbon-blue-soft px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-carbon-blue uppercase">
+                    <span className="border border-carbon-blue/40 bg-carbon-blue-soft px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-carbon-blue uppercase">
                       Sans rendez-vous
                     </span>
                   )}
@@ -183,13 +183,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <footer className="mt-auto border-t border-enamel-300 bg-cross-950 text-cross-200">
+      <footer className="mt-auto border-t border-enamel-300 bg-cross-950 text-cross-100">
         <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
           <span className="flex items-center gap-2.5 text-enamel-50">
             <span aria-hidden className="cross-mark h-5 w-5 text-cross-500" />
             <span className="font-display text-lg font-bold">DOCTORY</span>
           </span>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed">
+          <p className="mt-4 max-w-[52ch] text-sm leading-relaxed">
             Plateforme de mise en relation entre patients et professionnels de
             santé en Algérie. Les profils affichés dans cette version sont des
             données de démonstration&nbsp;: ils ne désignent aucun praticien

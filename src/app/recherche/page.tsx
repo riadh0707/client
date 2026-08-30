@@ -65,7 +65,7 @@ export default async function SearchPage({
   return (
     <main className="flex flex-1 flex-col">
       <SiteHeader>
-        <SearchInstrument wilayas={wilayaOptions} />
+        <SearchInstrument wilayas={wilayaOptions} compact />
       </SiteHeader>
 
       <div className="mx-auto grid w-full max-w-6xl flex-1 gap-px bg-ink-900/10 lg:grid-cols-[17rem_1fr]">
@@ -81,7 +81,7 @@ export default async function SearchPage({
             }))}
             wilayas={facets.wilayas.map((w) => ({
               value: String(w.code),
-              label: `${String(w.code).padStart(2, "0")} — ${w.name}`,
+              label: `${String(w.code).padStart(2, "0")} · ${w.name}`,
             }))}
             communes={facets.communes.map((c) => ({
               value: String(c.code),
@@ -96,7 +96,7 @@ export default async function SearchPage({
 
         <section className="bg-enamel-100">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-5 sm:px-6">
-            <h1 className="font-display text-lg font-bold text-ink-900 sm:text-xl">
+            <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
               {results.total} résultat{results.total === 1 ? "" : "s"}
               {describedPlace ? ` à ${describedPlace}` : ""}
             </h1>

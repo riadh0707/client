@@ -139,14 +139,14 @@ export default async function AdminUsersPage({
 
       <form method="get" className="mt-6 flex flex-wrap items-end gap-3 border border-enamel-300 bg-enamel-50 p-4">
         <div className="min-w-[14rem] flex-1">
-          <label htmlFor="q" className="mb-1 block font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+          <label htmlFor="q" className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
             Recherche
           </label>
           <input id="q" name="q" defaultValue={q} placeholder="Nom ou e-mail"
             className="w-full border border-enamel-300 bg-white px-2.5 py-2 text-sm text-ink-900" />
         </div>
         <div>
-          <label htmlFor="role" className="mb-1 block font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+          <label htmlFor="role" className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
             Rôle
           </label>
           <select id="role" name="role" defaultValue={role}
@@ -170,7 +170,7 @@ export default async function AdminUsersPage({
           <thead>
             <tr className="border-b border-enamel-300">
               {["Nom", "E-mail", "Rôle", "Rendez-vous", "Inscrit le", "État", "Action"].map((h) => (
-                <th key={h} className="px-3 py-2.5 font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
+                <th key={h} className="px-3 py-2.5 font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
               ))}
             </tr>
           </thead>
@@ -186,7 +186,7 @@ export default async function AdminUsersPage({
                 <td className="px-3 py-3 text-sm tabular-nums text-ink-600">{user._count.appointments}</td>
                 <td className="px-3 py-3 text-sm tabular-nums text-ink-600">{dateOnly.format(user.createdAt)}</td>
                 <td className="px-3 py-3">
-                  <span className={`border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${
+                  <span className={`border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                     user.isActive
                       ? "border-cross-600/40 bg-cross-100 text-cross-800"
                       : "border-carbon-rose/50 bg-carbon-rose-soft text-carbon-rose"
@@ -198,7 +198,7 @@ export default async function AdminUsersPage({
                   <form action={toggleActive}>
                     <input type="hidden" name="id" value={user.id} />
                     <input type="hidden" name="back" value={back} />
-                    <button type="submit" className={`w-full border px-2 py-1.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${
+                    <button type="submit" className={`w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                       user.isActive
                         ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
                         : "border-cross-700 text-cross-700 hover:bg-cross-100"

@@ -58,7 +58,7 @@ export default async function AdminSubscriptionsPage({
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8 sm:px-8 sm:py-10">
       <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">Abonnements</h1>
 
-      <p className="mt-3 max-w-2xl border border-carbon-blue/40 bg-carbon-blue-soft px-4 py-3 text-[15px] leading-relaxed text-ink-900">
+      <p className="mt-3 max-w-[52ch] border border-carbon-blue/40 bg-carbon-blue-soft px-4 py-3 text-[15px] leading-relaxed text-ink-900">
         Aucun prestataire de paiement n&apos;est raccordé. Les règlements affichés
         sont des références de simulation, et les tarifs des formules restent à
         arrêter avec la cliente.
@@ -78,7 +78,7 @@ export default async function AdminSubscriptionsPage({
             <thead>
               <tr className="border-b border-enamel-300">
                 {["Formule", "Tarif indicatif", "Abonnés actifs", "État"].map((h) => (
-                  <th key={h} className="px-3 py-2.5 font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
+                  <th key={h} className="px-3 py-2.5 font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -104,7 +104,7 @@ export default async function AdminSubscriptionsPage({
             Derniers abonnements
           </h2>
           <form method="get" className="flex items-center gap-2">
-            <label htmlFor="statut" className="font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">Statut</label>
+            <label htmlFor="statut" className="font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">Statut</label>
             <select id="statut" name="statut" defaultValue={statut}
               className="border border-enamel-300 bg-white px-2.5 py-1.5 text-sm text-ink-900">
               <option value="">Tous</option>
@@ -112,7 +112,7 @@ export default async function AdminSubscriptionsPage({
                 <option key={value} value={value}>{meta.label}</option>
               ))}
             </select>
-            <button type="submit" className="border border-cross-700 px-3 py-1.5 font-display text-[10px] font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100">
+            <button type="submit" className="border border-cross-700 px-3 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100">
               Filtrer
             </button>
           </form>
@@ -123,7 +123,7 @@ export default async function AdminSubscriptionsPage({
             <thead>
               <tr className="border-b border-enamel-300">
                 {["Partenaire", "Wilaya", "Formule", "Période", "Règlement", "Statut"].map((h) => (
-                  <th key={h} className="px-3 py-2.5 font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
+                  <th key={h} className="px-3 py-2.5 font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -144,7 +144,7 @@ export default async function AdminSubscriptionsPage({
                     </td>
                     <td className="px-3 py-3 text-sm text-ink-400">{s.paymentReference ?? "—"}</td>
                     <td className="px-3 py-3">
-                      <span className={`border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${meta.className}`}>
+                      <span className={`border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${meta.className}`}>
                         {meta.label}
                       </span>
                     </td>

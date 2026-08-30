@@ -23,21 +23,34 @@ export function SiteHeader({
           </Link>
           <Link
             href="/pro"
-            className="shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline lg:hidden"
+            className={`shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline ${
+              children ? "xl:hidden" : "lg:hidden"
+            }`}
           >
             Espace pro
           </Link>
         </div>
 
-        {children && <div className="min-w-0 flex-1">{children}</div>}
+        {/* The instrument gets a floor width: adding a second nav link squeezed
+            it until the query and wilaya fields both truncated their own
+            placeholders. */}
+        {children && (
+          <div className="min-w-0 flex-1 lg:min-w-[28rem]">{children}</div>
+        )}
 
-        <div className="hidden shrink-0 items-center gap-6 lg:flex">
-          <Link
-            href="/autour-de-moi"
-            className="font-display text-sm font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline"
-          >
-            Autour de moi
-          </Link>
+        <div
+          className={`hidden shrink-0 items-center gap-6 ${
+            children ? "xl:flex" : "lg:flex"
+          }`}
+        >
+          {!children && (
+            <Link
+              href="/autour-de-moi"
+              className="font-display text-sm font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline"
+            >
+              Autour de moi
+            </Link>
+          )}
           <Link
             href="/pro"
             className="font-display text-sm font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline"

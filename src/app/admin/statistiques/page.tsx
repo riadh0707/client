@@ -115,7 +115,7 @@ export default async function StatisticsPage() {
       <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
         Statistiques
       </h1>
-      <p className="mt-1 max-w-2xl text-[15px] leading-relaxed text-ink-600">
+      <p className="mt-1 max-w-[52ch] text-[15px] leading-relaxed text-ink-600">
         Données de démonstration. Les revenus sont calculés à partir des tarifs
         indicatifs des formules, qui ne sont pas encore arrêtés.
       </p>
@@ -177,7 +177,7 @@ export default async function StatisticsPage() {
                 className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-3"
               >
                 <span
-                  className={`border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${style.className}`}
+                  className={`border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${style.className}`}
                 >
                   {style.label}
                 </span>

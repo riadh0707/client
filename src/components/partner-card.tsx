@@ -62,16 +62,16 @@ export function PartnerCard({
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-            <h3 className="font-display text-lg font-bold text-ink-900 sm:text-xl">
+            <h2 className="font-display text-lg font-bold text-ink-900 sm:text-xl">
               {partner.displayName}
-            </h3>
+            </h2>
             {sponsored && (
-              <span className="border border-carbon-amber/50 bg-enamel-50 px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-carbon-amber uppercase">
+              <span className="border border-carbon-amber/50 bg-enamel-50 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-carbon-amber uppercase">
                 Sponsorisé
               </span>
             )}
             {partner.verificationStatus === "VERIFIED" && (
-              <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-cross-800 uppercase">
+              <span className="border border-cross-600/40 bg-cross-100 px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-cross-800 uppercase">
                 Vérifié
               </span>
             )}

@@ -151,7 +151,7 @@ export default async function NearbyPage({
         <h1 className="font-display text-2xl font-bold text-ink-900 sm:text-3xl">
           Professionnels près de vous
         </h1>
-        <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-ink-600">
+        <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-ink-600">
           Autorisez la géolocalisation, ou choisissez simplement votre wilaya et
           votre commune. Les deux fonctionnent.
         </p>
@@ -204,25 +204,29 @@ export default async function NearbyPage({
             </Link>
           </div>
         ) : (
-          <div className="mt-8 grid gap-px bg-ink-900/10 lg:grid-cols-[1fr_20rem]">
-            <div className="flex flex-col gap-px bg-ink-900/10">
-              {nearest.map((partner) => (
-                <PartnerCard key={partner.id} partner={partner} />
-              ))}
-            </div>
-            <aside className="bg-enamel-50">
+          <>
+            {/* The plot leads as a short band rather than a tall sidebar: as a
+                column beside the list it ran a third of the list's height and
+                left the fold buried inside the section. */}
+            <div className="mt-8 grid items-center gap-px bg-ink-900/10 sm:grid-cols-[20rem_1fr]">
               <ProximityPlot
                 centre={centre}
                 points={plotPoints}
                 centreLabel={centreLabel}
               />
-              <p className="px-5 pb-5 text-sm leading-relaxed text-ink-500">
-                Ce plan situe les partenaires les uns par rapport aux autres. Pour
-                un itinéraire, ouvrez une fiche&nbsp;: le bouton renvoie vers une
-                application de cartographie.
+              <p className="max-w-[52ch] bg-enamel-50 p-5 text-[15px] leading-relaxed text-ink-600">
+                Ce plan situe les partenaires les uns par rapport aux autres,
+                nord en haut. Pour un itinéraire, ouvrez une fiche&nbsp;: le
+                bouton renvoie vers une application de cartographie.
               </p>
-            </aside>
-          </div>
+            </div>
+
+            <div className="mt-px flex flex-col gap-px bg-ink-900/10">
+              {nearest.map((partner) => (
+                <PartnerCard key={partner.id} partner={partner} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </main>

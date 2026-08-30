@@ -74,7 +74,7 @@ export default async function PartnerPage({
           nameplate outside a practice, which is the direction's core object. */}
       <section className="bg-cross-700 text-enamel-50">
         <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-12">
-          <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-cross-200">
+          <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-cross-100">
             <Link href="/recherche" className="hover:underline">
               Recherche
             </Link>
@@ -96,7 +96,7 @@ export default async function PartnerPage({
                 Profil vérifié
               </span>
             ) : (
-              <span className="border border-cross-200/40 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-cross-200 uppercase">
+              <span className="border border-cross-200/40 px-2 py-1 font-display text-[11px] font-bold tracking-[0.1em] text-cross-100 uppercase">
                 Non vérifié
               </span>
             )}
@@ -193,9 +193,12 @@ export default async function PartnerPage({
                 {partner.commune.name}, {partner.wilaya.name} (
                 {String(partner.wilaya.code).padStart(2, "0")})
               </p>
+              {/* On an urgent lookup the phone number is the conversion, so it
+                  carries the weight of one on the page rather than sitting at
+                  body size among the address lines. */}
               <a
                 href={`tel:${partner.phone.replace(/\s/g, "")}`}
-                className="mt-4 block font-display text-lg font-bold text-cross-700 hover:underline"
+                className="mt-4 block font-display text-2xl font-bold tracking-[-0.01em] text-cross-700 hover:underline"
               >
                 {partner.phone}
               </a>
@@ -277,7 +280,7 @@ function OpenNow({ state }: { state: OpenState }) {
     );
   }
   return (
-    <span className="font-display text-sm text-cross-200">
+    <span className="font-display text-sm text-cross-100">
       Horaires non renseignés
     </span>
   );

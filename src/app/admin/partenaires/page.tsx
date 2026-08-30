@@ -210,7 +210,7 @@ export default async function AdminPartnersPage({
             value={Number.isFinite(wilayaCode) && wilayaCode > 0 ? String(wilayaCode) : ""}
             options={wilayas.map((w) => ({
               value: String(w.code),
-              label: `${String(w.code).padStart(2, "0")} — ${w.name}`,
+              label: `${String(w.code).padStart(2, "0")} · ${w.name}`,
             }))}
             empty="Toutes"
           />
@@ -377,7 +377,7 @@ function Action({
       <input type="hidden" name="back" value={back} />
       <button
         type="submit"
-        className={`w-full border px-2 py-1.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${
+        className={`w-full border px-2 py-1.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
           tone === "reject"
             ? "border-carbon-rose/60 text-carbon-rose hover:bg-carbon-rose-soft"
             : "border-cross-700 text-cross-700 hover:bg-cross-100"
@@ -392,7 +392,7 @@ function Action({
 function Badge({ label, className }: { label: string; className: string }) {
   return (
     <span
-      className={`inline-block border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${className}`}
+      className={`inline-block border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${className}`}
     >
       {label}
     </span>
@@ -401,7 +401,7 @@ function Badge({ label, className }: { label: string; className: string }) {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-3 py-2.5 font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+    <th className="px-3 py-2.5 font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
       {children}
     </th>
   );
@@ -430,7 +430,7 @@ function Filter({
     <div>
       <label
         htmlFor={htmlFor}
-        className="mb-1 block font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase"
+        className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase"
       >
         {label}
       </label>

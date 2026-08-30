@@ -61,7 +61,7 @@ export default async function ProLayout({
 
           <div className="flex items-center gap-4">
             {isSecretary && (
-              <span className="border border-carbon-blue/40 bg-carbon-blue-soft px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] text-carbon-blue uppercase">
+              <span className="border border-carbon-blue/40 bg-carbon-blue-soft px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] text-carbon-blue uppercase">
                 Secrétaire
               </span>
             )}

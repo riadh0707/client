@@ -41,7 +41,7 @@ function TableView({
 }) {
   return (
     <details className="mt-3">
-      <summary className="cursor-pointer font-display text-[10px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-cross-700">
+      <summary className="cursor-pointer font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase hover:text-cross-700">
         Voir les données
       </summary>
       <div className="mt-2 max-h-64 overflow-y-auto border border-enamel-300">
@@ -49,10 +49,10 @@ function TableView({
           <caption className="sr-only">{caption}</caption>
           <thead>
             <tr className="border-b border-enamel-300">
-              <th className="px-3 py-2 font-display text-[10px] font-bold tracking-[0.1em] text-ink-500 uppercase">
+              <th className="px-3 py-2 font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase">
                 Libellé
               </th>
-              <th className="px-3 py-2 text-right font-display text-[10px] font-bold tracking-[0.1em] text-ink-500 uppercase">
+              <th className="px-3 py-2 text-right font-display text-[11px] font-bold tracking-[0.1em] text-ink-500 uppercase">
                 {unit}
               </th>
             </tr>

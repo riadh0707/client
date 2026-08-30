@@ -62,6 +62,33 @@ const DAIRA_REASSIGNMENT = {
 };
 
 /**
+ * Corrected French wilaya names.
+ *
+ * The source ships most names unaccented, and two are outright corrupted:
+ * "Saefda" for Saïda (the ï mangled into "ef") and "Tbessa" for Tébessa. A
+ * platform built for Algeria in French cannot spell its own provinces wrong, so
+ * these override the source. Only names that differ are listed; the rest pass
+ * through as the dataset has them.
+ */
+const WILAYA_NAME_FIXES = {
+  2: "Chlef",
+  4: "Oum El Bouaghi",
+  8: "Béchar",
+  12: "Tébessa",
+  20: "Saïda",
+  22: "Sidi Bel Abbès",
+  26: "Médéa",
+  28: "M'Sila",
+  34: "Bordj Bou Arréridj",
+  35: "Boumerdès",
+  38: "Tissemsilt",
+  40: "Khenchela",
+  44: "Aïn Defla",
+  45: "Naâma",
+  46: "Aïn Témouchent",
+};
+
+/**
  * The source stores names in caps ("OULED AHMED TIMMI"). Title-case them for
  * display while preserving the particles Algerian toponyms actually use, so we
  * get "Aïn El Hammam" and "Bordj Bou Arréridj", not "Aïn el hammam".
@@ -102,7 +129,7 @@ const seenCommunes = new Set();
 for (const w of source) {
   wilayas.push({
     code: w.mattricule,
-    name: w.name,
+    name: WILAYA_NAME_FIXES[w.mattricule] ?? w.name,
     nameAr: w.name_ar ?? null,
     nameBer: w.name_ber ?? null,
     phoneCodes: w.phoneCodes ?? [],

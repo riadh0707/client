@@ -35,7 +35,7 @@ export function StatusBadge({ status }: { status: string }) {
   const style = STATUS_STYLES[status] ?? STATUS_STYLES.PENDING;
   return (
     <span
-      className={`shrink-0 border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${style.className}`}
+      className={`shrink-0 border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${style.className}`}
     >
       {style.label}
     </span>

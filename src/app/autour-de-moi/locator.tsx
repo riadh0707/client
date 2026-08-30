@@ -94,7 +94,7 @@ export function Locator({
             <option value="">Choisir une wilaya</option>
             {wilayas.map((w) => (
               <option key={w.code} value={w.code}>
-                {String(w.code).padStart(2, "0")} — {w.name}
+                {String(w.code).padStart(2, "0")} · {w.name}
               </option>
             ))}
           </select>

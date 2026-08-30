@@ -56,7 +56,7 @@ export default async function SubscriptionPage() {
                 {current.plan.name}
               </span>
               <span
-                className={`border px-1.5 py-0.5 font-display text-[10px] font-bold tracking-[0.08em] uppercase ${
+                className={`border px-1.5 py-0.5 font-display text-[11px] font-bold tracking-[0.08em] uppercase ${
                   (STATUS_LABELS[current.status] ?? STATUS_LABELS.PENDING_PAYMENT).className
                 }`}
               >
@@ -103,7 +103,7 @@ export default async function SubscriptionPage() {
                 {plan.features.split(",").map((feature) => (
                   <li
                     key={feature}
-                    className="border border-enamel-300 px-2 py-0.5 font-display text-[10px] font-bold tracking-[0.06em] text-ink-500 uppercase"
+                    className="border border-enamel-300 px-2 py-0.5 font-display text-[11px] font-bold tracking-[0.06em] text-ink-500 uppercase"
                   >
                     {feature.replace(/_/g, " ")}
                   </li>

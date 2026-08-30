@@ -17,9 +17,16 @@ type WilayaOption = { code: number; name: string };
 export function SearchInstrument({
   wilayas,
   autoFocus = false,
+  compact = false,
 }: {
   wilayas: WilayaOption[];
   autoFocus?: boolean;
+  /**
+   * Header density. The full-width hero can carry a long example placeholder;
+   * a field sharing a header bar with the wordmark and navigation cannot, and
+   * squeezing the long one there truncated both the query and the wilaya.
+   */
+  compact?: boolean;
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -52,12 +59,12 @@ export function SearchInstrument({
           autoFocus={autoFocus}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Cardiologue, pharmacie, laboratoire…"
-          className="w-full bg-transparent px-4 pt-1 pb-3 text-lg text-ink-900 outline-none placeholder:text-ink-300"
+          placeholder={compact ? "Nom ou spécialité" : "Cardiologue, pharmacie, laboratoire…"}
+          className={`w-full bg-transparent px-4 pt-1 text-ink-900 outline-none placeholder:text-ink-300 ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
         />
       </div>
 
-      <div className="flex-1 bg-enamel-50">
+      <div className={`bg-enamel-50 ${compact ? "flex-[1.1]" : "flex-1"}`}>
         <label
           htmlFor="search-wilaya"
           className="block px-4 pt-3 font-display text-[11px] font-bold tracking-[0.14em] text-ink-500 uppercase"
@@ -69,12 +76,12 @@ export function SearchInstrument({
           name="wilaya"
           value={wilaya}
           onChange={(event) => setWilaya(event.target.value)}
-          className="w-full appearance-none bg-transparent px-4 pt-1 pb-3 text-lg text-ink-900 outline-none"
+          className={`w-full appearance-none bg-transparent px-4 pt-1 text-ink-900 outline-none ${compact ? "pb-2 text-base" : "pb-3 text-lg"}`}
         >
           <option value="">Toute l&apos;Algérie</option>
           {wilayas.map((w) => (
             <option key={w.code} value={w.code}>
-              {String(w.code).padStart(2, "0")} — {w.name}
+              {String(w.code).padStart(2, "0")} · {w.name}
             </option>
           ))}
         </select>
@@ -82,7 +89,7 @@ export function SearchInstrument({
 
       <button
         type="submit"
-        className="bg-cross-500 px-8 py-4 font-display text-base font-bold tracking-wide text-cross-950 uppercase transition-colors hover:bg-cross-400 sm:py-0"
+        className={`bg-cross-500 font-display font-bold tracking-wide text-cross-950 uppercase transition-colors hover:bg-cross-400 sm:py-0 ${compact ? "px-5 py-3 text-sm" : "px-8 py-4 text-base"}`}
       >
         Rechercher
       </button>

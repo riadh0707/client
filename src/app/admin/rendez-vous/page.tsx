@@ -81,7 +81,7 @@ export default async function AdminAppointmentsPage({
         className="mt-6 flex flex-wrap items-end gap-3 border border-enamel-300 bg-enamel-50 p-4"
       >
         <div className="min-w-[14rem] flex-1">
-          <label htmlFor="q" className="mb-1 block font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+          <label htmlFor="q" className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
             Recherche
           </label>
           <input
@@ -93,7 +93,7 @@ export default async function AdminAppointmentsPage({
           />
         </div>
         <div>
-          <label htmlFor="statut" className="mb-1 block font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+          <label htmlFor="statut" className="mb-1 block font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
             Statut
           </label>
           <select
@@ -134,7 +134,7 @@ export default async function AdminAppointmentsPage({
             <thead>
               <tr className="border-b border-enamel-300">
                 {["Patient", "Partenaire", "Wilaya", "Date", "Motif", "Statut"].map((h) => (
-                  <th key={h} className="px-3 py-2.5 font-display text-[10px] font-bold tracking-[0.12em] text-ink-500 uppercase">
+                  <th key={h} className="px-3 py-2.5 font-display text-[11px] font-bold tracking-[0.12em] text-ink-500 uppercase">
                     {h}
                   </th>
                 ))}
