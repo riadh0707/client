@@ -1,0 +1,4 @@
+.claude/settings.local.json
+.impeccable/
+.playwright-cli/
+node_modules/

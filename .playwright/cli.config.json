@@ -1,0 +1,11 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": {
+      "executablePath": "/opt/pw-browsers/chromium",
+      "headless": true,
+      "chromiumSandbox": false,
+      "args": ["--no-sandbox"]
+    }
+  }
+}
