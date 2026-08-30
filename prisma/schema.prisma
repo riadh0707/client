@@ -1,0 +1,506 @@
+// DOCTORY — data model.
+//
+// The governing constraint (PRODUCT.md, principle 3) is that "doctor" must never
+// be the privileged case. A pharmacy, an MRI centre and a cardiologist are the
+// same kind of thing to this schema: a Partner. What differs between them is
+// carried by PartnerCategory rows and the capability flags on them, not by
+// separate tables — so adding "physiotherapist" or "clinic" is a seed row plus
+// content, never a migration of the existing types.
+//
+// Datasource is PostgreSQL. The first build ran on SQLite for a portable demo,
+// and the models were written from the start to survive the move: no SQLite-only
+// type, and the few places a richer database would reach for a native array use
+// a documented delimited string instead. That discipline is what made this a
+// one-line change to the provider rather than a rewrite.
+//
+// Note for a possible MySQL target: this schema carries no `@db.` annotation, so
+// on MySQL every String becomes VARCHAR(191) and the free-text columns — bio,
+// description, body, reason, summary — would silently truncate. PostgreSQL maps
+// String to text, which is why nothing else here had to change.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Geography — the spine. Every partner and every search is anchored here.
+// ---------------------------------------------------------------------------
+
+model Wilaya {
+  code    Int     @id
+  name    String
+  nameAr  String?
+  nameBer String?
+
+  // Centroid of the chef-lieu. Used to centre the map when a visitor picks a
+  // wilaya instead of granting geolocation, and to place demo partners.
+  lat Float
+  lng Float
+
+  phoneCodes  String // comma-separated dialling codes, e.g. "21,23"
+  postalCodes String // comma-separated postal codes
+
+  // Set on the ten wilayas created by the 2019 reform, naming the wilaya they
+  // were carved out of. Null for the historic 48.
+  promotedFrom Int?
+
+  communes Commune[]
+  partners Partner[]
+
+  @@index([name])
+}
+
+model Commune {
+  code   Int    @id
+  name   String
+  nameAr String?
+  daira  String
+
+  wilayaCode Int
+  wilaya     Wilaya @relation(fields: [wilayaCode], references: [code], onDelete: Cascade)
+
+  partners Partner[]
+
+  @@index([wilayaCode])
+  @@index([name])
+}
+
+// ---------------------------------------------------------------------------
+// Identity and access
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  PATIENT
+  PROFESSIONAL
+  SECRETARY
+  ADMIN
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  role         UserRole @default(PATIENT)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  memberships  PartnerMember[]
+  appointments Appointment[]   @relation("PatientAppointments")
+  favorites    Favorite[]
+  notifications Notification[]
+  activityLogs ActivityLog[]
+
+  @@index([role])
+}
+
+enum MemberRole {
+  OWNER
+  SECRETARY
+}
+
+// Joins a user to a partner. A practice can be run by several people, and a
+// secretary is modelled as a membership with reduced rights rather than as a
+// second kind of account — so one person can be owner of their own practice and
+// secretary at another without duplicate identities.
+model PartnerMember {
+  id     String     @id @default(cuid())
+  role   MemberRole @default(OWNER)
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, partnerId])
+  @@index([partnerId])
+}
+
+// ---------------------------------------------------------------------------
+// Partners — one model for practitioners and establishments alike
+// ---------------------------------------------------------------------------
+
+// What kind of partner this is. A row, not an enum, so the client's admin can
+// introduce a category without a deploy. The capability flags say what the
+// category supports; the UI reads them instead of testing the slug, which is
+// what keeps "doctor" from becoming the privileged case in the interface too.
+model PartnerCategory {
+  id     String @id @default(cuid())
+  slug   String @unique // "doctor", "dentist", "pharmacy", "lab", "imaging"
+  name   String
+  nameAr String?
+
+  // Individuals carry a first and last name; establishments carry one trading
+  // name. This drives naming, avatar and profile layout.
+  isIndividual Boolean @default(true)
+
+  // Whether this category books appointments at all. A pharmacy is found and
+  // phoned; a cardiologist is booked.
+  supportsAppointments Boolean @default(true)
+
+  // Whether "open right now" is a meaningful question for this category.
+  supportsOpeningHours Boolean @default(true)
+
+  icon      String?
+  sortOrder Int     @default(0)
+
+  specialties Specialty[]
+  partners    Partner[]
+
+  @@index([sortOrder])
+}
+
+// A specialty belongs to a category: "Cardiologie" under doctor, "Orthodontie"
+// under dentist, "IRM" under imaging. Scoping them prevents the rod-category
+// nonsense a single flat list would allow.
+model Specialty {
+  id     String @id @default(cuid())
+  slug   String @unique
+  name   String
+  nameAr String?
+
+  // Comma-separated search synonyms. Patients type the practitioner noun
+  // ("cardiologue") while the discipline is stored as "Cardiologie", so without
+  // these the brief's own example search returns nothing.
+  aliases String?
+
+  categoryId String
+  category   PartnerCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  partners Partner[]
+
+  @@index([categoryId])
+}
+
+enum PartnerStatus {
+  PENDING // registered, not yet reviewed
+  ACTIVE // live and listed
+  SUSPENDED // hidden by an administrator
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Partner {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  // Individuals fill firstName/lastName; establishments fill businessName.
+  // Which one applies is decided by category.isIndividual, and `displayName`
+  // holds the resolved label so search and sort never branch on category.
+  firstName    String?
+  lastName     String?
+  businessName String?
+  displayName  String
+
+  categoryId String
+  category   PartnerCategory @relation(fields: [categoryId], references: [id])
+
+  specialtyId String?
+  specialty   Specialty? @relation(fields: [specialtyId], references: [id])
+  subSpecialty String?
+
+  bio String?
+
+  wilayaCode Int
+  wilaya     Wilaya @relation(fields: [wilayaCode], references: [code])
+  communeCode Int
+  commune     Commune @relation(fields: [communeCode], references: [code])
+  address     String
+  lat         Float
+  lng         Float
+
+  phone String
+  email String?
+
+  status             PartnerStatus      @default(PENDING)
+  verificationStatus VerificationStatus @default(UNVERIFIED)
+  verifiedAt         DateTime?
+
+  // Average consultation duration in minutes; drives slot generation.
+  slotDurationMinutes Int @default(30)
+
+  photoUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members       PartnerMember[]
+  services      Service[]
+  openingHours  OpeningHours[]
+  timeOff       TimeOff[]
+  appointments  Appointment[]
+  favorites     Favorite[]
+  subscriptions Subscription[]
+  sponsorships  Sponsorship[]
+  verifications VerificationRequest[]
+
+  @@index([categoryId])
+  @@index([wilayaCode])
+  @@index([communeCode])
+  @@index([status])
+  @@index([displayName])
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+
+  // Price in Algerian dinars. Null means "not published", which is common and
+  // must not render as free.
+  priceDzd Int?
+
+  durationMinutes Int?
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId])
+}
+
+// ---------------------------------------------------------------------------
+// Schedule
+// ---------------------------------------------------------------------------
+
+// One row per opening interval. Two rows on the same weekday express a split
+// day (08:00-12:00, 14:00-17:00), which is the Algerian norm and cannot be
+// modelled by a single open/close pair.
+model OpeningHours {
+  id        String @id @default(cuid())
+  weekday   Int // 0 = Sunday ... 6 = Saturday
+  opensAt   String // "08:00", local wall-clock
+  closesAt  String // "12:00"
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, weekday])
+}
+
+// A blocked range: holiday, conference, or a single closed afternoon.
+model TimeOff {
+  id      String   @id @default(cuid())
+  startAt DateTime
+  endAt   DateTime
+  reason  String?
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, startAt])
+}
+
+// ---------------------------------------------------------------------------
+// Appointments
+// ---------------------------------------------------------------------------
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model Appointment {
+  id        String            @id @default(cuid())
+  startAt   DateTime
+  endAt     DateTime
+  status    AppointmentStatus @default(PENDING)
+  reason    String?
+  notes     String? // practitioner-side, never shown to the patient
+
+  patientId String
+  patient   User   @relation("PatientAppointments", fields: [patientId], references: [id], onDelete: Cascade)
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  serviceName String? // denormalised: the service may be renamed or removed later
+
+  cancelledAt     DateTime?
+  cancellationReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([partnerId, startAt])
+  @@index([patientId, startAt])
+  @@index([status])
+}
+
+// ---------------------------------------------------------------------------
+// Patient-side
+// ---------------------------------------------------------------------------
+
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, partnerId])
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Commercial
+// ---------------------------------------------------------------------------
+
+model Plan {
+  id     String @id @default(cuid())
+  slug   String @unique
+  name   String
+  // Placeholder pricing: PRODUCT.md records that the client has not set tiers.
+  priceDzd Int
+  billingPeriodMonths Int @default(1)
+  description String?
+
+  // Comma-separated capability keys the plan unlocks, e.g.
+  // "featured_placement,multi_member,analytics".
+  features String
+
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  subscriptions Subscription[]
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PENDING_PAYMENT
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  status    SubscriptionStatus @default(PENDING_PAYMENT)
+  startsAt  DateTime
+  expiresAt DateTime
+
+  planId String
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  // No payment provider has been chosen (PRODUCT.md). This records how a
+  // subscription was settled so a real provider can be slotted in later; the
+  // demo writes "mock" and the interface says so plainly.
+  paymentMethod    String  @default("mock")
+  paymentReference String?
+
+  createdAt DateTime @default(now())
+
+  @@index([partnerId])
+  @@index([status])
+}
+
+// Paid placement. Kept as its own model with an explicit window so a sponsored
+// result can always be labelled as such at render time — PRODUCT.md forbids
+// covert ranking manipulation.
+model Sponsorship {
+  id      String   @id @default(cuid())
+  startsAt DateTime
+  endsAt   DateTime
+
+  // Higher wins among concurrently sponsored partners.
+  weight Int @default(1)
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId])
+  @@index([startsAt, endsAt])
+}
+
+// ---------------------------------------------------------------------------
+// Trust and operations
+// ---------------------------------------------------------------------------
+
+model VerificationRequest {
+  id     String             @id @default(cuid())
+  status VerificationStatus @default(PENDING)
+
+  // Comma-separated stored document paths supplied by the professional.
+  documents String
+
+  submittedAt DateTime  @default(now())
+  reviewedAt  DateTime?
+  reviewerNote String?
+
+  partnerId String
+  partner   Partner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId])
+  @@index([status])
+}
+
+enum NotificationKind {
+  APPOINTMENT_REQUESTED
+  APPOINTMENT_CONFIRMED
+  APPOINTMENT_CANCELLED
+  APPOINTMENT_REMINDER
+  SUBSCRIPTION_EXPIRING
+  SUBSCRIPTION_EXPIRED
+  VERIFICATION_APPROVED
+  VERIFICATION_REJECTED
+  PARTNER_REGISTERED
+  VERIFICATION_REQUESTED
+}
+
+model Notification {
+  id      String           @id @default(cuid())
+  kind    NotificationKind
+  title   String
+  body    String
+  // Where clicking the notification should land, e.g. "/patient/rendez-vous".
+  href    String?
+  readAt  DateTime?
+  createdAt DateTime       @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+}
+
+// Administrative audit trail: who did what to whom. Required for a platform
+// where staff can suspend accounts and change subscriptions.
+model ActivityLog {
+  id     String @id @default(cuid())
+  action String // "partner.verified", "partner.suspended", "subscription.changed"
+  // Human-readable summary, written at log time so a later rename of the
+  // target does not rewrite history.
+  summary String
+
+  targetType String? // "partner", "user", "subscription"
+  targetId   String?
+
+  actorId String?
+  actor   User?   @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([targetType, targetId])
+}
