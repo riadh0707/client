@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
+import { FavouriteButton } from "@/components/favourite-button";
 import { db } from "@/lib/db";
 import { formatDzd } from "@/lib/format";
 import {
@@ -204,10 +205,12 @@ export default async function PartnerPage({
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-block border border-cross-700 px-3 py-2 font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
+              className="mt-4 block border border-cross-700 px-3 py-2 text-center font-display text-xs font-bold tracking-[0.08em] text-cross-700 uppercase hover:bg-cross-100"
             >
               Itinéraire
             </a>
+
+            <FavouriteButton partnerId={partner.id} slug={partner.slug} />
           </Panel>
 
           <Panel title="Rendez-vous">

@@ -62,6 +62,12 @@ export default async function HomePage() {
               </span>
             </span>
             <Link
+              href="/autour-de-moi"
+              className="ml-auto shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
+            >
+              Autour de moi
+            </Link>
+            <Link
               href="/pro"
               className="shrink-0 font-display text-xs font-bold tracking-[0.1em] text-cross-100 uppercase underline-offset-4 hover:underline sm:text-sm"
             >
