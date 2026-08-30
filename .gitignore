@@ -50,3 +50,6 @@ Client-built.zip
 # Review screenshots dropped in the repo root by browser tooling.
 # Real image assets live in public/, so root-level PNGs are always transient.
 /*.png
+
+# Scratch capture scripts used during review.
+.*.mjs
