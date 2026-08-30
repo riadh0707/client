@@ -162,6 +162,11 @@ model Specialty {
   name   String
   nameAr String?
 
+  // Comma-separated search synonyms. Patients type the practitioner noun
+  // ("cardiologue") while the discipline is stored as "Cardiologie", so without
+  // these the brief's own example search returns nothing.
+  aliases String?
+
   categoryId String
   category   PartnerCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 

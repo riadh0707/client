@@ -66,6 +66,49 @@ type Geography = {
   }[];
 };
 
+/**
+ * Search synonyms per specialty slug. Patients search for the practitioner
+ * ("cardiologue"), not the discipline ("Cardiologie"); the brief's own example
+ * queries are written that way. Plural forms are included because SQLite's LIKE
+ * does no stemming.
+ */
+const SPECIALTY_ALIASES: Record<string, string> = {
+  "Médecine générale": "généraliste,generaliste,médecin généraliste,omnipraticien",
+  Cardiologie: "cardiologue,cardiologues,cœur,coeur",
+  Pédiatrie: "pédiatre,pediatre,pédiatres,enfant,enfants",
+  Gynécologie: "gynécologue,gynecologue,gynécologues,obstétrique",
+  Dermatologie: "dermatologue,dermatologues,peau",
+  Ophtalmologie: "ophtalmologue,ophtalmo,oculiste,yeux,vue",
+  "Oto-rhino-laryngologie": "orl,oto-rhino,gorge,oreille,nez",
+  "Gastro-entérologie": "gastro-entérologue,gastroentérologue,gastro,estomac",
+  Endocrinologie: "endocrinologue,diabète,diabete,thyroïde",
+  Neurologie: "neurologue,neurologues,nerfs",
+  Pneumologie: "pneumologue,poumon,poumons,respiratoire",
+  Rhumatologie: "rhumatologue,articulations,rhumatisme",
+  Psychiatrie: "psychiatre,psychiatres,santé mentale",
+  "Chirurgie générale": "chirurgien,chirurgiens",
+  Orthopédie: "orthopédiste,orthopediste,os,fracture",
+  Urologie: "urologue,urologues,reins",
+  Néphrologie: "néphrologue,nephrologue,rein,reins,dialyse",
+  "Dentisterie générale": "dentiste,dentistes,chirurgien-dentiste,dents",
+  Orthodontie: "orthodontiste,appareil dentaire,bagues",
+  Implantologie: "implant,implants,implantologue",
+  Parodontologie: "parodontiste,gencives",
+  "Chirurgie dentaire": "chirurgien-dentiste,extraction",
+  Pédodontie: "dentiste enfant,pédodontiste",
+  Biochimie: "analyses,bilan sanguin,prise de sang",
+  Hématologie: "sang,numération,nfs",
+  Microbiologie: "bactériologie,prélèvement",
+  Sérologie: "sérologie,anticorps",
+  Anatomopathologie: "biopsie,anapath",
+  Toxicologie: "toxicologie,dépistage",
+  Radiologie: "radiologue,radio,radiographie",
+  Scanner: "scanner,tdm,tomodensitométrie",
+  IRM: "irm,résonance magnétique",
+  Échographie: "échographie,echographie,écho,doppler",
+  Mammographie: "mammographie,mammo,sein",
+};
+
 const CATEGORIES = [
   {
     slug: "doctor",
@@ -310,7 +353,12 @@ async function main() {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "")}`;
       const spec = await db.specialty.create({
-        data: { slug, name, categoryId: created.id },
+        data: {
+          slug,
+          name,
+          categoryId: created.id,
+          aliases: SPECIALTY_ALIASES[name] ?? null,
+        },
       });
       specialties.push({ id: spec.id, name: spec.name });
     }
@@ -387,27 +435,67 @@ async function main() {
     return slug;
   }
 
-  // Distribution: the focus wilayas get a dense population so search, map and
-  // "near me" have something real to show; every other wilaya gets a couple so
-  // no region reads as empty.
-  const plan: { wilayaCode: number; count: number }[] = [];
+  // Distribution: the focus wilayas get every category, dealt round-robin rather
+  // than drawn at random. Random draws left holes — the first build produced a
+  // single pharmacy in Alger and it was not even active, so "Pharmacie à Alger",
+  // one of the brief's own example searches, returned nothing. Guaranteeing three
+  // of each category per focus wilaya, the first two forced active, makes every
+  // example query in the brief resolve.
+  const plan: { wilayaCode: number; categories: (typeof CATEGORIES)[number][] }[] =
+    [];
   for (const w of geo.wilayas) {
-    plan.push({
-      wilayaCode: w.code,
-      count: FOCUS_WILAYAS.includes(w.code) ? 14 : 2,
-    });
+    if (FOCUS_WILAYAS.includes(w.code)) {
+      const dealt: (typeof CATEGORIES)[number][] = [];
+      // Doctors carry 17 specialties, so three of them leaves most
+      // specialty+wilaya pairs empty — "Cardiologue à Oran" among them. Six
+      // doctors and four dentists, with specialties dealt round-robin below,
+      // makes the common disciplines present in every dense wilaya.
+      const roundsByCategory: Record<string, number> = {
+        doctor: 6,
+        dentist: 4,
+        pharmacy: 3,
+        lab: 3,
+        imaging: 3,
+      };
+      for (const category of CATEGORIES) {
+        for (let round = 0; round < (roundsByCategory[category.slug] ?? 3); round += 1) {
+          dealt.push(category);
+        }
+      }
+      plan.push({ wilayaCode: w.code, categories: dealt });
+    } else {
+      plan.push({
+        wilayaCode: w.code,
+        categories: [pick(CATEGORIES), pick(CATEGORIES)],
+      });
+    }
   }
 
-  for (const { wilayaCode, count } of plan) {
+  for (const { wilayaCode, categories: dealtCategories } of plan) {
+    const isFocus = FOCUS_WILAYAS.includes(wilayaCode);
     const wilaya = wilayaByCode.get(wilayaCode);
     const communes = communesByWilaya.get(wilayaCode) ?? [];
     if (!wilaya || communes.length === 0) continue;
 
-    for (let i = 0; i < count; i += 1) {
-      const category = pick(CATEGORIES);
+    // Counts how many of each category have been created in this wilaya, so the
+    // first two of each can be forced active.
+    const madeInWilaya = new Map<string, number>();
+
+    for (let i = 0; i < dealtCategories.length; i += 1) {
+      const category = dealtCategories[i];
+      const madeSoFar = madeInWilaya.get(category.slug) ?? 0;
+      madeInWilaya.set(category.slug, madeSoFar + 1);
+      const forceActive = madeSoFar < 2;
       const commune = pick(communes);
       const specialties = specialtiesByCategory.get(category.slug) ?? [];
-      const specialty = specialties.length > 0 ? pick(specialties) : null;
+      // Round-robin in the dense wilayas guarantees specialty spread; elsewhere
+      // a random draw is fine because those wilayas hold only two partners.
+      const specialty =
+        specialties.length === 0
+          ? null
+          : isFocus
+            ? specialties[madeSoFar % specialties.length]
+            : pick(specialties);
 
       const female = rand() > 0.5;
       const firstName = pick(female ? FIRST_NAMES_F : FIRST_NAMES_M);
@@ -429,7 +517,13 @@ async function main() {
             : category.slug === "lab"
               ? pick(LAB_PREFIXES)
               : pick(IMAGING_PREFIXES);
-        businessName = `${prefix} — ${commune.name}`;
+        const isDuty =
+          category.slug === "pharmacy" &&
+          FOCUS_WILAYAS.includes(wilaya.code) &&
+          madeSoFar === 0;
+        businessName = isDuty
+          ? `${prefix} — ${commune.name} (garde)`
+          : `${prefix} — ${commune.name}`;
         displayName = businessName;
       }
 
@@ -439,7 +533,16 @@ async function main() {
       const lng = wilaya.lng + (rand() - 0.5) * 0.2;
 
       const roll = rand();
-      const status = roll > 0.92 ? "PENDING" : roll > 0.88 ? "SUSPENDED" : "ACTIVE";
+      // A share of pending and suspended partners is what makes the admin
+      // moderation queue worth looking at, but it must not eat the guaranteed
+      // coverage the focus wilayas exist to provide.
+      const status = forceActive
+        ? "ACTIVE"
+        : roll > 0.92
+          ? "PENDING"
+          : roll > 0.88
+            ? "SUSPENDED"
+            : "ACTIVE";
       const verifyRoll = rand();
       const verificationStatus =
         status !== "ACTIVE"
@@ -479,9 +582,28 @@ async function main() {
       });
       partnerIds.push(partner.id);
 
+      // Pharmacies de garde are a real fixture of Algerian health provision and
+      // the only partners open outside business hours. One per dense wilaya, so
+      // "ouvert maintenant" returns something whatever the hour of the demo.
+      const isDutyPharmacy =
+        category.slug === "pharmacy" && isFocus && madeSoFar === 0;
+
+      if (isDutyPharmacy) {
+        for (let weekday = 0; weekday < 7; weekday += 1) {
+          await db.openingHours.create({
+            data: {
+              partnerId: partner.id,
+              weekday,
+              opensAt: "00:00",
+              closesAt: "23:59",
+            },
+          });
+        }
+      }
+
       // Opening hours: Algerian practices commonly split the day and close
       // Friday. Weekday 5 (Friday) is skipped; 6 (Saturday) is a working day.
-      for (const weekday of [0, 1, 2, 3, 4, 6]) {
+      for (const weekday of isDutyPharmacy ? [] : [0, 1, 2, 3, 4, 6]) {
         if (weekday === 6 && rand() > 0.6) continue;
         await db.openingHours.create({
           data: {
