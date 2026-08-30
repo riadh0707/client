@@ -47,7 +47,7 @@ export default async function HomePage() {
             sits below the header so it never muddies the navigation. */}
         <div
           aria-hidden
-          className="cross-mark pointer-events-none absolute top-24 -right-32 hidden h-[30rem] w-[30rem] text-cross-600/60 lg:block xl:-right-24 xl:h-[34rem] xl:w-[34rem]"
+          className="cross-mark pointer-events-none absolute top-28 right-10 hidden h-[19rem] w-[19rem] text-cross-600 opacity-55 lg:block xl:right-16 xl:h-[22rem] xl:w-[22rem]"
         />
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pt-8 pb-12 sm:px-8 sm:pt-10 sm:pb-16">
