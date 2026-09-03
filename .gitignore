@@ -1,0 +1,13 @@
+/config/config.php
+/database/*.sqlite
+
+# Le contenu téléversé par l'utilisateur n'est pas suivi. Les fichiers de
+# démonstration, les .htaccess protecteurs et les .gitkeep sont réintégrés
+# (les dossiers restent présents à la livraison).
+/uploads/**
+!/uploads/**/
+!/uploads/**/.gitkeep
+!/uploads/**/.htaccess
+
+.DS_Store
+*.log
