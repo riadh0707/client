@@ -18,7 +18,7 @@ if (is_post()) {
     csrf_check();
     $oid = (int) input('id');
     switch (input('action')) {
-        case 'validate': mark_order_paid($oid); flash('Paiement validé — accès aux titres débloqué pour le client.'); break;
+        case 'validate': mark_order_paid($oid); flash('Paiement validé, accès aux titres débloqué pour le client.'); break;
         case 'cancel':   Database::run("UPDATE orders SET status='cancelled' WHERE id=?", [$oid]); flash('Commande annulée.'); break;
         case 'reopen':   Database::run("UPDATE orders SET status='awaiting' WHERE id=?", [$oid]); flash('Commande remise en attente.'); break;
     }
@@ -57,11 +57,11 @@ require_once INCLUDES_PATH . '/admin_layout.php';
     <div>
       <div class="a-panel">
         <h3 style="margin-bottom:14px">Client</h3>
-        <p style="line-height:1.9;margin:0"><strong><?php h($detail['customer_name']); ?></strong><br><?= icon('phone') ?> <?php h($detail['phone']); ?><br><?= icon('mail') ?> <?php h($detail['email'] ?: '—'); ?></p>
+        <p style="line-height:1.9;margin:0"><strong><?php h($detail['customer_name']); ?></strong><br><?= icon('phone') ?> <?php h($detail['phone']); ?><br><?= icon('mail') ?> <?php h($detail['email'] ?: 'Non renseigné'); ?></p>
       </div>
       <div class="a-panel">
         <h3 style="margin-bottom:14px"><?= icon('wallet') ?> Paiement BaridiMob</h3>
-        <p style="margin:0 0 8px"><span class="a-tag">Réf. transaction</span><br><strong style="font-family:monospace;font-size:1.05rem"><?= $detail['payment_ref'] ? e($detail['payment_ref']) : '— non fournie —' ?></strong></p>
+        <p style="margin:0 0 8px"><span class="a-tag">Réf. transaction</span><br><strong style="font-family:monospace;font-size:1.05rem"><?= $detail['payment_ref'] ? e($detail['payment_ref']) : 'Non fournie' ?></strong></p>
         <?php if ($detail['receipt_file'] && is_file(UPLOADS_PATH . '/receipts/' . $detail['receipt_file'])): ?>
           <a href="<?php h(url('uploads/receipts/' . $detail['receipt_file'])); ?>" target="_blank" class="a-btn ghost sm"><?= icon('eye') ?> Voir le reçu</a>
         <?php endif; ?>
@@ -94,7 +94,7 @@ require_once INCLUDES_PATH . '/admin_layout.php';
           <td><strong><?php h($o['reference']); ?></strong></td>
           <td><?php h($o['customer_name']); ?></td>
           <td><strong><?= money($o['total']) ?></strong></td>
-          <td><?php h($o['payment_ref'] ?: '—'); ?></td>
+          <td><?php h($o['payment_ref'] ?: '-'); ?></td>
           <td><span class="a-pill st-<?php h($o['status']); ?>"><?php h($statuses[$o['status']] ?? $o['status']); ?></span></td>
           <td><?php h(fdate($o['created_at'])); ?></td>
           <td><a class="a-iconlink" href="<?php h(url('admin/orders.php?view=' . $o['id'])); ?>"><?= icon('eye') ?></a></td>

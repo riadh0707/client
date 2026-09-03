@@ -1,5 +1,5 @@
 <?php
-/** components.php — Fragments d'interface réutilisables (DRY). */
+/** components.php - Fragments d'interface réutilisables (DRY). */
 require_once __DIR__ . '/icons.php';
 
 /** Carte livre (grilles catalogue / accueil). */

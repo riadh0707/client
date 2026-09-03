@@ -1,5 +1,5 @@
 <?php
-/** build_sql.php — Génère database.sql (schéma + données). CLI : php database/build_sql.php */
+/** build_sql.php - Génère database.sql (schéma + données). CLI : php database/build_sql.php */
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/data.php';
 require_once __DIR__ . '/seed_map.php';
@@ -15,7 +15,7 @@ $schema = file_get_contents(__DIR__ . '/schema_mysql.sql');
 $map = seed_map(demo_data());
 
 $out  = "-- ============================================================================\n";
-$out .= "--  La Bibliothèque Numérique — base complète (schéma + démo)\n";
+$out .= "--  La Bibliothèque Numérique : base complète (schéma + démo)\n";
 $out .= "--  MySQL 8 / utf8mb4. Admin: admin@bibliotheque-numerique.dz / admin123\n";
 $out .= "--  Client: client@bibliotheque-numerique.dz / client123\n";
 $out .= "-- ============================================================================\n\n";

@@ -22,7 +22,7 @@ require_once INCLUDES_PATH . '/admin_layout.php';
   <div class="a-grid-2">
     <div class="a-panel">
       <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px"><span class="a-avatar" style="width:60px;height:60px;font-size:1.2rem"><?php h(initials($detail['first_name'].' '.$detail['last_name'])); ?></span><div><h2><?php h($detail['first_name'].' '.$detail['last_name']); ?></h2><span style="color:var(--a-muted)"><?php h($detail['email']); ?></span></div></div>
-      <p style="line-height:1.9"><?= icon('phone') ?> <?php h($detail['phone'] ?: '—'); ?><br><?= icon('clock') ?> Inscrite le <?php h(fdate($detail['created_at'])); ?></p>
+      <p style="line-height:1.9"><?= icon('phone') ?> <?php h($detail['phone'] ?: 'Non renseigné'); ?><br><?= icon('clock') ?> Inscrite le <?php h(fdate($detail['created_at'])); ?></p>
       <h3 style="margin:16px 0 8px">Bibliothèque (<?= count($ownedBooks) ?>)</h3>
       <?php foreach ($ownedBooks as $ob): ?><span class="a-tag" style="margin:2px;display:inline-block"><?= icon('book') ?> <?php h(excerpt($ob['title'],30)); ?></span><?php endforeach; ?>
     </div>

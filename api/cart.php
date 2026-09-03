@@ -1,5 +1,5 @@
 <?php
-/** api/cart.php — Panier de livres (1 exemplaire par livre). */
+/** api/cart.php - Panier de livres (1 exemplaire par livre). */
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once INCLUDES_PATH . '/queries.php';
 

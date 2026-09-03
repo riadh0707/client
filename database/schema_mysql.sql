@@ -1,5 +1,5 @@
 -- ============================================================================
---  La Bibliothèque Numérique — Schéma MySQL 8 (utf8mb4)
+--  La Bibliothèque Numérique - Schéma MySQL 8 (utf8mb4)
 --  PDO · InnoDB · clés étrangères · index · timestamps · soft delete
 --  Une seule base (compatible AwardSpace Free).
 -- ============================================================================
@@ -58,7 +58,7 @@ CREATE TABLE books (
   language VARCHAR(40) NULL,
   file_type VARCHAR(10) NOT NULL DEFAULT 'pdf', -- 'pdf' | 'pptx' (lecteur utilisé)
   pdf_file VARCHAR(190) NULL,                   -- fichier complet (protégé) : PDF ou PPTX
-  preview_file VARCHAR(190) NULL,              -- PDF d'aperçu (N premières pages) — PDF uniquement
+  preview_file VARCHAR(190) NULL,              -- PDF d'aperçu (N premières pages) - PDF uniquement
   cover_image VARCHAR(190) NULL,
   is_featured TINYINT(1) NOT NULL DEFAULT 0,
   is_new TINYINT(1) NOT NULL DEFAULT 0,

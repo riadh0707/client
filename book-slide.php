@@ -1,6 +1,6 @@
 <?php
 /**
- * book-slide.php — Diffusion contrôlée des images d'une présentation PowerPoint.
+ * book-slide.php - Diffusion contrôlée des images d'une présentation PowerPoint.
  *   ?slug=<slug>&slide=<n>&i=<k>   → k-ième image de la diapositive n
  *
  * Les images des diapositives au-delà de l'aperçu gratuit ne sont servies

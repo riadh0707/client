@@ -1,5 +1,5 @@
 <?php
-/** admin_pagination.php — pagination réutilisable admin. Attend $pg. */
+/** admin_pagination.php - pagination réutilisable admin. Attend $pg. */
 if (($pg['pages'] ?? 1) > 1): $qs = $_GET; ?>
 <div style="display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap">
   <?php for ($i = 1; $i <= $pg['pages']; $i++): $qs['page'] = $i; ?>

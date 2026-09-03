@@ -1,6 +1,6 @@
 <?php
 /**
- * pdf.php — Outils PDF (pur PHP via FPDI + FPDF, bundlés dans /lib/vendor).
+ * pdf.php - Outils PDF (pur PHP via FPDI + FPDF, bundlés dans /lib/vendor).
  *
  * - pdf_page_count()  : nombre de pages d'un PDF.
  * - pdf_make_preview(): génère un PDF d'aperçu = N premières pages.

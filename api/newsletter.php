@@ -1,5 +1,5 @@
 <?php
-/** api/newsletter.php — Inscription newsletter. */
+/** api/newsletter.php - Inscription newsletter. */
 require_once __DIR__ . '/../includes/bootstrap.php';
 $body = json_decode(file_get_contents('php://input'), true) ?: [];
 if (is_post()) { csrf_check(); }

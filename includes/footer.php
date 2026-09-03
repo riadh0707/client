@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <?= date('Y') ?> <?php h(setting('site_name', 'La Bibliothèque Numérique')); ?> — المكتبة الرقمية. Conçu avec ♥ en Algérie.</span>
+      <span>© <?= date('Y') ?> <?php h(setting('site_name', 'La Bibliothèque Numérique')); ?> · المكتبة الرقمية. Conçu avec ♥ en Algérie.</span>
       <div class="pay-icons"><span>BaridiMob</span><span>CCP</span><span>Edahabia</span></div>
     </div>
   </div>

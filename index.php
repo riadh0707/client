@@ -24,7 +24,7 @@ require_once INCLUDES_PATH . '/header.php';
       <div class="hero-copy">
         <span class="eyebrow">La bibliothèque numérique</span>
         <h1>Des livres et des présentations à <em>lire</em> en ligne</h1>
-        <p>Ouvrages PDF et présentations PowerPoint — feuilletez un aperçu gratuit, puis lisez le titre entier en ligne après votre achat.</p>
+        <p>Ouvrages PDF et présentations PowerPoint, feuilletez un aperçu gratuit, puis lisez le titre entier en ligne après votre achat.</p>
         <div class="hero-cta">
           <a href="<?php h(url('catalogue.php')); ?>" class="btn btn-lg"><?= icon('library') ?> Découvrir les livres</a>
           <?php if ($heroBook): ?><a href="<?php h(url('lire.php?slug=' . $heroBook['slug'])); ?>" class="btn btn-outline btn-lg"><?= icon('book-open') ?> Lire un aperçu</a><?php endif; ?>
@@ -34,10 +34,10 @@ require_once INCLUDES_PATH . '/header.php';
       <div class="book-3d">
         <div class="book">
           <span class="spine"></span><span class="pages"></span>
-          <a class="cover" href="<?php h(url('livre.php?slug=' . $heroBook['slug'])); ?>"><img src="<?php h(upload_url($heroBook['cover_image'] ?? null, 'covers', $heroBook['title'])); ?>" alt="<?php h($heroBook['title']); ?>"></a>
+          <a class="cover" href="<?php h(url('livre.php?slug=' . $heroBook['slug'])); ?>"><img src="<?php h(upload_url(null, 'covers', '')); ?>" alt="<?php h($heroBook['title']); ?>"></a>
         </div>
         <div class="hero-float" style="top:8%;left:2%"><span class="fi"><?= icon('book-open') ?></span><div><small>Aperçu</small><strong>Gratuit</strong></div></div>
-        <div class="hero-float" style="bottom:10%;right:2%;animation-delay:1.2s"><span class="fi"><?= icon('star') ?></span><div><small>Lectrices</small><strong>4,9 / 5</strong></div></div>
+        <div class="hero-float" style="bottom:10%;right:2%;animation-delay:1.2s"><span class="fi"><?= icon('star') ?></span><div><small>Lecteurs</small><strong>4,9 / 5</strong></div></div>
       </div>
       <?php endif; ?>
     </div>
@@ -93,7 +93,7 @@ require_once INCLUDES_PATH . '/header.php';
         <div class="bc-rating" style="margin-bottom:12px"><?= star_rating((float) $heroBook['rating'], true) ?> <span>· <?= (int) $heroBook['pages_count'] ?> pages</span></div>
         <p style="color:var(--muted);font-family:var(--font-serif);font-size:1.2rem"><?php h($heroBook['long_desc']); ?></p>
         <div class="hero-cta" style="margin-top:20px">
-          <a href="<?php h(url('livre.php?slug=' . $heroBook['slug'])); ?>" class="btn btn-lg"><?= e(book_price_label($heroBook)) ?> — Voir le livre</a>
+          <a href="<?php h(url('livre.php?slug=' . $heroBook['slug'])); ?>" class="btn btn-lg">Voir le livre · <?= e(book_price_label($heroBook)) ?></a>
           <a href="<?php h(url('lire.php?slug=' . $heroBook['slug'])); ?>" class="btn btn-ghost btn-lg"><?= icon('book-open') ?> Aperçu gratuit</a>
         </div>
       </div>

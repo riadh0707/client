@@ -1,5 +1,5 @@
 <?php
-/** api/search.php — Suggestions de recherche instantanée. */
+/** api/search.php - Suggestions de recherche instantanée. */
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once INCLUDES_PATH . '/queries.php';
 $q = trim((string) ($_GET['q'] ?? ''));

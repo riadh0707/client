@@ -1,5 +1,5 @@
 <?php
-/** api/wishlist.php — Liste de lecture (favoris). */
+/** api/wishlist.php - Liste de lecture (favoris). */
 require_once __DIR__ . '/../includes/bootstrap.php';
 $body = json_decode(file_get_contents('php://input'), true) ?: [];
 if (is_post()) { csrf_check(); }

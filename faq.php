@@ -4,7 +4,7 @@ require_once INCLUDES_PATH . '/components.php';
 $faqs = [
   'Aperçu & lecture' => [
     ['Puis-je lire avant d\'acheter ?', 'Oui ! Chaque titre propose un aperçu gratuit : les premières pages d\'un livre PDF, ou les premières diapositives d\'une présentation (le nombre est fixé par notre équipe). Cliquez sur « Aperçu gratuit ».'],
-    ['Quels formats proposez-vous ?', 'Deux formats. Les livres PDF s\'ouvrent dans la visionneuse du navigateur ; les présentations PowerPoint (.pptx) sont affichées diapositive par diapositive, avec leurs titres, listes, tableaux et images — sans avoir PowerPoint installé.'],
+    ['Quels formats proposez-vous ?', 'Deux formats. Les livres PDF s\'ouvrent dans la visionneuse du navigateur ; les présentations PowerPoint (.pptx) sont affichées diapositive par diapositive, avec leurs titres, listes, tableaux et images, sans avoir PowerPoint installé.'],
     ['Comment lire un titre acheté ?', 'Après validation de votre paiement, le titre s\'ouvre en lecture en ligne dans « Ma bibliothèque ». Aucun logiciel requis.'],
     ['Le fichier est-il téléchargeable ?', 'Les livres PDF se lisent en ligne, pour protéger le travail des auteurs. Les présentations PowerPoint achetées peuvent en plus être téléchargées au format .pptx. Votre accès est permanent.'],
   ],

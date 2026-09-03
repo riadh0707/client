@@ -68,7 +68,7 @@ require_once INCLUDES_PATH . '/header.php';
 <section class="section-sm">
   <div class="container">
     <h1 style="margin-bottom:6px">Finaliser ma commande</h1>
-    <p style="color:var(--muted);margin-bottom:24px">Paiement par <strong>BaridiMob</strong> — votre accès est débloqué dès validation par notre équipe.</p>
+    <p style="color:var(--muted);margin-bottom:24px">Paiement par <strong>BaridiMob</strong>, votre accès est débloqué dès validation par notre équipe.</p>
 
     <?php if ($errors): ?><div class="card-panel" style="border-left:4px solid var(--danger);margin-bottom:20px"><?php foreach ($errors as $er): ?><div style="color:var(--danger)"><?= icon('close') ?> <?php h($er); ?></div><?php endforeach; ?></div><?php endif; ?>
 
@@ -113,7 +113,7 @@ require_once INCLUDES_PATH . '/header.php';
         <?php if ($discount > 0): ?><div class="summary-row"><span>Réduction</span><strong style="color:var(--success)">-<?= money($discount) ?></strong></div><?php endif; ?>
         <div class="summary-row total"><span>Total</span><strong><?= money($total) ?></strong></div>
         <button class="btn btn-block btn-lg" style="margin-top:16px" type="submit">Valider ma commande</button>
-        <p style="color:var(--muted);font-size:.78rem;margin-top:12px;text-align:center">Les titres sont numériques — aucune livraison. Lecture en ligne après validation.</p>
+        <p style="color:var(--muted);font-size:.78rem;margin-top:12px;text-align:center">Les titres sont numériques, aucune livraison. Lecture en ligne après validation.</p>
       </aside>
     </form>
   </div>

@@ -36,7 +36,7 @@ require_once INCLUDES_PATH . '/admin_layout.php';
       $hasFile = $b['pdf_file'] && is_file(UPLOADS_PATH . '/pdf/' . basename($b['pdf_file'])); ?>
       <tr>
         <td><div class="a-prodcell"><img class="thumb" src="<?php h(upload_url($b['cover_image'] ?? null, 'covers', $b['title'])); ?>" alt=""><div><strong><?php h(excerpt($b['title'], 32)); ?></strong><br><span class="a-tag"><?php h($b['author']); ?></span></div></div></td>
-        <td><?php h($b['cat_name'] ?? '—'); ?></td>
+        <td><?php h($b['cat_name'] ?? '-'); ?></td>
         <td><strong><?= e(book_price_label($b)) ?></strong><?php if ($b['old_price'] > $b['price']): ?><br><span class="a-tag" style="text-decoration:line-through"><?= money($b['old_price']) ?></span><?php endif; ?></td>
         <td><span class="a-tag"><?= e(book_format_label($b)) ?></span></td>
         <td><?= (int) $b['pages_count'] ?> <?= book_is_slides($b) ? 'dia.' : 'p.' ?> / <?= (int) $b['preview_pages'] ?> aperçu</td>

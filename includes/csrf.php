@@ -1,6 +1,6 @@
 <?php
 /**
- * csrf.php — protection CSRF par jeton de session + limitation de débit.
+ * csrf.php - protection CSRF par jeton de session + limitation de débit.
  */
 
 function csrf_token(): string

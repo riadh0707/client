@@ -1,5 +1,5 @@
 <?php
-/** seed_map.php — demo_data() → plan d'insertion [table => [columns, rows]]. */
+/** seed_map.php - demo_data() → plan d'insertion [table => [columns, rows]]. */
 function seed_map(array $d): array
 {
     $map = [];

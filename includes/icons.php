@@ -1,6 +1,6 @@
 <?php
 /**
- * icons.php — Bibliothèque d'icônes SVG en ligne (aucune dépendance externe).
+ * icons.php - Bibliothèque d'icônes SVG en ligne (aucune dépendance externe).
  * Usage : icon('cart'), icon('heart', 'my-class')
  */
 function icon(string $name, string $class = ''): string

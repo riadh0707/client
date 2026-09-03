@@ -1,6 +1,6 @@
 <?php
 /**
- * Bootstrap — point d'entrée commun à toutes les pages.
+ * Bootstrap - point d'entrée commun à toutes les pages.
  * Charge la configuration, initialise la session, la base de données,
  * les helpers, la sécurité et les variables globales de la boutique.
  */
@@ -82,6 +82,6 @@ require_once INCLUDES_PATH . '/csrf.php';
 require_once INCLUDES_PATH . '/auth.php';
 
 /* -------------------------------------------------------------------------
- |  Paramètres de la boutique (table settings) — mis en cache en session
+ |  Paramètres de la boutique (table settings), mis en cache en session
  * ------------------------------------------------------------------------- */
 $GLOBALS['settings'] = load_settings();

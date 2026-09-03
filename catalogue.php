@@ -32,7 +32,7 @@ require_once INCLUDES_PATH . '/header.php';
   <div class="container">
     <div style="margin-bottom:26px">
       <h1 style="margin-bottom:6px"><?php h($heading); ?></h1>
-      <p style="color:var(--muted)"><?= (int) $res['total'] ?> livre(s) — feuilletez un aperçu gratuit avant d'acheter.</p>
+      <p style="color:var(--muted)"><?= (int) $res['total'] ?> titre(s), feuilletez un aperçu gratuit avant d'acheter.</p>
     </div>
 
     <div class="shop-layout">

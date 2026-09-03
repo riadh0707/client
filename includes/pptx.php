@@ -1,6 +1,6 @@
 <?php
 /**
- * pptx.php — Lecture des présentations PowerPoint (.pptx) en PHP pur.
+ * pptx.php - Lecture des présentations PowerPoint (.pptx) en PHP pur.
  *
  * Un .pptx est une archive ZIP de fichiers XML (Office Open XML). On l'ouvre
  * avec ZipArchive (disponible partout, AwardSpace inclus) et on en extrait :
@@ -13,7 +13,7 @@
  *
  * Aucune conversion externe (LibreOffice, API) n'est nécessaire : le lecteur
  * du site restitue les diapositives en HTML. Si le fichier est illisible, les
- * fonctions renvoient 0 / [] / null — l'appelant gère le repli.
+ * fonctions renvoient 0 / [] / null - l'appelant gère le repli.
  */
 
 const PPTX_NS_A = 'http://schemas.openxmlformats.org/drawingml/2006/main';

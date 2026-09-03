@@ -55,7 +55,7 @@ require_once INCLUDES_PATH . '/header.php';
         </div>
 
         <?php if ($owned): ?>
-          <div class="bd-owned-banner"><?= icon('unlock') ?> Vous possédez <?= e($noun) ?> — bonne lecture !</div>
+          <div class="bd-owned-banner"><?= icon('unlock') ?> Vous possédez <?= e($noun) ?>, bonne lecture !</div>
           <div class="bd-buy">
             <a href="<?php h(url('lire.php?slug=' . $b['slug'])); ?>" class="btn btn-lg"><?= icon('book-open') ?> <?= $isSlides ? 'Voir la présentation complète' : 'Lire le livre complet' ?></a>
             <?php if ($isSlides): ?><a href="<?php h(url('book-pdf.php?slug=' . urlencode($b['slug']) . '&mode=full&download=1')); ?>" class="btn btn-outline btn-lg"><?= icon('download') ?> Télécharger le .pptx</a><?php endif; ?>
@@ -92,7 +92,7 @@ require_once INCLUDES_PATH . '/header.php';
         <p style="max-width:760px;color:var(--muted);font-family:var(--font-serif);font-size:1.18rem"><?php h($b['long_desc']); ?></p>
         <table class="spec-table" style="max-width:520px;margin-top:20px">
           <tr><td>Auteur</td><td><?php h($b['author']); ?></td></tr>
-          <tr><td>Rayon</td><td><?php h($b['category_name'] ?? '—'); ?></td></tr>
+          <tr><td>Rayon</td><td><?php h($b['category_name'] ?? '-'); ?></td></tr>
           <tr><td><?= $isSlides ? 'Diapositives' : 'Pages' ?></td><td><?= (int) $b['pages_count'] ?></td></tr>
           <tr><td>Langue</td><td><?php h($b['language']); ?></td></tr>
           <tr><td>Format</td><td><?= e(book_format_label($b)) ?> · lecture en ligne<?= $isSlides ? ' + téléchargement après achat' : '' ?></td></tr>

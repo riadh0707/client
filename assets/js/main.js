@@ -1,5 +1,5 @@
 /* ============================================================================
-   La Bibliothèque Numérique — interactions (Vanilla JS)
+   La Bibliothèque Numérique - interactions (Vanilla JS)
    ========================================================================== */
 'use strict';
 

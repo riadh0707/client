@@ -1,6 +1,6 @@
 <?php
 /**
- * auth.php — authentification clients & administrateurs.
+ * auth.php - authentification clients & administrateurs.
  * Mots de passe hachés (password_hash), sessions séparées client/admin.
  */
 

@@ -1,5 +1,5 @@
 <?php
-/** api/coupon.php — Application d'un code promo au panier. */
+/** api/coupon.php - Application d'un code promo au panier. */
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once INCLUDES_PATH . '/queries.php';
 $body = json_decode(file_get_contents('php://input'), true) ?: [];

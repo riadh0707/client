@@ -1,7 +1,7 @@
 <?php
 /**
- * placeholder.php — Générateur de visuels SVG « vintage » à la volée.
- * Couvertures de livres, catégories, bannières, avatars — aucun binaire,
+ * placeholder.php - Générateur de visuels SVG « vintage » à la volée.
+ * Couvertures de livres, catégories, bannières, avatars - aucun binaire,
  * aucune requête externe (idéal AwardSpace). Mise en cache navigateur.
  *
  *   ?t=covers&s=<seed>&l=<titre>

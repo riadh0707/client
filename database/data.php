@@ -1,6 +1,6 @@
 <?php
 /**
- * data.php — Source unique des données de démonstration (déterministe).
+ * data.php - Source unique des données de démonstration (déterministe).
  * Bibliothèque de livres et présentations numériques : livres, catégories, avis,
  * clients, commandes, coupons, blog, témoignages, paramètres.
  *
@@ -57,7 +57,7 @@ function demo_data(): array
     foreach ($catNames as $i => $c) {
         $categories[] = [
             'id' => $i + 1, 'parent_id' => null, 'name' => $c[0], 'slug' => slugify($c[0]),
-            'icon' => $c[1], 'description' => 'Nos livres — ' . $c[0] . '.',
+            'icon' => $c[1], 'description' => 'Nos livres, catégorie ' . $c[0] . '.',
             'seo_title' => $c[0] . ' | La Bibliothèque Numérique', 'position' => $i + 1,
         ];
     }
@@ -80,7 +80,7 @@ function demo_data(): array
         ['Formation : gérer une équipe', 'Rania Lounis', 7, 2000, null, 6, 2, 1, 0, 1, 'pptx', 'formation-equipe-exemple.pptx'],
     ];
     $descLong = "Un titre pensé pour vous accompagner pas à pas, avec des explications claires, illustrées et vérifiées. Chaque chapitre vous guide des bases jusqu'à la mise en pratique, avec des conseils de professionnels et des fiches à réutiliser. Lisible en ligne depuis votre ordinateur, votre tablette ou votre téléphone.";
-    $tocSample = "Introduction — Pourquoi ce titre\nChapitre 1 : Les fondamentaux\nChapitre 2 : Bien démarrer\nChapitre 3 : La méthode pas à pas\nChapitre 4 : Outils et modèles\nChapitre 5 : Aller plus loin\nAnnexes & fiches pratiques";
+    $tocSample = "Introduction : pourquoi ce titre\nChapitre 1 : Les fondamentaux\nChapitre 2 : Bien démarrer\nChapitre 3 : La méthode pas à pas\nChapitre 4 : Outils et modèles\nChapitre 5 : Aller plus loin\nAnnexes & fiches pratiques";
 
     $books = [];
     $reviews = [];
@@ -106,7 +106,7 @@ function demo_data(): array
             'author'        => $author,
             'sku'           => 'LIV-' . str_pad((string) $id, 3, '0', STR_PAD_LEFT),
             'category_id'   => $cat,
-            'short_desc'    => ($fileType === 'pptx' ? 'Une présentation' : 'Un livre') . ' signé ' . $author . ' — aperçu gratuit disponible.',
+            'short_desc'    => ($fileType === 'pptx' ? 'Une présentation' : 'Un livre') . ' signé ' . $author . ', aperçu gratuit disponible.',
             'long_desc'     => $descLong,
             'toc'           => $tocSample,
             'price'         => $price,

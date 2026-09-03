@@ -1,7 +1,7 @@
 <?php
 /**
  * ---------------------------------------------------------------------------
- *  La Bibliothèque Numérique — المكتبة الرقمية
+ *  La Bibliothèque Numérique - المكتبة الرقمية
  *  Configuration principale (EXEMPLE)
  * ---------------------------------------------------------------------------
  *  Copiez ce fichier vers  config/config.php  puis renseignez vos identifiants.
@@ -44,7 +44,7 @@ return [
     ],
 
     /* -------------------------------------------------------------------
-     |  Sécurité — php -r "echo bin2hex(random_bytes(32));"
+     |  Sécurité - php -r "echo bin2hex(random_bytes(32));"
      * ------------------------------------------------------------------- */
     'security' => [
         'app_key'          => 'CHANGEZ_MOI_avec_une_cle_aleatoire',

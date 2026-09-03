@@ -1,6 +1,6 @@
 <?php
 /**
- * payment.php — Passerelle de paiement BaridiMob.
+ * payment.php - Passerelle de paiement BaridiMob.
  *
  * ⚙️ MODE ACTUEL : « manuel ». Le client effectue un virement BaridiMob vers le
  *    RIP de notre équipe, saisit sa référence de transaction, puis notre équipe
@@ -37,7 +37,7 @@ final class BaridimobGateway
     /**
      * Démarre le paiement d'une commande.
      * Mode manuel : renvoie ['mode' => 'manual'] (affichage des instructions).
-     * Mode API    : TODO API — créer l'intention et renvoyer ['mode'=>'redirect','url'=>...].
+     * Mode API    : TODO API - créer l'intention et renvoyer ['mode'=>'redirect','url'=>...].
      */
     public static function initiate(array $order): array
     {

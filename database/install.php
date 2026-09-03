@@ -1,6 +1,6 @@
 <?php
 /**
- * install.php — Assistant d'installation (web ou CLI). MySQL ou SQLite.
+ * install.php - Assistant d'installation (web ou CLI). MySQL ou SQLite.
  * ⚠️ Supprimez ce fichier après installation en production.
  */
 require_once __DIR__ . '/../includes/bootstrap.php';
@@ -76,7 +76,7 @@ if ($isCli) { run_install(true); exit; }
 $confirm = ($_GET['confirm'] ?? '') === '1';
 ?><!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Installation — La Bibliothèque Numérique</title>
+<title>Installation · La Bibliothèque Numérique</title>
 <style>
   body{font-family:system-ui,sans-serif;background:#ece3d1;color:#3a2716;margin:0;padding:40px 16px;line-height:1.6}
   .card{max-width:660px;margin:0 auto;background:#f8f2e4;border:1px solid #d8c9ac;border-radius:16px;padding:38px;box-shadow:0 20px 50px rgba(74,50,32,.16)}
@@ -86,7 +86,7 @@ $confirm = ($_GET['confirm'] ?? '') === '1';
   .line{font-family:monospace;font-size:13px;padding:3px 0;border-bottom:1px solid #e3d7bf}
   .note{background:#f5e6c8;border:1px solid #e0c98a;border-radius:10px;padding:14px;font-size:14px;margin-top:18px;color:#7a5b1e}
 </style></head><body><div class="card">
-<h1>📖 Installation — La Bibliothèque Numérique</h1>
+<h1>📖 Installation · La Bibliothèque Numérique</h1>
 <?php if (!$confirm): ?>
   <p>Création des tables + données de démonstration (10 livres, clients, commandes, blog…).</p>
   <p>Driver : <code><?php h(Database::driver()); ?></code></p>

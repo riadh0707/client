@@ -1,5 +1,5 @@
 <?php
-/** schema_sqlite.php — équivalent SQLite (démo locale). */
+/** schema_sqlite.php - équivalent SQLite (démo locale). */
 function sqlite_schema(): array
 {
     return [

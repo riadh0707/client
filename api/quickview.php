@@ -1,5 +1,5 @@
 <?php
-/** api/quickview.php — Aperçu rapide d'un livre (fragment HTML). */
+/** api/quickview.php - Aperçu rapide d'un livre (fragment HTML). */
 require_once __DIR__ . '/../includes/bootstrap.php';
 require_once INCLUDES_PATH . '/queries.php';
 require_once INCLUDES_PATH . '/icons.php';

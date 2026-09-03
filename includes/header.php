@@ -1,9 +1,9 @@
 <?php
-/** header.php — En-tête HTML commun (partie publique). */
+/** header.php - En-tête HTML commun (partie publique). */
 require_once __DIR__ . '/icons.php';
 
 $meta  = meta_defaults();
-$title = isset($pageTitle) ? $pageTitle . ' — ' . setting('site_name', 'La Bibliothèque Numérique') : $meta['title'];
+$title = isset($pageTitle) ? $pageTitle . ' · ' . setting('site_name', 'La Bibliothèque Numérique') : $meta['title'];
 $desc  = $pageDescription ?? $meta['description'];
 $ogImg = $ogImage ?? $meta['image'];
 
@@ -94,7 +94,7 @@ catch (Throwable $e) { $navCats = []; }
   <div class="mobile-nav">
     <a href="<?php h(url('index.php')); ?>">Accueil</a>
     <a href="<?php h(url('catalogue.php')); ?>">Catalogue</a>
-    <?php foreach ($navCats as $c): ?><a href="<?php h(url('catalogue.php?cat=' . $c['slug'])); ?>">— <?php h($c['name']); ?></a><?php endforeach; ?>
+    <?php foreach ($navCats as $c): ?><a href="<?php h(url('catalogue.php?cat=' . $c['slug'])); ?>"><?php h($c['name']); ?></a><?php endforeach; ?>
     <a href="<?php h(url('catalogue.php?filter=new')); ?>">Nouveautés</a>
     <a href="<?php h(url('catalogue.php?filter=sale')); ?>">Promotions</a>
     <a href="<?php h(url('blog.php')); ?>">Le carnet</a>

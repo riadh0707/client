@@ -1,6 +1,6 @@
 <?php
 /**
- * functions.php — helpers globaux réutilisables (DRY).
+ * functions.php - helpers globaux réutilisables (DRY).
  */
 
 /* =========================================================================
@@ -280,7 +280,7 @@ function star_rating(float $rating, bool $showValue = false): string
 function meta_defaults(): array
 {
     return [
-        'title'       => setting('site_name', 'La Bibliothèque Numérique') . ' — ' . setting('site_tagline', 'Des livres et des présentations, partout avec vous.'),
+        'title'       => setting('site_name', 'La Bibliothèque Numérique') . ' · ' . setting('site_tagline', 'Des livres et des présentations, partout avec vous.'),
         'description' => setting('meta_description', 'Livres et présentations numériques (PDF et PowerPoint) : aperçu gratuit, achat sécurisé par BaridiMob, lecture en ligne immédiate.'),
         'image'       => asset('images/og-image.svg'),
     ];

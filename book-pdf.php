@@ -1,8 +1,8 @@
 <?php
 /**
- * book-pdf.php — Diffusion contrôlée du fichier d'un titre (PDF ou PowerPoint).
- *   ?slug=<slug>&mode=preview   → PDF d'aperçu (N premières pages) — public
- *   ?slug=<slug>&mode=full      → fichier complet — réservé aux acheteurs
+ * book-pdf.php - Diffusion contrôlée du fichier d'un titre (PDF ou PowerPoint).
+ *   ?slug=<slug>&mode=preview   → PDF d'aperçu (N premières pages) - public
+ *   ?slug=<slug>&mode=full      → fichier complet - réservé aux acheteurs
  *   &download=1                 → force le téléchargement plutôt que l'affichage
  *
  * Le fichier est lu côté serveur puis diffusé. Les fichiers complets ne sont

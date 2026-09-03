@@ -1,5 +1,5 @@
 <?php
-/** account_nav.php — Barre latérale espace client. $active = clé. */
+/** account_nav.php - Barre latérale espace client. $active = clé. */
 require_once __DIR__ . '/icons.php';
 $active = $active ?? '';
 $links = [

@@ -1,6 +1,6 @@
 <?php
 /**
- * lire.php — Lecteur en ligne.
+ * lire.php - Lecteur en ligne.
  *   · Livres PDF  → visionneuse PDF native (iframe) alimentée par book-pdf.php
  *   · Présentations PowerPoint → lecteur de diapositives HTML (includes/pptx.php)
  *
@@ -40,7 +40,7 @@ if ($isSlides) {
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture — <?php h($book['title']); ?></title>
+<title>Lecture · <?php h($book['title']); ?></title>
 <link rel="icon" href="<?php h(asset('images/favicon.svg')); ?>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -60,12 +60,12 @@ if ($isSlides) {
         <a href="<?php h(url('book-pdf.php?slug=' . urlencode($book['slug']) . '&mode=full&download=1')); ?>" class="btn btn-sm btn-light" title="Télécharger le fichier PowerPoint"><?= icon('download') ?> .pptx</a>
       <?php endif; ?>
     <?php else: ?>
-      <a href="<?php h(url('livre.php?slug=' . $book['slug'])); ?>" class="btn btn-gold btn-sm"><?= icon('lock') ?> Acheter — <?= e(book_price_label($book)) ?></a>
+      <a href="<?php h(url('livre.php?slug=' . $book['slug'])); ?>" class="btn btn-gold btn-sm"><?= icon('lock') ?> Acheter · <?= e(book_price_label($book)) ?></a>
     <?php endif; ?>
   </div>
 
   <?php if (!$owned): ?>
-    <div class="reader-notice"><?= icon('eye') ?> Vous lisez l'aperçu gratuit — les <?= $previewN ?> premières <?= e($unit) ?>. Achetez le titre pour lire les <?= $totalN ?> <?= e($unit) ?>.</div>
+    <div class="reader-notice"><?= icon('eye') ?> Vous lisez l'aperçu gratuit, les <?= $previewN ?> premières <?= e($unit) ?>. Achetez le titre pour lire les <?= $totalN ?> <?= e($unit) ?>.</div>
   <?php endif; ?>
 
   <?php if (!$isSlides): ?>
@@ -157,7 +157,7 @@ if ($isSlides) {
 
   <?php if (!$owned): ?>
   <div style="text-align:center;padding:22px">
-    <a href="<?php h(url('livre.php?slug=' . $book['slug'])); ?>" class="btn btn-lg"><?= icon('book') ?> Débloquer la version complète — <?= e(book_price_label($book)) ?></a>
+    <a href="<?php h(url('livre.php?slug=' . $book['slug'])); ?>" class="btn btn-lg"><?= icon('book') ?> Débloquer la version complète · <?= e(book_price_label($book)) ?></a>
   </div>
   <?php endif; ?>
 </div>

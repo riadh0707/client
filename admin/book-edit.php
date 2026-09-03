@@ -156,15 +156,15 @@ require_once INCLUDES_PATH . '/admin_layout.php';
         <h3 style="margin-bottom:16px">Fichier &amp; aperçu</h3>
         <?php if ($hasFile): ?>
           <div class="a-alert" style="margin-bottom:14px"><?= icon('check') ?>
-            <?= $bookIsPptx ? 'Présentation PowerPoint présente' : 'PDF présent' ?> —
+            <?= $bookIsPptx ? 'Présentation PowerPoint présente' : 'PDF présent' ?> :
             <?= (int) $book['pages_count'] ?> <?= e(book_unit($book)) ?>.
             <a href="<?php h(url('lire.php?slug=' . $book['slug'])); ?>" target="_blank" rel="noopener" style="text-decoration:underline">Ouvrir le lecteur</a>
           </div>
         <?php endif; ?>
         <div class="a-field">
-          <label>Fichier du titre — PDF ou PowerPoint <?= $isNew ? '' : '(laisser vide pour conserver)' ?></label>
+          <label>Fichier du titre : PDF ou PowerPoint <?= $isNew ? '' : '(laisser vide pour conserver)' ?></label>
           <input type="file" name="pdf" accept=".pdf,.pptx,.ppt,application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint">
-          <small style="color:var(--a-muted)">Formats acceptés : <strong>.pdf</strong>, <strong>.pptx</strong>, <strong>.ppt</strong> — <?= $maxUploadMb ?> Mo maximum. Les PDF s'ouvrent dans la visionneuse ; les présentations sont restituées en diapositives lisibles dans le navigateur.</small>
+          <small style="color:var(--a-muted)">Formats acceptés : <strong>.pdf</strong>, <strong>.pptx</strong>, <strong>.ppt</strong>, <?= $maxUploadMb ?> Mo maximum. Les PDF s'ouvrent dans la visionneuse ; les présentations sont restituées en diapositives lisibles dans le navigateur.</small>
         </div>
         <div class="a-field"><label>Pages / diapositives d'aperçu gratuites</label><input type="number" name="preview_pages" min="1" value="<?= $v('preview_pages', setting('default_preview_pages', '10')) ?>"><small style="color:var(--a-muted)">Nombre de pages (PDF) ou de diapositives (PowerPoint) lisibles gratuitement. L'aperçu PDF est régénéré automatiquement.</small></div>
         <div class="a-field"><label>Image de couverture (facultatif)</label><input type="file" name="cover" accept="image/*"><small style="color:var(--a-muted)">Sinon, une couverture élégante est générée automatiquement.</small></div>
@@ -176,7 +176,7 @@ require_once INCLUDES_PATH . '/admin_layout.php';
           <div class="a-field"><label>Prix (DA) *</label><input type="number" step="1" name="price" required value="<?= $v('price', '2000') ?>"></div>
           <div class="a-field"><label>Ancien prix (promo)</label><input type="number" step="1" name="old_price" value="<?= $v('old_price') ?>"></div>
         </div>
-        <div class="a-field"><label>Rayon</label><select name="category_id"><option value="">—</option><?php foreach ($cats as $c): ?><option value="<?= $c['id'] ?>" <?= ($book['category_id'] ?? 0) == $c['id'] ? 'selected' : '' ?>><?php h($c['name']); ?></option><?php endforeach; ?></select></div>
+        <div class="a-field"><label>Rayon</label><select name="category_id"><option value="">Aucun</option><?php foreach ($cats as $c): ?><option value="<?= $c['id'] ?>" <?= ($book['category_id'] ?? 0) == $c['id'] ? 'selected' : '' ?>><?php h($c['name']); ?></option><?php endforeach; ?></select></div>
         <div class="a-field"><label>Référence</label><input name="sku" value="<?= $v('sku') ?>" placeholder="Auto si vide"></div>
       </div>
 

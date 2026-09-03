@@ -1,5 +1,5 @@
 <?php
-/** admin_layout.php — En-tête + sidebar admin. Définir $adminTitle, $adminActive. */
+/** admin_layout.php - En-tête + sidebar admin. Définir $adminTitle, $adminActive. */
 require_once __DIR__ . '/icons.php';
 $admin = current_admin();
 $adminActive = $adminActive ?? '';
@@ -22,7 +22,7 @@ $nav = [
 ?><!doctype html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php h($adminTitle); ?> — Admin</title>
+<title><?php h($adminTitle); ?> · Admin</title>
 <link rel="icon" href="<?php h(asset('images/favicon.svg')); ?>" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">

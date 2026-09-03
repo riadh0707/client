@@ -1,6 +1,6 @@
 <?php
 /**
- * queries.php — Accès aux données livres/catégories (requêtes préparées).
+ * queries.php - Accès aux données livres/catégories (requêtes préparées).
  */
 
 const BOOK_SELECT = "

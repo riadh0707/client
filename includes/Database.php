@@ -1,6 +1,6 @@
 <?php
 /**
- * Database — fine surcouche PDO (singleton).
+ * Database - fine surcouche PDO (singleton).
  *
  * Sécurité : PDO exclusivement, requêtes préparées, ERRMODE_EXCEPTION.
  * Portabilité : supporte MySQL (production/AwardSpace) et SQLite (démo locale).

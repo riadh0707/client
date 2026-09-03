@@ -50,7 +50,7 @@ require_once INCLUDES_PATH . '/admin_layout.php';
 
 <div class="a-grid-2">
   <div class="a-panel">
-    <div class="a-panel-head"><h2>Revenus — 6 mois</h2></div>
+    <div class="a-panel-head"><h2>Revenus sur 6 mois</h2></div>
     <div class="chart"><?php foreach ($months as $key => $v): $hh = round($v / $maxMonth * 100); ?><div class="bar" style="height:<?= max(4,$hh) ?>%"><em><?= money($v) ?></em><span><?= date('M', strtotime($key . '-01')) ?></span></div><?php endforeach; ?></div>
     <div style="height:24px"></div>
   </div>
