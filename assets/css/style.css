@@ -553,9 +553,9 @@ svg.flip { transform: scaleX(-1); }
 .lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 22px; }
 .lib-grid > * { min-width: 0; }
 .lib-book { text-align: center; }
-.lib-book .cov { border-radius: 4px 10px 10px 4px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 3/4.2; margin-bottom: 10px; position: relative; }
+.lib-book .cov { display: block; border-radius: 4px 10px 10px 4px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 3/4.2; margin-bottom: 10px; position: relative; }
 .lib-book .cov img { width: 100%; height: 100%; object-fit: cover; }
-.lib-book .cov .read { position: absolute; inset: 0; background: rgba(44,28,16,.6); display: grid; place-items: center; opacity: 0; transition: opacity .3s; }
+.lib-book .cov .read { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44,28,16,.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; }
 .lib-book:hover .cov .read { opacity: 1; }
 
 /* tables */

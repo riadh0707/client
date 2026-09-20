@@ -87,14 +87,18 @@ final class SatimGateway
     /** Configuration SATIM (avec valeurs par défaut). */
     public static function config(): array
     {
-        $c = $GLOBALS['config']['satim'] ?? [];
-        return $c + [
+        $c = ($GLOBALS['config']['satim'] ?? []) + [
             'enabled' => false, 'mock' => false,
             'base_url' => 'https://test2.satim.dz/payment/rest/',
             'username' => '', 'password' => '', 'terminal_id' => '',
-            'currency' => '012', 'language' => 'FR', 'green_number' => '3020',
+            'currency' => '012', 'language' => 'fr', 'green_number' => '3020',
             'timeout' => 20, 'recaptcha_site_key' => '', 'recaptcha_secret_key' => '',
         ];
+        // Nettoyage : espaces parasites (copier-coller) et langue en minuscules
+        // (les exemples SATIM utilisent fr/en/ar en minuscules).
+        foreach (['username', 'password', 'terminal_id'] as $k) { $c[$k] = trim((string) $c[$k]); }
+        $c['language'] = strtolower(trim((string) $c['language']));
+        return $c;
     }
 
     public static function enabled(): bool
