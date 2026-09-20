@@ -133,8 +133,7 @@ require_once INCLUDES_PATH . '/header.php';
         <div class="pay-card pay-card-primary">
           <div class="pay-head">
             <span class="pay-brands">
-              <img src="<?php h(asset('images/cib.svg')); ?>" alt="CIB" height="40">
-              <img src="<?php h(asset('images/edahabia.svg')); ?>" alt="Edahabia" height="40">
+              <img src="<?php h(asset('images/cib-edahabia.png')); ?>" alt="CIB / Edahabia" height="40">
             </span>
             <strong>Paiement par carte CIB / Edahabia</strong>
           </div>
@@ -164,7 +163,7 @@ require_once INCLUDES_PATH . '/header.php';
           <?= captcha_field() ?>
 
           <button type="submit" name="action" value="card" class="btn btn-pay btn-block btn-lg">
-            <img src="<?php h(asset('images/cib.svg')); ?>" alt="" height="26" style="border-radius:4px">
+            <img src="<?php h(asset('images/cib-edahabia.png')); ?>" alt="" height="26" style="border-radius:4px">
             Payer <?= number_format($total, 2, ',', ' ') ?> DZD par carte
           </button>
           <p class="pay-secure"><?= icon('lock') ?> Vous serez redirigé vers la page de paiement sécurisée SATIM (connexion SSL).</p>
@@ -201,7 +200,7 @@ require_once INCLUDES_PATH . '/header.php';
         <?php if ($discount > 0): ?><div class="summary-row"><span>Réduction</span><strong style="color:var(--success)">-<?= money($discount) ?></strong></div><?php endif; ?>
         <div class="summary-row total"><span>Total à payer</span><strong><?= number_format($total, 2, ',', ' ') ?> DZD</strong></div>
         <p style="color:var(--muted);font-size:.78rem;margin-top:12px;text-align:center">Les titres sont numériques, aucune livraison. Lecture en ligne dès validation du paiement.</p>
-        <div class="pay-trust"><img src="<?php h(asset('images/satim-3020.svg')); ?>" alt="SATIM 3020 - appel gratuit" height="40"></div>
+        <div class="pay-trust"><img src="<?php h(asset('images/satim-3020.png')); ?>" alt="SATIM 3020 - appel gratuit" height="40"></div>
       </aside>
     </form>
   </div>

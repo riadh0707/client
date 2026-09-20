@@ -143,7 +143,7 @@ require_once INCLUDES_PATH . '/header.php';
   <div class="card-panel receipt" id="receipt">
     <div class="receipt-head">
       <div><strong style="font-size:1.15rem"><?php h($siteName); ?></strong><br><span style="color:var(--muted);font-size:.85rem">Reçu de paiement</span></div>
-      <span class="pay-brands"><img src="<?php h(asset('images/cib.svg')); ?>" alt="CIB" height="34"><img src="<?php h(asset('images/edahabia.svg')); ?>" alt="Edahabia" height="34"></span>
+      <span class="pay-brands"><img src="<?php h(asset('images/cib-edahabia.png')); ?>" alt="CIB / Edahabia" height="34"></span>
     </div>
     <table class="receipt-table">
       <?php foreach (receipt_rows($order, $when) as $label => $value): if ($value === '') continue; ?>
@@ -154,7 +154,7 @@ require_once INCLUDES_PATH . '/header.php';
       <?php foreach ($items as $it): ?><div class="summary-row"><span><?php h($it['title']); ?></span><strong><?= number_format((float) $it['price'], 2, ',', ' ') ?> DZD</strong></div><?php endforeach; ?>
     </div>
     <div class="receipt-foot">
-      <img src="<?php h(asset('images/satim-3020.svg')); ?>" alt="SATIM 3020 appel gratuit" height="38">
+      <img src="<?php h(asset('images/satim-3020.png')); ?>" alt="SATIM 3020 appel gratuit" height="38">
       <span style="color:var(--muted);font-size:.82rem">En cas de problème de paiement, contactez le numéro vert SATIM <strong><?= e($green) ?></strong> (appel gratuit).</span>
     </div>
   </div>

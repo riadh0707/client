@@ -79,7 +79,7 @@ require_once INCLUDES_PATH . '/header.php';
         <strong style="font-size:1.1rem"><?php h(setting('site_name', 'La Bibliothèque Numérique')); ?></strong><br>
         <span style="color:var(--muted);font-size:.85rem">Reçu de paiement</span>
       </div>
-      <span class="pay-brands"><img src="<?php h(asset('images/cib.svg')); ?>" alt="CIB" height="34"><img src="<?php h(asset('images/edahabia.svg')); ?>" alt="Edahabia" height="34"></span>
+      <span class="pay-brands"><img src="<?php h(asset('images/cib-edahabia.png')); ?>" alt="CIB / Edahabia" height="34"></span>
     </div>
     <table class="receipt-table">
       <tr><td>Message</td><td><?php h($message); ?></td></tr>
@@ -92,7 +92,7 @@ require_once INCLUDES_PATH . '/header.php';
       <?php if ($order['pan']): ?><tr><td>Carte</td><td><?php h($order['pan']); ?></td></tr><?php endif; ?>
     </table>
     <div class="receipt-foot">
-      <img src="<?php h(asset('images/satim-3020.svg')); ?>" alt="SATIM 3020 appel gratuit" height="38">
+      <img src="<?php h(asset('images/satim-3020.png')); ?>" alt="SATIM 3020 appel gratuit" height="38">
       <span style="color:var(--muted);font-size:.82rem">En cas de problème de paiement, contactez le numéro vert SATIM <strong><?= e($green) ?></strong> (appel gratuit).</span>
     </div>
   </div>
@@ -116,7 +116,7 @@ require_once INCLUDES_PATH . '/header.php';
   <div class="card-panel center" style="margin-top:8px">
     <?php if ($order): ?><p style="color:var(--muted)">Commande <strong><?php h($order['order_number'] ?: $order['reference']); ?></strong> — aucun montant n'a été débité.</p><?php endif; ?>
     <div class="receipt-foot" style="justify-content:center;margin-top:14px">
-      <img src="<?php h(asset('images/satim-3020.svg')); ?>" alt="SATIM 3020 appel gratuit" height="40">
+      <img src="<?php h(asset('images/satim-3020.png')); ?>" alt="SATIM 3020 appel gratuit" height="40">
       <span style="color:var(--muted);font-size:.85rem">En cas de problème de paiement, contactez le numéro vert SATIM <strong><?= e($green) ?></strong> (appel gratuit).</span>
     </div>
     <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
@@ -133,7 +133,7 @@ require_once INCLUDES_PATH . '/header.php';
   </div>
   <div class="card-panel center" style="margin-top:8px">
     <div class="receipt-foot" style="justify-content:center">
-      <img src="<?php h(asset('images/satim-3020.svg')); ?>" alt="SATIM 3020 appel gratuit" height="40">
+      <img src="<?php h(asset('images/satim-3020.png')); ?>" alt="SATIM 3020 appel gratuit" height="40">
       <span style="color:var(--muted);font-size:.85rem">En cas de problème de paiement, contactez le numéro vert SATIM <strong><?= e($green) ?></strong> (appel gratuit).</span>
     </div>
     <div style="margin-top:20px"><a href="<?php h(url('cart.php')); ?>" class="btn">Réessayer</a></div>
