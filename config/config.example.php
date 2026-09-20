@@ -62,10 +62,18 @@ return [
         'max_image_mb' => 4,
     ],
 
+    /* E-mail : SMTP (cPanel/Octenium) ou mail(). Voir config.php pour le détail. */
     'mail' => [
-        'enabled'    => false,
+        'enabled'    => true,
         'from_name'  => 'La Bibliothèque Numérique',
-        'from_email' => 'no-reply@bibliotheque-numerique.dz',
+        'from_email' => 'no-reply@example.dz',
+        'smtp' => [
+            'host'       => '',        // ex. mail.votre-domaine.dz (vide = mail())
+            'port'       => 465,       // 465 = SSL, 587 = TLS
+            'encryption' => 'ssl',     // 'ssl' | 'tls' | ''
+            'username'   => '',
+            'password'   => '',
+        ],
     ],
 
     /* -------------------------------------------------------------------

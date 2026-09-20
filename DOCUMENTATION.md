@@ -157,3 +157,14 @@ local** (aucun réseau) reproduisant les 15 cartes de test.
 4. Serveur mail (`mail.enabled=true`) pour l'envoi des reçus par e-mail.
 5. Remplacer les logos `assets/images/{cib,edahabia,satim-3020}.svg` par les
    officiels si nécessaire.
+
+### E-mail (reçus) et reCAPTCHA
+- **SMTP** (`includes/mailer.php`) : client SMTP sans dépendance (SSL/TLS + AUTH
+  LOGIN), pièces jointes base64. Configuré dans `config.php` → `mail.smtp`
+  (host/port/encryption/username/password). Sur Octenium/cPanel : créer une
+  adresse (ex. `no-reply@kitabi-dz.com`), host `mail.kitabi-dz.com`, port 465
+  (SSL) ou 587 (TLS). `smtp.host` vide → repli sur `mail()`.
+- **reCAPTCHA v2** : renseigner `satim.recaptcha_site_key` et
+  `recaptcha_secret_key` dans `config.php` (clés obtenues sur
+  google.com/recaptcha, type « I'm not a robot », domaine kitabi-dz.com). Vides →
+  captcha intégré (image SVG locale). Aucun autre changement de code requis.

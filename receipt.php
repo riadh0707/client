@@ -11,6 +11,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once INCLUDES_PATH . '/queries.php';
 require_once INCLUDES_PATH . '/components.php';
 require_once INCLUDES_PATH . '/payment.php';
+require_once INCLUDES_PATH . '/mailer.php';
 satim_ensure_schema();
 
 $order = Database::first('SELECT * FROM orders WHERE reference = ?', [input('ref')]);
@@ -101,36 +102,15 @@ if (is_post() && input('send')) {
         $sendError = 'Adresse e-mail invalide.';
     } else {
         $pdf = receipt_pdf($order, $items, $siteName, $green, $when);
-        $sent = receipt_send_email($to, $order, $siteName, $pdf);
-        if (!$sent) { $sendError = "L'envoi a échoué (serveur de messagerie indisponible). Vous pouvez télécharger le PDF."; }
+        $res = mailer_send(
+            $to,
+            'Reçu de paiement - ' . $order['reference'],
+            "Bonjour,\n\nVeuillez trouver ci-joint le reçu de votre paiement (commande " . $order['reference'] . ").\n\n" . $siteName,
+            [['name' => 'recu-' . $order['reference'] . '.pdf', 'data' => $pdf, 'type' => 'application/pdf']]
+        );
+        $sent = $res['ok'];
+        if (!$sent) { $sendError = 'L\'envoi a échoué : ' . $res['error'] . ' Vous pouvez télécharger le PDF.'; }
     }
-}
-
-/** Envoi du reçu PDF en pièce jointe via mail(). */
-function receipt_send_email(string $to, array $order, string $siteName, string $pdf): bool
-{
-    $cfg = $GLOBALS['config']['mail'] ?? [];
-    $from = $cfg['from_email'] ?? ('no-reply@' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
-    $fromName = $cfg['from_name'] ?? $siteName;
-    $boundary = 'bnd_' . bin2hex(random_bytes(8));
-    $subject = '=?UTF-8?B?' . base64_encode('Reçu de paiement - ' . $order['reference']) . '?=';
-
-    $headers  = 'From: ' . $fromName . ' <' . $from . ">\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= 'Content-Type: multipart/mixed; boundary="' . $boundary . "\"\r\n";
-
-    $body  = '--' . $boundary . "\r\n";
-    $body .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
-    $body .= "Bonjour,\r\n\r\nVeuillez trouver ci-joint le reçu de votre paiement (commande " . $order['reference'] . ").\r\n\r\n" . $siteName . "\r\n";
-    $body .= '--' . $boundary . "\r\n";
-    $body .= "Content-Type: application/pdf; name=\"recu-" . $order['reference'] . ".pdf\"\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n";
-    $body .= "Content-Disposition: attachment; filename=\"recu-" . $order['reference'] . ".pdf\"\r\n\r\n";
-    $body .= chunk_split(base64_encode($pdf)) . "\r\n";
-    $body .= '--' . $boundary . "--";
-
-    if (empty($cfg['enabled'])) { return false; } // pas de serveur mail configuré
-    return @mail($to, $subject, $body, $headers);
 }
 
 $pageTitle = 'Reçu de paiement';
