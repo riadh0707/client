@@ -126,6 +126,22 @@ final class SatimGateway
     }
 
     /**
+     * URL publique (returnUrl / failUrl) envoyée à SATIM.
+     * Force le HTTPS en production (SATIM l'exige), sauf en mode simulateur
+     * local où l'on conserve le schéma d'origine (http://localhost…).
+     * Le domaine est celui détecté automatiquement (ex. kitabi-dz.com), ou
+     * celui fixé dans config app.base_url.
+     */
+    public static function publicUrl(string $path): string
+    {
+        $u = url($path);
+        if (!self::isMock()) {
+            $u = preg_replace('#^http://#i', 'https://', $u);
+        }
+        return $u;
+    }
+
+    /**
      * Enregistre une commande sur SATIM.
      * @return array ['ok'=>bool,'orderId'=>?string,'formUrl'=>?string,'error'=>string,'raw'=>array]
      */

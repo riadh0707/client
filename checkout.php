@@ -63,7 +63,7 @@ if (is_post()) {
             $orderNumber = SatimGateway::newOrderNumber();
             Database::run('UPDATE orders SET order_number = ? WHERE id = ?', [$orderNumber, $orderId]);
 
-            $returnUrl = url('payment-return.php');
+            $returnUrl = SatimGateway::publicUrl('payment-return.php');
             $reg = SatimGateway::register(
                 $orderNumber,
                 SatimGateway::amountToMinor($total),
