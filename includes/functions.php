@@ -30,7 +30,15 @@ function url(string $path = ''): string
 
 function asset(string $path): string
 {
-    return BASE_URL . '/assets/' . ltrim($path, '/');
+    $path = ltrim($path, '/');
+    $url  = BASE_URL . '/assets/' . $path;
+    // Anti-cache : ajoute ?v=<date de modif> pour que toute mise à jour d'un
+    // fichier (CSS, JS, image) soit rechargée immédiatement par le navigateur.
+    $file = ROOT_PATH . '/assets/' . $path;
+    if (is_file($file)) {
+        $url .= (str_contains($url, '?') ? '&' : '?') . 'v=' . filemtime($file);
+    }
+    return $url;
 }
 
 /**
