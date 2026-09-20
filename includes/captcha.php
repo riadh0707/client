@@ -21,7 +21,10 @@ function captcha_keys(): array
 function captcha_uses_recaptcha(): bool
 {
     [$site, $secret] = captcha_keys();
-    return $site !== '' && $secret !== '';
+    // En mode simulateur local (satim.mock), reCAPTCHA (qui exige un accès
+    // Internet vers Google) est injoignable : on garde le captcha intégré.
+    $mock = !empty($GLOBALS['config']['satim']['mock']);
+    return $site !== '' && $secret !== '' && !$mock;
 }
 
 /** Génère et mémorise un nouveau code (captcha intégré). Retourne le code. */
