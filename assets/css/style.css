@@ -668,3 +668,58 @@ svg.flip { transform: scaleX(-1); }
   .cart-row { grid-template-columns: 54px 1fr; } .cart-row .ci-actions { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; transition-duration: .05ms !important; } }
+
+/* ============================================================ Paiement SATIM */
+.pay-card-primary { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-sm); padding: 26px; }
+.pay-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+.pay-head strong { font-size: 1.05rem; }
+.pay-brands { display: inline-flex; gap: 8px; align-items: center; }
+.pay-brands img { border-radius: 6px; box-shadow: var(--shadow-sm); background: #fff; }
+.pay-amount { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  background: var(--paper-3); border: 1px dashed var(--coffee); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 18px; }
+.pay-amount-label { color: var(--muted); font-size: .9rem; }
+.pay-amount-value { font-family: var(--font-serif); font-size: 2.1rem; font-weight: 800; color: var(--coffee); letter-spacing: .01em; }
+.pay-conditions { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; margin-bottom: 18px; }
+.pay-conditions strong { display: block; margin-bottom: 8px; }
+.pay-conditions ul { margin: 0 0 12px; padding-left: 20px; color: var(--muted); font-size: .88rem; line-height: 1.55; }
+.pay-conditions li { margin: 4px 0; }
+.pay-accept { display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; cursor: pointer; }
+.pay-accept input { margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.captcha-box { margin-bottom: 18px; }
+.captcha-label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 8px; }
+.captcha-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.captcha-img { border: 1px solid var(--border); border-radius: 8px; background: #f3ecdc; }
+.captcha-input { width: 130px; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; background: var(--surface);
+  color: var(--text); letter-spacing: .3em; text-transform: uppercase; font-weight: 700; }
+.btn-pay { background: linear-gradient(135deg, #1b5e9b, #0a3d62); color: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.btn-pay:hover { filter: brightness(1.08); color: #fff; }
+.pay-secure { color: var(--muted); font-size: .8rem; margin-top: 10px; display: flex; align-items: center; gap: 6px; justify-content: center; }
+.pay-secure svg { width: 15px; height: 15px; }
+.pay-card-alt { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 18px 22px; }
+.pay-card-alt > summary { cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 10px; list-style: none; }
+.pay-card-alt > summary::-webkit-details-marker { display: none; }
+.pay-trust { display: flex; justify-content: center; margin-top: 16px; }
+
+/* Résultat de paiement + reçu */
+.pay-result { text-align: center; padding: 20px 0 6px; }
+.pay-result-ic { width: 78px; height: 78px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; }
+.pay-result-ic svg { width: 40px; height: 40px; }
+.pay-ok .pay-result-ic { background: rgba(79,125,63,.15); color: var(--success); }
+.pay-ko .pay-result-ic { background: rgba(163,48,42,.12); color: var(--danger); }
+.pay-result-msg { color: var(--muted); font-size: 1.05rem; max-width: 560px; margin: 6px auto 0; }
+.receipt { margin-top: 22px; }
+.receipt-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 8px; }
+.receipt-table { width: 100%; border-collapse: collapse; }
+.receipt-table td { padding: 9px 4px; border-bottom: 1px solid var(--border); font-size: .92rem; vertical-align: top; }
+.receipt-table td:first-child { color: var(--muted); width: 46%; }
+.receipt-table code { font-size: .86rem; word-break: break-all; }
+.receipt-items { margin-top: 10px; }
+.receipt-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.pay-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+@media print {
+  body * { visibility: hidden !important; }
+  #receipt, #receipt * { visibility: visible !important; }
+  #receipt { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: 0; }
+  .no-print, .site-header, .site-footer, .topbar { display: none !important; }
+}

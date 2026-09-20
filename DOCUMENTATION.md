@@ -110,3 +110,50 @@ livre), pas de livraison ni d'adresse ; « panier » simplifié ; l'après-vente
 Multi-auteurs, packs de livres, cartes cadeaux, e-mails transactionnels (SMTP prévu
 en config), multilingue (fr/ar RTL/en — la structure `lang`/`dir` est prête), API de
 paiement — chaque ajout se greffe sans refonte.
+
+## 10. Paiement en ligne SATIM-IPAY (CIB / Edahabia)
+
+Intégration complète du paiement par carte **CIB / Edahabia** via la plateforme
+**SATIM**, conforme à la checklist de certification.
+
+### Configuration (`config/config.php`, jamais committé)
+Bloc `satim` : `enabled`, `base_url` (test `https://test2.satim.dz/payment/rest/`
+ou domaine de production), `username`, `password`, `terminal_id` (force_terminal_id),
+`currency` (012 = DZD), `language` (FR), `green_number` (3020), et éventuellement
+`recaptcha_site_key` / `recaptcha_secret_key`. `mock=true` active un **simulateur
+local** (aucun réseau) reproduisant les 15 cartes de test.
+
+### Fichiers
+- `includes/payment.php` → classe **`SatimGateway`** : `register()` (register.do),
+  `confirm()` (acknowledgeTransaction.do), `refund()` (refund.do), formatage du
+  montant (×100), `classify()` (accepté / rejeté / repli actionCodeDescription).
+  Appels **HTTP POST** (recommandé par SATIM), montants en centimes, devise 012.
+- `includes/captcha.php` + `captcha.php` → captcha intégré (SVG) ou reCAPTCHA v2.
+- `checkout.php` → page de paiement : montant en évidence, conditions générales +
+  case d'acceptation, captcha, bouton **CIB/Edahabia** qui redirige (hors iframe)
+  vers la page SATIM. BaridiMob reste en moyen secondaire.
+- `payment-return.php` → `returnUrl`/`failUrl` : confirme la transaction et affiche
+  le résultat (accepté avec tous les champs exigés / rejeté trilingue / repli).
+- `receipt.php` → reçu **imprimable**, **téléchargement PDF** (FPDF) et **envoi par
+  e-mail** (PDF en pièce jointe).
+- `admin/orders.php` → détails SATIM + **remboursement** (refund.do) et annulation.
+- Simulateur (mode test) : `includes/satim_mock.php`, `_devsatim-form.php` (inertes
+  en production : renvoient 404 si `mock=false`).
+
+### Cycle
+1. `checkout.php` crée la commande, appelle `register.do` → `orderId` + `formUrl`.
+2. Redirection du client vers `formUrl` (page SATIM, navigateur, hors iframe).
+3. SATIM redirige vers `payment-return.php?orderId=…`.
+4. `acknowledgeTransaction.do` → **accepté** si `respCode=00`, `ErrorCode=0`,
+   `OrderStatus=2` (débloque l'accès + reçu) ; **rejeté** si `OrderStatus=3` ;
+   sinon message via `respCode_desc`, à défaut `actionCodeDescription`. Numéro vert
+   **3020** affiché dans tous les cas.
+5. Remboursement / annulation depuis l'admin (`refund.do`) ou la console SATIM.
+
+### Passage en production
+1. `config/config.php` → `base_url` de production, `mock=false`, `enabled=true`.
+2. Certificat **SSL** valide (obligatoire) ; mettre `security.cookie_secure=true`.
+3. Renseigner un **reCAPTCHA** (ou conserver le captcha intégré).
+4. Serveur mail (`mail.enabled=true`) pour l'envoi des reçus par e-mail.
+5. Remplacer les logos `assets/images/{cib,edahabia,satim-3020}.svg` par les
+   officiels si nécessaire.

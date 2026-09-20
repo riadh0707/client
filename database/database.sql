@@ -124,9 +124,16 @@ CREATE TABLE orders (
   discount DECIMAL(10,2) NOT NULL DEFAULT 0,
   total DECIMAL(10,2) NOT NULL DEFAULT 0,
   payment_method VARCHAR(30) NOT NULL DEFAULT 'baridimob',
-  payment_ref VARCHAR(120) NULL,               -- référence de transaction BaridiMob
+  payment_ref VARCHAR(120) NULL,               -- réf. transaction BaridiMob (manuel)
+  order_number VARCHAR(20) NULL,               -- orderNumber marchand envoyé à SATIM
+  satim_order_id VARCHAR(40) NULL,             -- mdOrder / orderId généré par SATIM
+  approval_code VARCHAR(12) NULL,              -- N° d'autorisation (approvalCode)
+  resp_code VARCHAR(8) NULL,                   -- respCode SATIM (00 = accepté)
+  pan VARCHAR(24) NULL,                        -- numéro de carte masqué
+  card_brand VARCHAR(20) NULL,                 -- CIB | Edahabia
+  paid_at DATETIME NULL,                       -- date/heure de la transaction acceptée
   receipt_file VARCHAR(190) NULL,              -- capture de reçu (facultatif)
-  status VARCHAR(20) NOT NULL DEFAULT 'pending', -- pending|awaiting|paid|cancelled
+  status VARCHAR(20) NOT NULL DEFAULT 'pending', -- pending|awaiting|paid|refunded|cancelled
   note TEXT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_order_customer (customer_id),
@@ -245,7 +252,7 @@ INSERT INTO `settings` (`key`,`value`) VALUES
 
 -- admins (1 lignes)
 INSERT INTO `admins` (`name`,`email`,`password`,`role`) VALUES
-('La Bibliothèque','admin@bibliotheque-numerique.dz','$2y$12$lRqpHkZVfxSn1izyIePD1uuLHc3FqASidmw7qoZ44yaah58BcCBz.','super');
+('La Bibliothèque','admin@bibliotheque-numerique.dz','$2y$12$9qfYniVLm5lANgfNj1gYd.nWXyO2yVJwwPHfZPtZJU6jI6vqdj176','super');
 
 -- categories (7 lignes)
 INSERT INTO `categories` (`id`,`parent_id`,`name`,`slug`,`icon`,`description`,`seo_title`,`position`) VALUES
@@ -332,100 +339,100 @@ Annexes & fiches pratiques',2000,NULL,0,6,2,'Français','pptx','formation-equipe
 
 -- reviews (33 lignes)
 INSERT INTO `reviews` (`id`,`book_id`,`customer_id`,`author_name`,`rating`,`title`,`body`,`status`,`created_at`) VALUES
-(1,1,NULL,'Amina B.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-06-08 20:55:10'),
-(2,1,NULL,'Feriel D.',4,'Coup de cœur !','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-03-23 19:01:12'),
-(3,1,NULL,'Katia S.',4,'Excellent','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-03-13 00:02:56'),
-(4,1,NULL,'Amina B.',4,'Excellent','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-06-28 11:52:27'),
-(5,1,NULL,'Katia S.',5,'Coup de cœur !','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-08-04 18:59:42'),
-(6,2,NULL,'Feriel D.',4,'Excellent','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-03-23 23:09:40'),
-(7,2,NULL,'Nesrine T.',5,'Coup de cœur !','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-03-12 18:02:18'),
-(8,3,NULL,'Lydia K.',5,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-09-03 02:55:22'),
-(9,3,NULL,'Yasmine H.',4,'Parfait pour débuter','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-05-17 08:00:39'),
-(10,3,NULL,'Feriel D.',4,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-03-19 23:22:01'),
-(11,4,NULL,'Lydia K.',4,'Je recommande','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-08-26 00:28:43'),
-(12,4,NULL,'Nesrine T.',5,'Excellent','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-06-05 09:04:20'),
-(13,4,NULL,'Nesrine T.',4,'Parfait pour débuter','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-07-12 00:56:45'),
-(14,5,NULL,'Yasmine H.',4,'Coup de cœur !','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-07-31 15:18:33'),
-(15,5,NULL,'Lydia K.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-05-22 02:14:13'),
-(16,5,NULL,'Rania L.',5,'Excellent','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-08-27 13:08:45'),
-(17,6,NULL,'Katia S.',4,'Je recommande','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-05-22 12:21:55'),
-(18,6,NULL,'Feriel D.',4,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','pending','2026-04-19 21:41:16'),
-(19,7,NULL,'Sonia G.',5,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-07-01 04:06:06'),
-(20,7,NULL,'Rania L.',5,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-08-07 16:01:36'),
-(21,7,NULL,'Sonia G.',4,'Parfait pour débuter','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-05-20 17:00:30'),
-(22,7,NULL,'Katia S.',4,'Très complet','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-08-19 20:30:58'),
-(23,7,NULL,'Amina B.',4,'Très complet','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-07-27 04:46:00'),
-(24,8,NULL,'Feriel D.',5,'Parfait pour débuter','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-06-06 08:33:53'),
-(25,8,NULL,'Katia S.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-08-20 17:25:47'),
-(26,8,NULL,'Lydia K.',5,'Je recommande','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-05-05 21:21:31'),
-(27,8,NULL,'Katia S.',4,'Très complet','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-06-25 09:42:59'),
-(28,8,NULL,'Yasmine H.',5,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-05-29 02:12:26'),
-(29,9,NULL,'Amina B.',4,'Excellent','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','pending','2026-05-01 04:27:08'),
-(30,9,NULL,'Yasmine H.',4,'Coup de cœur !','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-06-27 02:33:33'),
-(31,10,NULL,'Nesrine T.',4,'Très complet','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-05-06 06:27:23'),
-(32,10,NULL,'Feriel D.',5,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-06-05 23:48:44'),
-(33,10,NULL,'Rania L.',4,'Parfait pour débuter','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','pending','2026-06-29 06:23:07');
+(1,1,NULL,'Amina B.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-06-25 14:14:24'),
+(2,1,NULL,'Feriel D.',4,'Coup de cœur !','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-04-09 12:20:26'),
+(3,1,NULL,'Katia S.',4,'Excellent','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-03-29 17:22:10'),
+(4,1,NULL,'Amina B.',4,'Excellent','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-07-15 05:11:41'),
+(5,1,NULL,'Katia S.',5,'Coup de cœur !','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-08-21 12:18:56'),
+(6,2,NULL,'Feriel D.',4,'Excellent','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-04-09 16:28:54'),
+(7,2,NULL,'Nesrine T.',5,'Coup de cœur !','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-03-29 11:21:32'),
+(8,3,NULL,'Lydia K.',5,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-09-19 20:14:36'),
+(9,3,NULL,'Yasmine H.',4,'Parfait pour débuter','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-06-03 01:19:53'),
+(10,3,NULL,'Feriel D.',4,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-04-05 16:41:15'),
+(11,4,NULL,'Lydia K.',4,'Je recommande','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-09-11 17:47:57'),
+(12,4,NULL,'Nesrine T.',5,'Excellent','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-06-22 02:23:34'),
+(13,4,NULL,'Nesrine T.',4,'Parfait pour débuter','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-07-28 18:15:59'),
+(14,5,NULL,'Yasmine H.',4,'Coup de cœur !','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-08-17 08:37:47'),
+(15,5,NULL,'Lydia K.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-06-07 19:33:27'),
+(16,5,NULL,'Rania L.',5,'Excellent','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-09-13 06:27:59'),
+(17,6,NULL,'Katia S.',4,'Je recommande','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-06-08 05:41:09'),
+(18,6,NULL,'Feriel D.',4,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','pending','2026-05-06 15:00:30'),
+(19,7,NULL,'Sonia G.',5,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-07-17 21:25:20'),
+(20,7,NULL,'Rania L.',5,'Excellent','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-08-24 09:20:50'),
+(21,7,NULL,'Sonia G.',4,'Parfait pour débuter','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-06-06 10:19:44'),
+(22,7,NULL,'Katia S.',4,'Très complet','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-09-05 13:50:12'),
+(23,7,NULL,'Amina B.',4,'Très complet','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-08-12 22:05:14'),
+(24,8,NULL,'Feriel D.',5,'Parfait pour débuter','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','approved','2026-06-23 01:53:07'),
+(25,8,NULL,'Katia S.',4,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-09-06 10:45:01'),
+(26,8,NULL,'Lydia K.',5,'Je recommande','Contenu magnifique, les explications sont claires et directement applicables. J''ai déjà mis en pratique !','approved','2026-05-22 14:40:45'),
+(27,8,NULL,'Katia S.',4,'Très complet','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-07-12 03:02:13'),
+(28,8,NULL,'Yasmine H.',5,'Parfait pour débuter','Les explications sont détaillées et les illustrations très claires. Je recommande à 100%.','approved','2026-06-14 19:31:40'),
+(29,9,NULL,'Amina B.',4,'Excellent','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','pending','2026-05-17 21:46:22'),
+(30,9,NULL,'Yasmine H.',4,'Coup de cœur !','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-07-13 19:52:47'),
+(31,10,NULL,'Nesrine T.',4,'Très complet','Parfait pour débuter. La lecture en ligne est pratique, je le consulte depuis mon téléphone.','approved','2026-05-22 23:46:37'),
+(32,10,NULL,'Feriel D.',5,'Parfait pour débuter','Aperçu très utile avant d''acheter, et le contenu complet vaut largement le prix. Merci !','approved','2026-06-22 17:07:58'),
+(33,10,NULL,'Rania L.',4,'Parfait pour débuter','Un vrai trésor de conseils. Le chapitre sur la méthode m''a beaucoup aidé.','pending','2026-07-15 23:42:21');
 
 -- customers (30 lignes)
 INSERT INTO `customers` (`id`,`first_name`,`last_name`,`email`,`phone`,`password`,`wilaya`,`loyalty_points`,`created_at`) VALUES
-(1,'Yasmine','Demo','client@bibliotheque-numerique.dz','0671106498','$2y$12$5nZGC9kbdixwb/oGenuMz.NI.6w0g5DR1GhZU6p.Qkek1GdeNtXzO','Alger',0,'2026-07-06 03:52:57'),
-(2,'Salima','Benali','salima.benali2@email.dz','0760750138','$2y$12$oSV3Q/tYn5LTSmPohuYIju3TcppqNpfbuKnmCDQT9Yqpr53iMPNsC','Alger',0,'2026-08-02 20:54:24'),
-(3,'Sarah','Cherif','sarah.cherif3@email.dz','0504232163','$2y$12$qMRluj0FSmZMMEsabGbn..XAs/G1OpHuvl5itLJmZzdoTppgRilMS','Alger',0,'2026-03-10 05:52:06'),
-(4,'Hana','Toumi','hana.toumi4@email.dz','0764817267','$2y$12$Sh2ayMNX0aqidZyxn5d3guOmlumeZT1Kgol88esA7gYuaGhkcvmDS','Alger',0,'2026-01-02 04:41:29'),
-(5,'Feriel','Gacem','feriel.gacem5@email.dz','0569071363','$2y$12$1QbMDj82DMJ012E6pQXEneckjBQ.wEO/Cl0NBfuW77SLWBMrHe.7u','Alger',0,'2026-01-10 19:41:48'),
-(6,'Amina','Haddad','amina.haddad6@email.dz','0700222760','$2y$12$LtFJDR/WOb50AKHJhqXi.um6nh.eFwN35zy3R0W5TXhE7i5Wn0GKm','Alger',0,'2026-05-13 14:42:27'),
-(7,'Ines','Saidi','ines.saidi7@email.dz','0537058832','$2y$12$ietZAmj8lFKNpv4hSwotguDPKcia6aI4UDDbv3sUvEixoBTX7wZOe','Alger',0,'2026-03-10 17:35:16'),
-(8,'Ines','Toumi','ines.toumi8@email.dz','0641186247','$2y$12$Oyd8mntAusRQRVP7QsyTc.6nqOGX9CYH6q6TOcWeQ2nwclqiHIdiu','Alger',0,'2026-07-24 05:19:02'),
-(9,'Feriel','Ferhat','feriel.ferhat9@email.dz','0509991721','$2y$12$PKhk6KllNy51NnQL3SRnSOtZYjps8.Ie9je6bGVVygnbYQoaQwdY.','Alger',0,'2026-05-21 13:04:57'),
-(10,'Rania','Kaci','rania.kaci10@email.dz','0512725464','$2y$12$sdfsd2u47v.PXHA65iYXGeVlGtVt4LWYsROu7BrFGvARi07.zSdV2','Alger',0,'2026-03-30 19:40:53'),
-(11,'Ines','Kaci','ines.kaci11@email.dz','0685316961','$2y$12$HvwNjxiA7WEDOeYf3roy2eT1O5AJitkgGM/Y00eIUaN3StH8.1VrC','Alger',0,'2026-05-03 07:06:19'),
-(12,'Katia','Saidi','katia.saidi12@email.dz','0780025025','$2y$12$l7fA4Q9L27Im/7W9APF9NuqYfni7aiqG/6B8EAd6pj0w6mbPR5.Fq','Alger',0,'2026-05-31 18:20:12'),
-(13,'Feriel','Meziane','feriel.meziane13@email.dz','0747219824','$2y$12$SX6nLZH8dBcDl.ROr8zXDulBHOG1UoSy5ptVrCOuSkMiEObB4RpUm','Alger',0,'2026-06-06 10:02:07'),
-(14,'Hana','Lounis','hana.lounis14@email.dz','0720134766','$2y$12$/hKCF0dp.mcO79oStkO3WeFO6Rnl8OjFAshl2RsGDlmiMX2AyX6na','Alger',0,'2026-03-17 16:16:18'),
-(15,'Meriem','Lounis','meriem.lounis15@email.dz','0741525932','$2y$12$5Cyd.YB5xKUq2KTJs7/7feA.Wql8h3tEZMJRbEWRFUluDEFM2BwHi','Alger',0,'2026-07-05 07:27:08'),
-(16,'Salima','Ferhat','salima.ferhat16@email.dz','0785280825','$2y$12$RaIvWtiNf82ScobglXC03uJdnJkicHsriMHoOxa/dIeWVFEWcRZF.','Alger',0,'2026-06-23 09:29:55'),
-(17,'Lina','Rahmani','lina.rahmani17@email.dz','0507206626','$2y$12$KrcKzJpe4r6lLd2Rnm0IXubVr6bCd4eHCJRnL7aZ.9tM9H9Ra6PZu','Alger',0,'2026-01-01 19:19:03'),
-(18,'Feriel','Toumi','feriel.toumi18@email.dz','0684749559','$2y$12$0pjvwfJ1pXWRdEAL0NKz/eMEVwBNeCZKb3.rXeiH0NKnn4vydLkZW','Alger',0,'2026-05-02 06:46:13'),
-(19,'Ines','Cherif','ines.cherif19@email.dz','0647173112','$2y$12$.v5OlPg091H2IqJ.2UO.TOxSdU0wBve4AVGP9e9LKaMoOIu9KYQkK','Alger',0,'2026-03-12 03:33:50'),
-(20,'Rania','Meziane','rania.meziane20@email.dz','0762488271','$2y$12$aA9LRB3DG.alx88SxqRhU.B3yiclQilVEtH9TkC6MculIfCZBAqAC','Alger',0,'2026-03-12 09:00:03'),
-(21,'Salima','Haddad','salima.haddad21@email.dz','0686599006','$2y$12$zNAZ3TN6/WOBJ3n3A3ocRO7r3ynmJB/2.djXrmK/2xYwKqMNGhJ3q','Alger',0,'2026-02-23 16:06:26'),
-(22,'Hana','Kaci','hana.kaci22@email.dz','0577981785','$2y$12$gNLl601ay644VzdAZeVOi.n3GvF/yTdvV4uNEbHF6xouvX8NDyIBy','Alger',0,'2026-08-08 19:02:57'),
-(23,'Dalia','Kaci','dalia.kaci23@email.dz','0702975434','$2y$12$Aw0yhgBO/V5amfBbpoKZi.hHmMbDG/AuDtYEfv55x26B7Qq5Mtzlq','Alger',0,'2026-01-16 07:59:36'),
-(24,'Feriel','Toumi','feriel.toumi24@email.dz','0695569495','$2y$12$P5KveJDZBdgH5WQPdvfRLeYaDyIY62AigwYgjdpkPCSaXWQrPzCre','Alger',0,'2026-03-19 03:30:44'),
-(25,'Nadia','Lounis','nadia.lounis25@email.dz','0610416760','$2y$12$hdWFIFjZqVBy.3UXyQW37uJtuA1jswsgDhyIxTqZBsP58h3vwoGpa','Alger',0,'2026-02-22 04:31:58'),
-(26,'Nesrine','Saidi','nesrine.saidi26@email.dz','0626832218','$2y$12$C2aTmQxd2B6xnpk6BZHsYOC6WvuG0He7vpvR7O5EuG9jBHhNppG.W','Alger',0,'2026-01-14 05:05:12'),
-(27,'Lina','Rahmani','lina.rahmani27@email.dz','0679616681','$2y$12$LFDPFkHCWqBoIomuayTYOOnBMoXyYwzmltG9YUjrGP1cnXf8TLX4a','Alger',0,'2026-04-24 21:44:23'),
-(28,'Rania','Rahmani','rania.rahmani28@email.dz','0643851057','$2y$12$7aDYcFRRN0LxV2NIn4c9RuStmZHD1PAWrbjcosUQ7DLczhXPRc42.','Alger',0,'2026-07-27 07:19:14'),
-(29,'Hana','Benali','hana.benali29@email.dz','0606500241','$2y$12$2Pp7stS/VnKgr80CCdTxI.lLabmALea2ai6heSjWmwc9sj/ECul4S','Alger',0,'2026-06-16 05:40:33'),
-(30,'Meriem','Meziane','meriem.meziane30@email.dz','0564356177','$2y$12$sgrt/XfoHI62af47BIeAHuTj..E9Ik51HdOPvfVfVB/.qOfSb.gTS','Alger',0,'2026-03-19 04:53:21');
+(1,'Yasmine','Demo','client@bibliotheque-numerique.dz','0671106498','$2y$12$JmmLk0bcZGGxbHXUABFf4.skL/L9WsVvMtOurAGxjSqHkkEBU7dfS','Alger',0,'2026-07-22 21:12:11'),
+(2,'Salima','Benali','salima.benali2@email.dz','0760750138','$2y$12$Pu2MNhDJMqhC8wgU9jozIui5EAhnZsraGSsc7bSq8zekrDta78kJG','Alger',0,'2026-08-19 14:13:38'),
+(3,'Sarah','Cherif','sarah.cherif3@email.dz','0504232163','$2y$12$baucQ0gBb/HV4TGOjK2mluwuv4tVDByNcQOFRHoYZvdHrNdjnA0U.','Alger',0,'2026-03-26 23:11:20'),
+(4,'Hana','Toumi','hana.toumi4@email.dz','0764817267','$2y$12$ly6oCyQyubO3KuUYY2.aMum0wGTDdsXs4B7nt8ugNWWlkihpEaWl.','Alger',0,'2026-01-18 22:00:43'),
+(5,'Feriel','Gacem','feriel.gacem5@email.dz','0569071363','$2y$12$Mh1QplhZ7OoXGlCkM.xHue7gUF5Lp/.03QxaCHz8c3lP3kJG3BCXe','Alger',0,'2026-01-27 13:01:01'),
+(6,'Amina','Haddad','amina.haddad6@email.dz','0700222760','$2y$12$w873ktltPi.9ra82j6v1h./J2Q5ewOXWVx6aGSpWRIOPwqiXubAd6','Alger',0,'2026-05-30 08:01:41'),
+(7,'Ines','Saidi','ines.saidi7@email.dz','0537058832','$2y$12$8FziQfDOygkqligLiCrEe.6.6gwxwczneIF1CccuhBtR0zwp/QqGm','Alger',0,'2026-03-27 10:54:30'),
+(8,'Ines','Toumi','ines.toumi8@email.dz','0641186247','$2y$12$PUxyQVa.gic2JBnogdbUxe.FwdvkHKQSE0VVAkRjj7s0rV/9UW8oC','Alger',0,'2026-08-09 22:38:16'),
+(9,'Feriel','Ferhat','feriel.ferhat9@email.dz','0509991721','$2y$12$lzZ57IVcS9Eb0.tjKJKS3Ol7m53frtoLBN9XFiXXLZuhgeH11iyym','Alger',0,'2026-06-07 06:24:11'),
+(10,'Rania','Kaci','rania.kaci10@email.dz','0512725464','$2y$12$ZPsCofa2/W9H1IJ08IMHC.w2ALgOIgDxO4VEIG/Zohdj6GLtLBHqi','Alger',0,'2026-04-16 13:00:07'),
+(11,'Ines','Kaci','ines.kaci11@email.dz','0685316961','$2y$12$YscsDdSpS9nErg/hgwKLyecp3EjYdHuRlz/yRRdmcF24ww2TSKqEW','Alger',0,'2026-05-20 00:25:33'),
+(12,'Katia','Saidi','katia.saidi12@email.dz','0780025025','$2y$12$Mr2ywq7wyPL7vmwxK2szguZr2DDqUD5OEcHMQK13ZVkJ3GCsTeyWK','Alger',0,'2026-06-17 11:39:26'),
+(13,'Feriel','Meziane','feriel.meziane13@email.dz','0747219824','$2y$12$zdbgDxYzkXAzM7O5BCVltuYZbuGmuxOY7JZn96A0BpTiLfmoch/U6','Alger',0,'2026-06-23 03:21:20'),
+(14,'Hana','Lounis','hana.lounis14@email.dz','0720134766','$2y$12$bH7g7j2aFRZ2SGHxJkOLou7zN1X8J.3nNBDFKDYpi0bpbCJGuyI72','Alger',0,'2026-04-03 09:35:32'),
+(15,'Meriem','Lounis','meriem.lounis15@email.dz','0741525932','$2y$12$TuV8InsCTC5stCpZ/io2GeXBj1Pa8Drs.b7DdjvtSlaiH9tCrnmyi','Alger',0,'2026-07-22 00:46:22'),
+(16,'Salima','Ferhat','salima.ferhat16@email.dz','0785280825','$2y$12$pqtXgQUrffZOyDcuTpaE8OfxKY9YZG3YBa4o8PlSk3IRKj4CB8Y52','Alger',0,'2026-07-10 02:49:09'),
+(17,'Lina','Rahmani','lina.rahmani17@email.dz','0507206626','$2y$12$bUoNBz3v1zCl9t7v4iZZLuwsju0gikWACqxwz16nYyj374jc4ZQnG','Alger',0,'2026-01-18 12:38:17'),
+(18,'Feriel','Toumi','feriel.toumi18@email.dz','0684749559','$2y$12$XQBTE9C5uKz.8Jj1O7qQY.L.XK3lWWL.snvb6LSM8vxDKPCvqWdMa','Alger',0,'2026-05-19 00:05:26'),
+(19,'Ines','Cherif','ines.cherif19@email.dz','0647173112','$2y$12$U1FvHfpqvLHbzJqsJiu3ReakAgw5aaxBHxxt.lkC4zj6L2efaN.6u','Alger',0,'2026-03-28 20:53:04'),
+(20,'Rania','Meziane','rania.meziane20@email.dz','0762488271','$2y$12$pdYZrqWW5ehkSIfleRvxd.v0KMVppIQiZ.bCEUGif4E9WvJciWCqu','Alger',0,'2026-03-29 02:19:17'),
+(21,'Salima','Haddad','salima.haddad21@email.dz','0686599006','$2y$12$sN0hY4hLjy8su6vMrrZXauGdN359qfZxWkwKXOFE6CGOSbpcxXXMq','Alger',0,'2026-03-12 09:25:40'),
+(22,'Hana','Kaci','hana.kaci22@email.dz','0577981785','$2y$12$Ly/naKZrRZriO3FwUZGETeXDb7iAW2tpOtFEEsjPwqERW1yp.APPu','Alger',0,'2026-08-25 12:22:10'),
+(23,'Dalia','Kaci','dalia.kaci23@email.dz','0702975434','$2y$12$.tgQFHDIp01G8KSaCBd2..7Fxt8EWpIYcUWVKeVHevUwkGxQ6wim.','Alger',0,'2026-02-02 01:18:50'),
+(24,'Feriel','Toumi','feriel.toumi24@email.dz','0695569495','$2y$12$A2HR9aw3d0sj4R8xEWWzBuNdqAADx5hBc/O0uY1845krCRXv9luc2','Alger',0,'2026-04-04 20:49:58'),
+(25,'Nadia','Lounis','nadia.lounis25@email.dz','0610416760','$2y$12$dG50QBQkebw4vedG4crTfO6fUn0XdaZbcfNkF7SZrUsC62.MvjeF.','Alger',0,'2026-03-10 21:51:12'),
+(26,'Nesrine','Saidi','nesrine.saidi26@email.dz','0626832218','$2y$12$wupuwt/E.f4TnamboklZsOrtLhHDKPIDJo8pmjiGLCvRBUx6xWWP.','Alger',0,'2026-01-30 22:24:25'),
+(27,'Lina','Rahmani','lina.rahmani27@email.dz','0679616681','$2y$12$pijk9zk9yN9Cz0dprFXM8ebl5fGvuZC/z9FuTkb/KRex7R.uI6zWe','Alger',0,'2026-05-11 15:03:37'),
+(28,'Rania','Rahmani','rania.rahmani28@email.dz','0643851057','$2y$12$X7.gHnRbVr/.TXYdmxml9OFtO1Fbb4.91zSIPsuJwvHQo3fbFFsti','Alger',0,'2026-08-13 00:38:28'),
+(29,'Hana','Benali','hana.benali29@email.dz','0606500241','$2y$12$1KtdQ8exBdshsYwiQauQZeT9lOL7XCpDkHemYl/ofcIWRGq2CTuf.','Alger',0,'2026-07-02 22:59:47'),
+(30,'Meriem','Meziane','meriem.meziane30@email.dz','0564356177','$2y$12$kPSZColHOCIiZx87X0/I8e8qtKCBDYKozIPy4LIMmjsrrN1FqCsH2','Alger',0,'2026-04-04 22:12:34');
 
 -- orders (25 lignes)
 INSERT INTO `orders` (`id`,`reference`,`customer_id`,`customer_name`,`email`,`phone`,`subtotal`,`discount`,`total`,`payment_method`,`payment_ref`,`receipt_file`,`status`,`note`,`created_at`) VALUES
-(1,'CMD-2026-0001',8,'Ines Toumi','ines.toumi8@email.dz','0641186247',1500,0,1500,'baridimob','','','pending','','2026-06-22 13:45:26'),
-(2,'CMD-2026-0002',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',1500,0,1500,'baridimob','384224651','','paid','','2026-06-03 21:52:49'),
-(3,'CMD-2026-0003',9,'Feriel Ferhat','feriel.ferhat9@email.dz','0509991721',2400,0,2400,'baridimob','211760988','','awaiting','','2026-07-02 15:34:51'),
-(4,'CMD-2026-0004',25,'Nadia Lounis','nadia.lounis25@email.dz','0610416760',3800,0,3800,'baridimob','976313142','','paid','','2026-08-19 00:33:37'),
-(5,'CMD-2026-0005',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',900,0,900,'baridimob','905929618','','paid','','2026-07-17 20:35:45'),
-(6,'CMD-2026-0006',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',2700,0,2700,'baridimob','721281479','','paid','','2026-09-03 05:44:22'),
-(7,'CMD-2026-0007',24,'Feriel Toumi','feriel.toumi24@email.dz','0695569495',3200,0,3200,'baridimob','866273529','','paid','','2026-06-19 06:37:56'),
-(8,'CMD-2026-0008',8,'Ines Toumi','ines.toumi8@email.dz','0641186247',4400,0,4400,'baridimob','588748665','','awaiting','','2026-08-09 02:15:16'),
-(9,'CMD-2026-0009',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',3700,0,3700,'baridimob','714324788','','cancelled','','2026-07-20 19:13:04'),
-(10,'CMD-2026-0010',1,'Yasmine Demo','client@bibliotheque-numerique.dz','0671106498',3500,0,3500,'baridimob','961810826','','paid','','2026-07-14 08:11:43'),
-(11,'CMD-2026-0011',26,'Nesrine Saidi','nesrine.saidi26@email.dz','0626832218',3500,0,3500,'baridimob','818112106','','paid','','2026-06-10 10:11:51'),
-(12,'CMD-2026-0012',21,'Salima Haddad','salima.haddad21@email.dz','0686599006',1800,0,1800,'baridimob','297751897','','paid','','2026-06-26 16:58:09'),
-(13,'CMD-2026-0013',1,'Yasmine Demo','client@bibliotheque-numerique.dz','0671106498',4200,0,4200,'baridimob','','','pending','','2026-08-07 03:13:56'),
-(14,'CMD-2026-0014',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',900,0,900,'baridimob','996629564','','paid','','2026-08-23 23:09:09'),
-(15,'CMD-2026-0015',2,'Salima Benali','salima.benali2@email.dz','0760750138',1200,0,1200,'baridimob','225236163','','awaiting','','2026-07-09 03:41:18'),
-(16,'CMD-2026-0016',7,'Ines Saidi','ines.saidi7@email.dz','0537058832',3400,0,3400,'baridimob','542885123','','paid','','2026-08-21 13:12:20'),
-(17,'CMD-2026-0017',12,'Katia Saidi','katia.saidi12@email.dz','0780025025',2400,0,2400,'baridimob','265330663','','paid','','2026-07-17 13:53:28'),
-(18,'CMD-2026-0018',15,'Meriem Lounis','meriem.lounis15@email.dz','0741525932',900,0,900,'baridimob','390882781','','paid','','2026-07-14 13:06:53'),
-(19,'CMD-2026-0019',27,'Lina Rahmani','lina.rahmani27@email.dz','0679616681',1800,0,1800,'baridimob','','','pending','','2026-08-29 18:40:17'),
-(20,'CMD-2026-0020',21,'Salima Haddad','salima.haddad21@email.dz','0686599006',3700,0,3700,'baridimob','276768373','','paid','','2026-06-10 18:21:38'),
-(21,'CMD-2026-0021',25,'Nadia Lounis','nadia.lounis25@email.dz','0610416760',1800,0,1800,'baridimob','','','pending','','2026-06-23 15:52:49'),
-(22,'CMD-2026-0022',18,'Feriel Toumi','feriel.toumi18@email.dz','0684749559',2200,0,2200,'baridimob','144614117','','awaiting','','2026-09-02 21:55:19'),
-(23,'CMD-2026-0023',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',4400,0,4400,'baridimob','798214567','','paid','','2026-07-25 17:21:38'),
-(24,'CMD-2026-0024',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',2800,0,2800,'baridimob','430851034','','paid','','2026-07-24 21:06:33'),
-(25,'CMD-2026-0025',22,'Hana Kaci','hana.kaci22@email.dz','0577981785',2900,0,2900,'baridimob','','','pending','','2026-07-09 03:37:09');
+(1,'CMD-2026-0001',8,'Ines Toumi','ines.toumi8@email.dz','0641186247',1500,0,1500,'baridimob','','','pending','','2026-07-09 07:04:39'),
+(2,'CMD-2026-0002',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',1500,0,1500,'baridimob','384224651','','paid','','2026-06-20 15:12:02'),
+(3,'CMD-2026-0003',9,'Feriel Ferhat','feriel.ferhat9@email.dz','0509991721',2400,0,2400,'baridimob','211760988','','awaiting','','2026-07-19 08:54:04'),
+(4,'CMD-2026-0004',25,'Nadia Lounis','nadia.lounis25@email.dz','0610416760',3800,0,3800,'baridimob','976313142','','paid','','2026-09-04 17:52:50'),
+(5,'CMD-2026-0005',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',900,0,900,'baridimob','905929618','','paid','','2026-08-03 13:54:58'),
+(6,'CMD-2026-0006',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',2700,0,2700,'baridimob','721281479','','paid','','2026-09-19 23:03:35'),
+(7,'CMD-2026-0007',24,'Feriel Toumi','feriel.toumi24@email.dz','0695569495',3200,0,3200,'baridimob','866273529','','paid','','2026-07-05 23:57:09'),
+(8,'CMD-2026-0008',8,'Ines Toumi','ines.toumi8@email.dz','0641186247',4400,0,4400,'baridimob','588748665','','awaiting','','2026-08-25 19:34:29'),
+(9,'CMD-2026-0009',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',3700,0,3700,'baridimob','714324788','','cancelled','','2026-08-06 12:32:17'),
+(10,'CMD-2026-0010',1,'Yasmine Demo','client@bibliotheque-numerique.dz','0671106498',3500,0,3500,'baridimob','961810826','','paid','','2026-07-31 01:30:56'),
+(11,'CMD-2026-0011',26,'Nesrine Saidi','nesrine.saidi26@email.dz','0626832218',3500,0,3500,'baridimob','818112106','','paid','','2026-06-27 03:31:04'),
+(12,'CMD-2026-0012',21,'Salima Haddad','salima.haddad21@email.dz','0686599006',1800,0,1800,'baridimob','297751897','','paid','','2026-07-13 10:17:22'),
+(13,'CMD-2026-0013',1,'Yasmine Demo','client@bibliotheque-numerique.dz','0671106498',4200,0,4200,'baridimob','','','pending','','2026-08-23 20:33:09'),
+(14,'CMD-2026-0014',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',900,0,900,'baridimob','996629564','','paid','','2026-09-09 16:28:22'),
+(15,'CMD-2026-0015',2,'Salima Benali','salima.benali2@email.dz','0760750138',1200,0,1200,'baridimob','225236163','','awaiting','','2026-07-25 21:00:31'),
+(16,'CMD-2026-0016',7,'Ines Saidi','ines.saidi7@email.dz','0537058832',3400,0,3400,'baridimob','542885123','','paid','','2026-09-07 06:31:33'),
+(17,'CMD-2026-0017',12,'Katia Saidi','katia.saidi12@email.dz','0780025025',2400,0,2400,'baridimob','265330663','','paid','','2026-08-03 07:12:41'),
+(18,'CMD-2026-0018',15,'Meriem Lounis','meriem.lounis15@email.dz','0741525932',900,0,900,'baridimob','390882781','','paid','','2026-07-31 06:26:06'),
+(19,'CMD-2026-0019',27,'Lina Rahmani','lina.rahmani27@email.dz','0679616681',1800,0,1800,'baridimob','','','pending','','2026-09-15 11:59:30'),
+(20,'CMD-2026-0020',21,'Salima Haddad','salima.haddad21@email.dz','0686599006',3700,0,3700,'baridimob','276768373','','paid','','2026-06-27 11:40:51'),
+(21,'CMD-2026-0021',25,'Nadia Lounis','nadia.lounis25@email.dz','0610416760',1800,0,1800,'baridimob','','','pending','','2026-07-10 09:12:02'),
+(22,'CMD-2026-0022',18,'Feriel Toumi','feriel.toumi18@email.dz','0684749559',2200,0,2200,'baridimob','144614117','','awaiting','','2026-09-19 15:14:32'),
+(23,'CMD-2026-0023',11,'Ines Kaci','ines.kaci11@email.dz','0685316961',4400,0,4400,'baridimob','798214567','','paid','','2026-08-11 10:40:51'),
+(24,'CMD-2026-0024',3,'Sarah Cherif','sarah.cherif3@email.dz','0504232163',2800,0,2800,'baridimob','430851034','','paid','','2026-08-10 14:25:46'),
+(25,'CMD-2026-0025',22,'Hana Kaci','hana.kaci22@email.dz','0577981785',2900,0,2900,'baridimob','','','pending','','2026-07-25 20:56:22');
 
 -- order_items (39 lignes)
 INSERT INTO `order_items` (`id`,`order_id`,`book_id`,`title`,`price`) VALUES
@@ -471,48 +478,48 @@ INSERT INTO `order_items` (`id`,`order_id`,`book_id`,`title`,`price`) VALUES
 
 -- book_access (23 lignes)
 INSERT INTO `book_access` (`id`,`customer_id`,`book_id`,`order_id`,`created_at`) VALUES
-(1,3,3,2,'2026-06-03 21:52:49'),
-(2,25,4,4,'2026-08-19 00:33:37'),
-(3,25,5,4,'2026-08-19 00:33:37'),
-(4,11,8,5,'2026-07-17 20:35:45'),
-(5,11,2,6,'2026-09-03 05:44:22'),
-(6,24,6,7,'2026-06-19 06:37:56'),
-(7,24,10,7,'2026-06-19 06:37:56'),
-(8,1,1,10,'2026-07-14 08:11:43'),
-(9,1,3,10,'2026-07-14 08:11:43'),
-(10,26,1,11,'2026-06-10 10:11:51'),
-(11,26,3,11,'2026-06-10 10:11:51'),
-(12,21,2,12,'2026-06-26 16:58:09'),
-(13,3,8,14,'2026-08-23 23:09:09'),
-(14,7,5,16,'2026-08-21 13:12:20'),
-(15,7,6,16,'2026-08-21 13:12:20'),
-(16,12,7,17,'2026-07-17 13:53:28'),
-(17,15,8,18,'2026-07-14 13:06:53'),
-(18,21,1,20,'2026-06-10 18:21:38'),
-(19,21,9,20,'2026-06-10 18:21:38'),
-(20,11,1,23,'2026-07-25 17:21:38'),
-(21,11,7,23,'2026-07-25 17:21:38'),
-(22,3,4,24,'2026-07-24 21:06:33'),
-(23,3,6,24,'2026-07-24 21:06:33');
+(1,3,3,2,'2026-06-20 15:12:02'),
+(2,25,4,4,'2026-09-04 17:52:50'),
+(3,25,5,4,'2026-09-04 17:52:50'),
+(4,11,8,5,'2026-08-03 13:54:58'),
+(5,11,2,6,'2026-09-19 23:03:35'),
+(6,24,6,7,'2026-07-05 23:57:09'),
+(7,24,10,7,'2026-07-05 23:57:09'),
+(8,1,1,10,'2026-07-31 01:30:56'),
+(9,1,3,10,'2026-07-31 01:30:56'),
+(10,26,1,11,'2026-06-27 03:31:04'),
+(11,26,3,11,'2026-06-27 03:31:04'),
+(12,21,2,12,'2026-07-13 10:17:22'),
+(13,3,8,14,'2026-09-09 16:28:22'),
+(14,7,5,16,'2026-09-07 06:31:33'),
+(15,7,6,16,'2026-09-07 06:31:33'),
+(16,12,7,17,'2026-08-03 07:12:41'),
+(17,15,8,18,'2026-07-31 06:26:06'),
+(18,21,1,20,'2026-06-27 11:40:51'),
+(19,21,9,20,'2026-06-27 11:40:51'),
+(20,11,1,23,'2026-08-11 10:40:51'),
+(21,11,7,23,'2026-08-11 10:40:51'),
+(22,3,4,24,'2026-08-10 14:25:46'),
+(23,3,6,24,'2026-08-10 14:25:46');
 
 -- coupons (5 lignes)
 INSERT INTO `coupons` (`id`,`code`,`type`,`value`,`min_amount`,`description`,`expires_at`,`usage_limit`,`used`,`active`) VALUES
-(1,'BIENVENUE10','percent',10,0,'-10% première commande','2026-10-04',93,29,1),
-(2,'LECTURE15','percent',15,3000,'-15% dès 3000 DA','2026-12-27',54,10,1),
-(3,'LECTEUR500','fixed',500,2000,'-500 DA','2026-10-04',146,28,1),
-(4,'RAMADAN20','percent',20,4000,'Offre Ramadan -20%','2026-11-08',139,2,1),
-(5,'GRATUIT','fixed',300,900,'-300 DA','2026-10-14',142,9,1);
+(1,'BIENVENUE10','percent',10,0,'-10% première commande','2026-10-21',93,29,1),
+(2,'LECTURE15','percent',15,3000,'-15% dès 3000 DA','2027-01-13',54,10,1),
+(3,'LECTEUR500','fixed',500,2000,'-500 DA','2026-10-21',146,28,1),
+(4,'RAMADAN20','percent',20,4000,'Offre Ramadan -20%','2026-11-25',139,2,1),
+(5,'GRATUIT','fixed',300,900,'-300 DA','2026-10-31',142,9,1);
 
 -- blog_posts (8 lignes)
 INSERT INTO `blog_posts` (`id`,`title`,`slug`,`category`,`excerpt`,`body`,`image`,`author`,`tags`,`status`,`views`,`published_at`) VALUES
-(1,'Comment lire plus régulièrement','comment-lire-plus-regulierement','Conseils','Mes conseils pour comment lire plus régulièrement.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',249,'2026-04-19 09:04:49'),
-(2,'5 livres pour bien démarrer une activité','5-livres-pour-bien-demarrer-une-activite','Conseils','Mes conseils pour 5 livres pour bien démarrer une activité.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',3176,'2026-05-22 19:17:07'),
-(3,'Construire une présentation qui convainc','construire-une-presentation-qui-convainc','Tutoriels','Mes conseils pour construire une présentation qui convainc.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',2977,'2026-07-27 07:42:12'),
-(4,'Prendre des notes efficacement','prendre-des-notes-efficacement','Tutoriels','Mes conseils pour prendre des notes efficacement.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',1097,'2026-05-24 15:28:29'),
-(5,'Organiser sa bibliothèque numérique','organiser-sa-bibliotheque-numerique','Conseils','Mes conseils pour organiser sa bibliothèque numérique.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',3024,'2026-05-24 11:27:15'),
-(6,'Les erreurs classiques d''un diaporama','les-erreurs-classiques-d-un-diaporama','Tutoriels','Mes conseils pour les erreurs classiques d''un diaporama.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',2156,'2026-06-10 10:00:10'),
-(7,'PDF ou PowerPoint : quel format choisir','pdf-ou-powerpoint-quel-format-choisir','Tutoriels','Mes conseils pour pdf ou powerpoint : quel format choisir.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',346,'2026-06-19 18:11:55'),
-(8,'Se former en ligne sans se disperser','se-former-en-ligne-sans-se-disperser','Business','Mes conseils pour se former en ligne sans se disperser.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Business, lecture, conseils','published',1107,'2026-06-15 08:16:12');
+(1,'Comment lire plus régulièrement','comment-lire-plus-regulierement','Conseils','Mes conseils pour comment lire plus régulièrement.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',249,'2026-05-06 02:24:02'),
+(2,'5 livres pour bien démarrer une activité','5-livres-pour-bien-demarrer-une-activite','Conseils','Mes conseils pour 5 livres pour bien démarrer une activité.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',3176,'2026-06-08 12:36:20'),
+(3,'Construire une présentation qui convainc','construire-une-presentation-qui-convainc','Tutoriels','Mes conseils pour construire une présentation qui convainc.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',2977,'2026-08-13 01:01:25'),
+(4,'Prendre des notes efficacement','prendre-des-notes-efficacement','Tutoriels','Mes conseils pour prendre des notes efficacement.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',1097,'2026-06-10 08:47:42'),
+(5,'Organiser sa bibliothèque numérique','organiser-sa-bibliotheque-numerique','Conseils','Mes conseils pour organiser sa bibliothèque numérique.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Conseils, lecture, conseils','published',3024,'2026-06-10 04:46:28'),
+(6,'Les erreurs classiques d''un diaporama','les-erreurs-classiques-d-un-diaporama','Tutoriels','Mes conseils pour les erreurs classiques d''un diaporama.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',2156,'2026-06-27 03:19:23'),
+(7,'PDF ou PowerPoint : quel format choisir','pdf-ou-powerpoint-quel-format-choisir','Tutoriels','Mes conseils pour pdf ou powerpoint : quel format choisir.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Tutoriels, lecture, conseils','published',346,'2026-07-06 11:31:08'),
+(8,'Se former en ligne sans se disperser','se-former-en-ligne-sans-se-disperser','Business','Mes conseils pour se former en ligne sans se disperser.','<p>Bienvenue dans le carnet de la bibliothèque. Nous y partageons nos conseils de lecture, nos méthodes de travail et nos astuces pour tirer le meilleur de chaque titre.</p><h2>Nos conseils</h2><p>La régularité et l''organisation sont vos meilleures alliées. Commencez petit, avancez chapitre par chapitre, prenez des notes.</p><ul><li>Choisissez un titre adapté à votre niveau.</li><li>Fixez-vous un créneau de lecture régulier.</li><li>Reprenez vos notes une semaine plus tard.</li></ul><p>Retrouvez tout le détail dans nos livres et présentations, avec des fiches pratiques prêtes à l''emploi.</p>',NULL,'La Bibliothèque','Business, lecture, conseils','published',1107,'2026-07-02 01:35:25');
 
 -- testimonials (8 lignes)
 INSERT INTO `testimonials` (`id`,`name`,`role`,`avatar`,`rating`,`body`,`position`) VALUES

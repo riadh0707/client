@@ -118,9 +118,16 @@ CREATE TABLE orders (
   discount DECIMAL(10,2) NOT NULL DEFAULT 0,
   total DECIMAL(10,2) NOT NULL DEFAULT 0,
   payment_method VARCHAR(30) NOT NULL DEFAULT 'baridimob',
-  payment_ref VARCHAR(120) NULL,               -- référence de transaction BaridiMob
+  payment_ref VARCHAR(120) NULL,               -- réf. transaction BaridiMob (manuel)
+  order_number VARCHAR(20) NULL,               -- orderNumber marchand envoyé à SATIM
+  satim_order_id VARCHAR(40) NULL,             -- mdOrder / orderId généré par SATIM
+  approval_code VARCHAR(12) NULL,              -- N° d'autorisation (approvalCode)
+  resp_code VARCHAR(8) NULL,                   -- respCode SATIM (00 = accepté)
+  pan VARCHAR(24) NULL,                        -- numéro de carte masqué
+  card_brand VARCHAR(20) NULL,                 -- CIB | Edahabia
+  paid_at DATETIME NULL,                       -- date/heure de la transaction acceptée
   receipt_file VARCHAR(190) NULL,              -- capture de reçu (facultatif)
-  status VARCHAR(20) NOT NULL DEFAULT 'pending', -- pending|awaiting|paid|cancelled
+  status VARCHAR(20) NOT NULL DEFAULT 'pending', -- pending|awaiting|paid|refunded|cancelled
   note TEXT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_order_customer (customer_id),

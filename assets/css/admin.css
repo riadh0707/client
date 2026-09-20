@@ -107,3 +107,6 @@ svg:not([width]) { width: 1.2em; height: 1.2em; flex: none; vertical-align: midd
 
 /* Icône retournée horizontalement (flèches « retour »). */
 svg.flip { transform: scaleX(-1); }
+
+/* Statut « remboursée » */
+.a-pill.st-refunded { background: #e7dcc4; color: #7a5b1e; }

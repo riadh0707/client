@@ -29,8 +29,25 @@ if (is_post()) {
 
 $adminActive = 'settings';
 $adminTitle = 'Paramètres du site';
+require_once INCLUDES_PATH . '/payment.php';
+require_once INCLUDES_PATH . '/captcha.php';
+$sat = SatimGateway::config();
 require_once INCLUDES_PATH . '/admin_layout.php';
 ?>
+<div class="a-panel" style="max-width:820px">
+  <h3 style="margin-bottom:14px"><?= icon('wallet') ?> Paiement en ligne SATIM (CIB / Edahabia)</h3>
+  <table class="a-table"><tbody>
+    <tr><td>État</td><td><?php if (SatimGateway::enabled()): ?><span class="a-pill st-paid">Activé</span><?php else: ?><span class="a-pill st-cancelled">Désactivé</span><?php endif; ?></td></tr>
+    <tr><td>Environnement</td><td><?= SatimGateway::isMock() ? 'Simulateur (tests locaux)' : e($sat['base_url']) ?></td></tr>
+    <tr><td>Username marchand</td><td><code><?= e($sat['username'] ?: '—') ?></code></td></tr>
+    <tr><td>Identifiant terminal</td><td><code><?= e($sat['terminal_id'] ?: '—') ?></code></td></tr>
+    <tr><td>Devise / Langue</td><td><?= e($sat['currency']) ?> · <?= e($sat['language']) ?></td></tr>
+    <tr><td>Captcha</td><td><?= captcha_uses_recaptcha() ? 'reCAPTCHA v2' : 'Captcha intégré' ?></td></tr>
+    <tr><td>Numéro vert</td><td><?= e($sat['green_number']) ?></td></tr>
+  </tbody></table>
+  <p style="color:var(--a-muted);font-size:.8rem;margin-top:12px">🔒 Les identifiants SATIM sont configurés dans <code>config/config.php</code> (jamais committé). Pour passer en production, mettez <code>base_url</code> sur le domaine fourni par la SATIM et <code>mock</code> à <code>false</code>.</p>
+</div>
+
 <form method="post" style="max-width:820px">
   <?= csrf_field() ?>
   <?php foreach ($fields as $group => $items): ?>

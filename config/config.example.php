@@ -67,4 +67,27 @@ return [
         'from_name'  => 'La Bibliothèque Numérique',
         'from_email' => 'no-reply@bibliotheque-numerique.dz',
     ],
+
+    /* -------------------------------------------------------------------
+     |  Paiement en ligne SATIM-IPAY (CIB / Edahabia)
+     * -------------------------------------------------------------------
+     |  Renseignez les identifiants communiqués par la SATIM. Ne committez
+     |  jamais ce fichier une fois rempli.
+     |  Test      : base_url = https://test2.satim.dz/payment/rest/
+     |  Production : base_url = domaine de production fourni par la SATIM.
+     * ------------------------------------------------------------------- */
+    'satim' => [
+        'enabled'     => false,
+        'mock'        => false,
+        'base_url'    => 'https://test2.satim.dz/payment/rest/',
+        'username'    => '',      // Username web marchand
+        'password'    => '',      // Mot de passe web marchand
+        'terminal_id' => '',      // Identifiant terminal (force_terminal_id)
+        'currency'    => '012',   // DZD
+        'language'    => 'FR',
+        'green_number'=> '3020',
+        'timeout'     => 20,
+        'recaptcha_site_key'   => '',
+        'recaptcha_secret_key' => '',
+    ],
 ];

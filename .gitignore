@@ -11,3 +11,4 @@
 
 .DS_Store
 *.log
+/database/_satim_mock.json
