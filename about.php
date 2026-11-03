@@ -18,7 +18,7 @@ require_once INCLUDES_PATH . '/header.php';
 <section class="section">
   <div class="container">
     <div class="editorial">
-      <div class="ph"><img src="<?php h(upload_url('banner-06.jpg', 'banners')); ?>" alt="Deux amies se maquillant devant un miroir" loading="lazy"></div>
+      <div class="ph"><img src="<?php h(upload_url('banner-06.jpg', 'banners')); ?>" alt="Femme se maquillant devant un miroir" loading="lazy"></div>
       <div>
         <h2>Une sélection experte, une passion sincère</h2>
         <p>Depuis notre création, nous parcourons le monde de la cosmétique pour vous offrir le meilleur du maquillage, des soins, des parfums et des accessoires. Chaque produit est choisi pour sa qualité, son efficacité et son plaisir d'utilisation.</p>

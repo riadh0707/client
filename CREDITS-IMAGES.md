@@ -67,3 +67,28 @@ Photos libres de droit utilisées sur la démo Bella Rosa. Origine identifiée p
 | pmv-chamara-u7YkKVJoSYY-unsplash.jpg | Unsplash | UsamaAlmas8/Bootstrap5 |
 | timothy-dykes-x7Xn9yMyf30-unsplash.jpg | Unsplash | UsamaAlmas8/Bootstrap5 |
 | product-01…17.jpg, collection-*.jpg, offer-banner-*.jpg | Template Glowing | codewithsadee/glowing |
+
+## Ajouts (portraits)
+
+| Fichier d'origine | Plateforme | Dépôt GitHub source |
+|---|---|---|
+| siora-photography-LkT5-JCePUY-unsplash.jpg | Unsplash | Auwalyy/perfume_landing |
+| pexels-photo-7290695.jpeg | Pexels | KenzyEssam/CosmeticShop-Django |
+| andrey-zvyagintsev-XM8OXHhzOsU-unsplash.jpg | Unsplash | UJESH2K/solstore |
+| andriyko-podilnyk-F4AMM1293ag-unsplash.jpg | Unsplash | UJESH2K/solstore |
+| engin-akyurt-g-m8EDc4X6Q-unsplash.jpg | Unsplash | asell0808/sassy_esty |
+| sharon-mccutcheon-y_VhmHCZ8FY-unsplash.jpg | Unsplash | asell0808/sassy_esty |
+| face-4981573_640.jpg | Pixabay | gtech29/stelesthetics |
+| woman-3067179_1280.jpg | Pixabay | gtech29/stelesthetics |
+| averie-woodard-4nulm-JUYFo-unsplash.jpg | Unsplash | jessefrench/wanderlust |
+| gabriel-silverio-u3WmDyKGsrY-unsplash.jpg | Unsplash | jessefrench/wanderlust |
+| george-bohunicky-qJKT2rMU0VU-unsplash.jpg | Unsplash | jessefrench/wanderlust |
+| kareya-saleh-tLKOj6cNwe0-unsplash.jpg | Unsplash | jessefrench/wanderlust |
+| salha-frija-dsQoLK2N7DQ2-unsplash.jpg | Unsplash | jessefrench/wanderlust |
+| lucas-mendes-p5MaMz7rxYU-unsplash.jpg | Unsplash | kristenlynne/hair-salon |
+| pexels-hannah-nelson-1065084.jpg | Pexels | kristenlynne/hair-salon |
+| valerie-elash-fj9YD_KMYT8-unsplash.jpg | Unsplash | kristenlynne/hair-salon |
+| michael-dam-258165-unsplash.jpg | Unsplash | mariatryta/Makeup-Artist-Portfolio |
+| rakicevic-nenad-507632-unsplash-min.jpg | Unsplash | mariatryta/Makeup-Artist-Portfolio |
+| allef-vinicius-BdhM5wT0qk4-unsplash.jpg | Unsplash | tirthvyas710/Model-management |
+| pexels-cottonbro-3993463.jpg | Pexels | victoria-parker/beyond-hair-salon |

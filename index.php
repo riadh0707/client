@@ -14,9 +14,9 @@ $testimonials = Database::all('SELECT * FROM testimonials ORDER BY position LIMI
 $posts       = Database::all("SELECT * FROM blog_posts WHERE status = 'published' ORDER BY published_at DESC LIMIT 3");
 
 $slides = [
-    ['kicker' => 'Nouvelle collection', 'title' => 'Révélez votre <em>éclat</em> naturel', 'text' => 'Maquillage, soins et parfums d\'exception, sélectionnés pour sublimer votre beauté au quotidien.', 'cta' => 'shop.php', 'label' => 'Découvrir la boutique', 'img' => 'banner-01.jpg', 'inset' => 'banner-02.jpg', 'alt' => 'Trois femmes souriantes sur fond rose'],
-    ['kicker' => 'Soins visage', 'title' => 'La science au service de votre <em>peau</em>', 'text' => 'Des actifs puissants, des formules sensorielles. Offrez à votre peau le rituel qu\'elle mérite.', 'cta' => 'shop.php?cat=soins-visage', 'label' => 'Voir les soins', 'img' => 'banner-05.jpg', 'inset' => 'banner-07.jpg', 'alt' => 'Portrait d\'une femme à la peau lumineuse'],
-    ['kicker' => 'Parfums signature', 'title' => 'Votre sillage, votre <em>histoire</em>', 'text' => 'Une collection de parfums raffinés pour marquer les esprits en toute élégance.', 'cta' => 'shop.php?cat=parfums', 'label' => 'Explorer les parfums', 'img' => 'banner-04.jpg', 'inset' => 'banner-08.jpg', 'alt' => 'Femme entourée de fleurs'],
+    ['kicker' => 'Nouvelle collection', 'title' => 'Révélez votre <em>éclat</em> naturel', 'text' => 'Maquillage, soins et parfums d\'exception, sélectionnés pour sublimer votre beauté au quotidien.', 'cta' => 'shop.php', 'label' => 'Découvrir la boutique', 'img' => 'banner-01.jpg', 'inset' => 'banner-02.jpg', 'alt' => 'Femme aux longs cheveux ondulés sur fond rose'],
+    ['kicker' => 'Soins visage', 'title' => 'La science au service de votre <em>peau</em>', 'text' => 'Des actifs puissants, des formules sensorielles. Offrez à votre peau le rituel qu\'elle mérite.', 'cta' => 'shop.php?cat=soins-visage', 'label' => 'Voir les soins', 'img' => 'banner-05.jpg', 'inset' => 'banner-07.jpg', 'alt' => 'Soin du visage avec masque en institut'],
+    ['kicker' => 'Parfums signature', 'title' => 'Votre sillage, votre <em>histoire</em>', 'text' => 'Une collection de parfums raffinés pour marquer les esprits en toute élégance.', 'cta' => 'shop.php?cat=parfums', 'label' => 'Explorer les parfums', 'img' => 'banner-04.jpg', 'inset' => 'banner-08.jpg', 'alt' => 'Femme appliquant un rouge à lèvres'],
 ];
 
 // Nombre de produits par univers (catégorie parente + sous-catégories).
@@ -100,7 +100,7 @@ require_once INCLUDES_PATH . '/header.php';
 <!-- ===================================================== EDITORIAL ======= -->
 <section class="section">
   <div class="container editorial">
-    <div class="ph"><img src="<?php h(upload_url('banner-06.jpg', 'banners', 'Bella Rosa')); ?>" alt="Deux amies se maquillant devant un miroir" loading="lazy"></div>
+    <div class="ph"><img src="<?php h(upload_url('banner-06.jpg', 'banners', 'Bella Rosa')); ?>" alt="Femme se maquillant devant un miroir" loading="lazy"></div>
     <div>
       <h2>La beauté, choisie avec soin</h2>
       <p>Bella Rosa est née d'une idée simple : rendre accessibles en Algérie les produits de beauté que l'on aime vraiment. Chaque référence est testée, sourcée directement auprès des marques et livrée chez vous avec le même soin qu'un cadeau.</p>
@@ -131,7 +131,7 @@ require_once INCLUDES_PATH . '/header.php';
         </div>
         <a href="<?php h(url('shop.php?filter=sale')); ?>" class="btn btn-lg">J'en profite <?= icon('arrow') ?></a>
       </div>
-      <div class="fs-ph" role="img" aria-label="Femme tenant une palette de maquillage" style="background-image:url('<?php h(upload_url('banner-08.jpg', 'banners')); ?>')"></div>
+      <div class="fs-ph" role="img" aria-label="Femme aux lèvres rouges et lunettes de soleil" style="background-image:url('<?php h(upload_url('banner-08.jpg', 'banners')); ?>')"></div>
     </div>
   </div>
 </section>
