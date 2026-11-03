@@ -1,0 +1,58 @@
+# ============================================================================
+#  Bella Rosa — Apache (.htaccess)  ·  Compatible AwardSpace Free
+# ============================================================================
+
+# -- Sécurité de base --------------------------------------------------------
+Options -Indexes
+ServerSignature Off
+
+# Protéger les fichiers sensibles
+<FilesMatch "\.(sqlite|log|md|sql)$">
+  Require all denied
+</FilesMatch>
+<Files "config.php">
+  Require all denied
+</Files>
+
+# -- Encodage / type ---------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# -- Pages d'erreur personnalisées ------------------------------------------
+ErrorDocument 404 /404.php
+
+# -- Compression GZIP --------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# -- Cache navigateur (performances) ----------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/svg+xml   "access plus 1 month"
+  ExpiresByType image/jpeg      "access plus 1 month"
+  ExpiresByType image/png       "access plus 1 month"
+  ExpiresByType image/webp      "access plus 1 month"
+  ExpiresByType text/css        "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/x-icon    "access plus 1 year"
+</IfModule>
+
+# -- En-têtes de sécurité ----------------------------------------------------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# -- Empêcher l'exécution de PHP dans /uploads ------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Bloquer l'exécution de scripts dans le dossier d'uploads
+  RewriteRule ^uploads/.*\.(php|phtml|phar|cgi|pl)$ - [F]
+
+  # URLs propres (facultatif) : /produit/mon-slug -> product.php?slug=mon-slug
+  RewriteRule ^produit/([a-z0-9-]+)/?$ product.php?slug=$1 [L,QSA]
+  RewriteRule ^categorie/([a-z0-9-]+)/?$ shop.php?cat=$1 [L,QSA]
+  RewriteRule ^article/([a-z0-9-]+)/?$ blog-post.php?slug=$1 [L,QSA]
+</IfModule>

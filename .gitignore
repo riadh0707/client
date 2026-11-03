@@ -1,0 +1,14 @@
+# Configuration locale (contient les identifiants) — ne jamais committer
+/config/config.php
+
+# Base SQLite de démonstration locale
+/database/*.sqlite
+
+# Uploads utilisateur (on conserve la structure des dossiers)
+/uploads/**/*
+!/uploads/**/.gitkeep
+
+# Divers
+.DS_Store
+Thumbs.db
+*.log
