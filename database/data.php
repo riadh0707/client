@@ -96,7 +96,7 @@ function demo_data(): array
         $parentId = ++$cid;
         $categories[] = [
             'id' => $parentId, 'parent_id' => null, 'name' => $name,
-            'slug' => slugify($name), 'icon' => $icon,
+            'slug' => slugify($name), 'icon' => $icon, 'image' => slugify($name) . '.jpg',
             'description' => 'Découvrez notre sélection ' . mb_strtolower($name) . ' : des produits premium choisis avec soin.',
             'seo_title' => $name . ' premium en Algérie | Bella Rosa',
             'position' => $parentId,
@@ -104,13 +104,15 @@ function demo_data(): array
         foreach ($children as $child) {
             $categories[] = [
                 'id' => ++$cid, 'parent_id' => $parentId, 'name' => $child,
-                'slug' => slugify($name . '-' . $child), 'icon' => $icon,
+                'slug' => slugify($name . '-' . $child), 'icon' => $icon, 'image' => slugify($name . '-' . $child) . '.jpg',
                 'description' => $child . ' — ' . $name . '.',
                 'seo_title' => $child . ' — ' . $name . ' | Bella Rosa',
                 'position' => $cid,
             ];
         }
     }
+    // Ids réels des catégories racines, dans l'ordre de $catTree.
+    $rootIds = array_values(array_map(fn($c) => $c['id'], array_filter($categories, fn($c) => $c['parent_id'] === null)));
     // Index des catégories "feuilles" affectables aux produits.
     $leafByParent = [];
     foreach ($categories as $c) {
@@ -181,6 +183,33 @@ function demo_data(): array
         'La qualité est au rendez-vous, je le conseille à toutes mes amies.',
     ];
 
+    // Photos produits (uploads/products/<préfixe>-NN{a|b}.jpg) — voir CREDITS-IMAGES.md.
+    $imgPrefix = [1 => 'maquillage', 2 => 'soins-visage', 3 => 'soins-corps', 4 => 'soins-cheveux', 5 => 'parfums', 6 => 'onglerie', 7 => 'accessoires'];
+    $imgCount  = [1 => 13, 2 => 15, 3 => 9, 4 => 6, 5 => 7, 6 => 4, 7 => 7];
+    $nounPools = [
+        'Rouge à lèvres' => [1, 10, 12], 'Gloss' => [10, 1, 12],
+        'Palette de fards' => [6, 9, 3, 4], 'Blush' => [11, 7, 2], 'Highlighter' => [7, 11, 2], 'Poudre libre' => [2, 11, 7],
+        'Fond de teint' => [11, 12, 5], 'Anti-cernes' => [12, 11, 5], 'Mascara' => [9, 3, 13, 8], 'Eyeliner' => [3, 9, 8, 13],
+        'Sérum vitamine C' => [7, 11, 12, 14], 'Sérum acide hyaluronique' => [11, 14, 7, 12], 'Crème hydratante' => [4, 6, 10, 13],
+        'Gel nettoyant' => [3, 5, 9], "Masque à l'argile" => [15, 6, 9], 'Contour des yeux' => [8, 13, 4],
+        'Eau micellaire' => [1, 8, 2], 'Exfoliant doux' => [5, 4, 10],
+        'Pinceau maquillage' => [1, 3, 4], 'Set de pinceaux' => [2, 4, 3], 'Éponge à fond de teint' => [6, 1],
+        'Trousse beauté' => [7, 6], 'Bandeau spa' => [6, 5], 'Miroir LED' => [6, 2],
+    ];
+    $nounLeaf = [
+        'Fond de teint' => 'maquillage-teint', 'Anti-cernes' => 'maquillage-teint', 'Poudre libre' => 'maquillage-teint',
+        'Blush' => 'maquillage-teint', 'Highlighter' => 'maquillage-teint',
+        'Mascara' => 'maquillage-yeux', 'Palette de fards' => 'maquillage-yeux', 'Eyeliner' => 'maquillage-yeux',
+        'Rouge à lèvres' => 'maquillage-levres', 'Gloss' => 'maquillage-levres',
+        'Gel nettoyant' => 'soins-visage-nettoyants', 'Eau micellaire' => 'soins-visage-nettoyants',
+        'Exfoliant doux' => 'soins-visage-nettoyants', "Masque à l'argile" => 'soins-visage-nettoyants',
+        'Sérum vitamine C' => 'soins-visage-serums', 'Sérum acide hyaluronique' => 'soins-visage-serums',
+        'Crème hydratante' => 'soins-visage-cremes', 'Contour des yeux' => 'soins-visage-cremes',
+    ];
+    $catIdBySlug = array_column($categories, 'id', 'slug');
+    $imgCursor = [];
+    $productImages = [];
+
     $perParent = [1 => 30, 2 => 24, 3 => 14, 4 => 14, 5 => 18, 6 => 12, 7 => 8]; // = 120
     foreach ($perParent as $parentId => $count) {
         $v = $vocab[$parentId];
@@ -192,9 +221,15 @@ function demo_data(): array
             $name = $noun . ' ' . $adj;
 
             // Catégorie : feuille si dispo, sinon le parent.
-            $catId = isset($leafByParent[$parentId])
-                ? $leafByParent[$parentId][mt_rand(0, count($leafByParent[$parentId]) - 1)]
-                : $parentId;
+            // ($parentId est le rang 1..7 de l'univers ; $rootId son id réel dans $categories.)
+            $rootId = $rootIds[$parentId - 1];
+            $catId = isset($leafByParent[$rootId])
+                ? $leafByParent[$rootId][mt_rand(0, count($leafByParent[$rootId]) - 1)]
+                : $rootId;
+            // Sous-catégorie cohérente avec le type de produit quand elle existe.
+            if (isset($nounLeaf[$noun], $catIdBySlug[$nounLeaf[$noun]])) {
+                $catId = $catIdBySlug[$nounLeaf[$noun]];
+            }
 
             $base   = mt_rand(1200, 14500);
             $onSale = mt_rand(1, 100) <= 32;
@@ -227,6 +262,24 @@ function demo_data(): array
                 'status'        => 'active',
                 'video_url'     => null,
             ];
+
+            // Galerie photo (3 visuels) : d'abord une photo correspondant au
+            // type de produit, puis deux visuels de la catégorie. Sélection par
+            // compteurs (aucun appel à mt_rand : la génération reste identique).
+            $pref  = $imgPrefix[$parentId];
+            $pool  = $nounPools[$noun] ?? range(1, $imgCount[$parentId]);
+            $seen  = [];
+            for ($g = 0; $g < 3; $g++) {
+                $src = $g === 0 ? $pool : range(1, $imgCount[$parentId]);
+                $key = $pref . ($g === 0 ? $noun : '#cat');
+                $i   = $imgCursor[$key] = (($imgCursor[$key] ?? -1) + 1);
+                $num = $src[$i % count($src)];
+                $variant = intdiv($i, count($src)) % 2 ? 'b' : 'a';
+                $file = sprintf('%s-%02d%s.jpg', $pref, $num, $variant);
+                if (isset($seen[$file])) { $file = sprintf('%s-%02d%s.jpg', $pref, $num, $variant === 'a' ? 'b' : 'a'); }
+                $seen[$file] = true;
+                $productImages[] = ['product_id' => $pid, 'file' => $file, 'position' => $g];
+            }
 
             // 0 à 4 avis publiés par produit.
             $numReviews = mt_rand(0, 4);
@@ -391,7 +444,7 @@ function demo_data(): array
             'category'     => $t[1],
             'excerpt'      => 'Découvrez nos conseils d\'experts pour ' . mb_strtolower($t[0]) . ' et sublimer votre beauté au quotidien.',
             'body'         => $blogBody,
-            'image'        => null,
+            'image'        => sprintf('blog-%02d.jpg', $i + 1),
             'author'       => $blogAuthors[mt_rand(0, count($blogAuthors) - 1)],
             'tags'         => $t[1] . ', beauté, conseils',
             'status'       => 'published',
@@ -421,7 +474,7 @@ function demo_data(): array
             'id'       => $i,
             'name'     => $fn . ' ' . mb_substr($lastNames[mt_rand(0, count($lastNames) - 1)], 0, 1) . '.',
             'role'     => $testimonialRoles[mt_rand(0, count($testimonialRoles) - 1)],
-            'avatar'   => null,
+            'avatar'   => sprintf('avatar-%02d.jpg', $i),
             'rating'   => mt_rand(4, 5),
             'body'     => $testimonialBodies[mt_rand(0, count($testimonialBodies) - 1)],
             'position' => $i,
@@ -430,6 +483,6 @@ function demo_data(): array
 
     return compact(
         'settings', 'admins', 'brands', 'categories', 'products', 'reviews',
-        'customers', 'orders', 'orderItems', 'coupons', 'blog', 'testimonials'
+        'customers', 'orders', 'orderItems', 'coupons', 'blog', 'testimonials', 'productImages'
     );
 }

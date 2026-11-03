@@ -30,9 +30,9 @@ require_once INCLUDES_PATH . '/header.php';
 <div class="container"><?= breadcrumb([['label' => 'FAQ']]) ?></div>
 <section class="section-sm">
   <div class="container" style="max-width:820px">
-    <div class="section-head"><span class="eyebrow">Aide & Support</span><h1>Questions fréquentes</h1><p>Trouvez rapidement une réponse à vos questions.</p></div>
+    <div class="section-head"><h1>Questions fréquentes</h1><p>Trouvez rapidement une réponse à vos questions.</p></div>
 
-    <div class="field" style="margin-bottom:24px"><input type="search" id="faqSearch" placeholder="🔍 Rechercher une question…" onkeyup="faqFilter(this.value)"></div>
+    <div class="field" style="margin-bottom:24px"><input type="search" id="faqSearch" placeholder="Rechercher une question…" aria-label="Rechercher une question" onkeyup="faqFilter(this.value)"></div>
 
     <?php foreach ($faqs as $group => $items): ?>
     <h3 style="margin:26px 0 10px"><?php h($group); ?></h3>

@@ -24,7 +24,7 @@ require_once INCLUDES_PATH . '/header.php';
       <div class="empty-state">
         <div class="ic"><?= icon('heart') ?></div>
         <h3>Votre liste de favoris est vide</h3>
-        <p style="color:var(--muted)">Cliquez sur le ♥ des produits pour les retrouver ici.</p>
+        <p style="color:var(--muted)">Cliquez sur le cœur des produits pour les retrouver ici.</p>
         <a href="<?php h(url('shop.php')); ?>" class="btn btn-lg">Découvrir la boutique</a>
       </div>
     <?php else: ?>

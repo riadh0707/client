@@ -17,9 +17,9 @@ require_once INCLUDES_PATH . '/header.php';
     <div class="account-layout">
       <?php $active = 'dashboard'; require INCLUDES_PATH . '/account_nav.php'; ?>
       <div>
-        <div class="card-panel" style="background:var(--grad);color:#fff;margin-bottom:22px">
-          <h1 style="color:#fff;margin-bottom:4px">Bonjour, <?php h($u['first_name']); ?> 👋</h1>
-          <p style="color:rgba(255,255,255,.85);margin:0">Membre depuis <?php h(fdate($u['created_at'], 'F Y')); ?> · <?= (int) $u['loyalty_points'] ?> points fidélité</p>
+        <div class="card-panel hello" style="margin-bottom:22px">
+          <h1 style="margin-bottom:4px">Bonjour, <?php h($u['first_name']); ?></h1>
+          <p style="color:var(--muted);margin:0">Membre depuis <?php h(fdate($u['created_at'], 'F Y')); ?> · <?= (int) $u['loyalty_points'] ?> points fidélité</p>
         </div>
 
         <div class="stat-cards">
@@ -40,10 +40,10 @@ require_once INCLUDES_PATH . '/header.php';
         <div class="card-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
             <h3 style="margin:0">Dernières commandes</h3>
-            <a href="<?php h(url('customer/orders.php')); ?>" class="text-rose" style="font-weight:600;font-size:.88rem">Tout voir →</a>
+            <a href="<?php h(url('customer/orders.php')); ?>" class="text-rose" style="font-weight:600;font-size:.88rem">Tout voir</a>
           </div>
           <?php if (empty($orders)): ?>
-            <p style="color:var(--muted)">Vous n'avez pas encore passé de commande. <a href="<?php h(url('shop.php')); ?>" class="text-rose">Découvrir la boutique →</a></p>
+            <p style="color:var(--muted)">Vous n'avez pas encore passé de commande. <a href="<?php h(url('shop.php')); ?>" class="text-rose">Découvrir la boutique</a></p>
           <?php else: ?>
           <div style="overflow-x:auto">
             <table class="table">

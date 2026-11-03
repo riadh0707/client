@@ -59,7 +59,7 @@ require_once INCLUDES_PATH . '/header.php';
                   <td><?= $count ?> article(s)</td>
                   <td><?= money($o['total']) ?></td>
                   <td><?= order_status_pill($o['status']) ?></td>
-                  <td><a href="<?php h(url('customer/orders.php?view=' . $o['id'])); ?>" class="text-rose" style="font-weight:600">Détails →</a></td>
+                  <td><a href="<?php h(url('customer/orders.php?view=' . $o['id'])); ?>" class="text-rose" style="font-weight:600">Détails</a></td>
                 </tr>
               <?php endforeach; ?>
               </tbody>

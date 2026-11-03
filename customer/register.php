@@ -35,11 +35,9 @@ require_once INCLUDES_PATH . '/header.php';
 <section class="section">
   <div class="container" style="max-width:1000px">
     <div class="auth-wrap">
-      <div class="auth-visual">
-        <span class="blob b2" style="opacity:.3"></span>
-        <div style="position:relative;z-index:2">
-          <span class="eyebrow" style="color:#fff">Rejoignez le cercle Bella Rosa</span>
-          <h2>-10% dès votre inscription</h2>
+      <div class="auth-visual" style="background-image:url('<?php h(upload_url('banner-01.jpg', 'banners')); ?>')">
+        <div>
+          <h2>-10 % dès votre inscription</h2>
           <p>Créez votre compte en 30 secondes et profitez d'avantages exclusifs.</p>
           <div class="perk"><?= icon('gift') ?> -10% sur votre première commande</div>
           <div class="perk"><?= icon('truck') ?> Suivi de livraison simplifié</div>

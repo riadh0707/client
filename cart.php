@@ -38,7 +38,7 @@ require_once INCLUDES_PATH . '/header.php';
             <?php if ($shipping == 0 && $subtotal > 0): ?>
               <strong style="color:var(--success)"><?= icon('check') ?> Félicitations, la livraison est offerte !</strong>
             <?php else: ?>
-              <strong id="freeMsg">Plus que <?= money($freeMin - $subtotal) ?> pour la livraison gratuite 🎉</strong>
+              <strong id="freeMsg">Plus que <?= money($freeMin - $subtotal) ?> pour la livraison gratuite</strong>
             <?php endif; ?>
             <div class="ship-progress"><i id="freeBar" style="width:<?= $progress ?>%"></i></div>
           </div>
@@ -104,8 +104,8 @@ function refreshSummary(r){
   document.getElementById('sumTotal').textContent = r.total;
   const bar=document.getElementById('freeBar'); if(bar) bar.style.width = r.freeProgress+'%';
   const msg=document.getElementById('freeMsg');
-  if(msg){ if(r.shippingRaw===0){ msg.innerHTML='✓ Livraison offerte !'; msg.style.color='var(--success)'; }
-    else msg.textContent='Plus que '+ (r.freeMin - r.subtotalRaw).toLocaleString('fr')+' '+window.BELLA.currency+' pour la livraison gratuite 🎉'; }
+  if(msg){ if(r.shippingRaw===0){ msg.textContent='Livraison offerte !'; msg.style.color='var(--success)'; }
+    else msg.textContent='Plus que '+ (r.freeMin - r.subtotalRaw).toLocaleString('fr')+' '+window.BELLA.currency+' pour la livraison gratuite'; }
 }
 async function applyCoupon(){
   const code = document.getElementById('couponInput').value.trim();

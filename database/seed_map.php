@@ -24,8 +24,8 @@ function seed_map(array $d): array
         array_map(fn($b) => [$b['id'], $b['name'], $b['slug'], $b['description'], $b['logo']], $d['brands'])];
 
     // categories
-    $map['categories'] = ['columns' => ['id', 'parent_id', 'name', 'slug', 'icon', 'description', 'seo_title', 'position'], 'rows' =>
-        array_map(fn($c) => [$c['id'], $c['parent_id'], $c['name'], $c['slug'], $c['icon'], $c['description'], $c['seo_title'], $c['position']], $d['categories'])];
+    $map['categories'] = ['columns' => ['id', 'parent_id', 'name', 'slug', 'icon', 'image', 'description', 'seo_title', 'position'], 'rows' =>
+        array_map(fn($c) => [$c['id'], $c['parent_id'], $c['name'], $c['slug'], $c['icon'], $c['image'], $c['description'], $c['seo_title'], $c['position']], $d['categories'])];
 
     // products
     $map['products'] = ['columns' => [
@@ -37,6 +37,10 @@ function seed_map(array $d): array
         $p['ingredients'], $p['usage_tips'], $p['price'], $p['old_price'], $p['stock'], $p['weight'], $p['volume'],
         $p['rating'], $p['reviews_count'], $p['is_featured'], $p['is_new'], $p['is_bestseller'], $p['on_sale'], $p['status'], $p['video_url'],
     ], $d['products'])];
+
+    // product_images (galeries photo)
+    $map['product_images'] = ['columns' => ['product_id', 'file', 'position'], 'rows' =>
+        array_map(fn($i) => [$i['product_id'], $i['file'], $i['position']], $d['productImages'] ?? [])];
 
     // reviews
     $map['reviews'] = ['columns' => ['id', 'product_id', 'customer_id', 'author_name', 'rating', 'title', 'body', 'status', 'created_at'], 'rows' =>

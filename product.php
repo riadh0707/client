@@ -47,9 +47,9 @@ require_once INCLUDES_PATH . '/header.php';
         </div>
         <div class="pd-thumbs">
           <?php foreach ($images as $i => $img): ?>
-          <div class="pd-thumb <?= $i === 0 ? 'active' : '' ?>" onclick="pdSelect(this, '<?php h(upload_url($img, 'products', $p['name'] . ' ' . ($i+1))); ?>')">
-            <img src="<?php h(upload_url($img, 'products', $p['name'] . ' ' . ($i+1))); ?>" alt="Vue <?= $i+1 ?>">
-          </div>
+          <button type="button" class="pd-thumb <?= $i === 0 ? 'active' : '' ?>" aria-label="Afficher la vue <?= $i + 1 ?>" onclick="pdSelect(this, '<?php h(upload_url($img, 'products', $p['name'] . ' ' . ($i+1))); ?>')">
+            <img src="<?php h(upload_url($img, 'products', $p['name'] . ' ' . ($i+1))); ?>" alt="">
+          </button>
           <?php endforeach; ?>
         </div>
       </div>
@@ -149,8 +149,8 @@ require_once INCLUDES_PATH . '/header.php';
               <div class="field"><label>Votre nom</label><input name="author_name" required value="<?= e(current_user()['first_name'] ?? '') ?>"></div>
               <div class="field"><label>Note</label>
                 <select name="rating" class="select" style="width:100%">
-                  <option value="5">★★★★★ Excellent</option><option value="4">★★★★ Très bien</option>
-                  <option value="3">★★★ Bien</option><option value="2">★★ Moyen</option><option value="1">★ Décevant</option>
+                  <option value="5">5 étoiles — Excellent</option><option value="4">4 étoiles — Très bien</option>
+                  <option value="3">3 étoiles — Bien</option><option value="2">2 étoiles — Moyen</option><option value="1">1 étoile — Décevant</option>
                 </select>
               </div>
             </div>

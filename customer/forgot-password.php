@@ -29,7 +29,7 @@ require_once INCLUDES_PATH . '/header.php';
           <div class="field"><label>Adresse e-mail</label><input type="email" name="email" required></div>
           <button class="btn btn-block">Envoyer le lien</button>
         </form>
-        <p style="margin-top:14px"><a href="<?php h(url('customer/login.php')); ?>" class="text-rose">← Retour à la connexion</a></p>
+        <p style="margin-top:14px"><a href="<?php h(url('customer/login.php')); ?>" class="text-rose">Retour à la connexion</a></p>
       <?php endif; ?>
     </div>
   </div>

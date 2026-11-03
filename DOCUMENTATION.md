@@ -123,7 +123,11 @@ skeleton), toasts, newsletter, slider hero, compte à rebours, thème sombre,
 menu mobile, révélation au défilement (`IntersectionObserver` + repli),
 retour en haut. **Amélioration progressive** : le contenu reste visible sans JS.
 
-### 4.3 Images sans poids : `assets/placeholder.php`
+### 4.3 Photos de démo et repli `assets/placeholder.php`
+La démo est livrée avec des photos libres de droits dans `/uploads`
+(3 photos par produit, une par catégorie, bannières, blog, avatars — sources
+dans `CREDITS-IMAGES.md`). Si un fichier manque, le repli suivant s'applique :
+
 Génère à la volée des visuels **SVG élégants** (dégradés doux, monogramme,
 motif pétale) déterministes par produit/catégorie. Avantages : **aucune image
 binaire** à héberger, **aucune requête externe**, cache navigateur, empreinte
@@ -178,7 +182,8 @@ webhook) branché sur la commande existante : **aucune refonte** requise.
   via `.htaccess`.
 - `loading="lazy"` sur les images, `IntersectionObserver` pour les animations.
 - Requêtes indexées, sous-requête d'image principale limitée, pagination.
-- Placeholders SVG (quelques Ko) au lieu de photos lourdes en démo.
+- Photos JPEG compressées (≈ 40–120 Ko chacune), `fetchpriority` sur l'image du hero.
+- Polices woff2 auto-hébergées et préchargées (aucune requête externe).
 
 ---
 

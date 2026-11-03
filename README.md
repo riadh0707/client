@@ -32,7 +32,7 @@ présentée à un client réel (institut de beauté, marque cosmétique, parfume
 - 🔐 **Sécurité** : PDO + requêtes préparées, protection CSRF, échappement XSS,
   `password_hash`, sessions durcies, rate limiting, uploads protégés.
 - 🚀 **SEO** : URLs propres, meta, Open Graph, Schema.org, `sitemap.php`,
-  `robots.txt`, images optimisées (SVG légers).
+  `robots.txt`, photos JPEG optimisées (~14 Mo au total), polices auto-hébergées.
 
 ---
 
@@ -72,7 +72,7 @@ AwardSpace Free impose (valeurs indicatives, à revérifier sur votre panneau) :
 
 | Ressource            | Limite typique Free        | Adaptation du projet |
 |----------------------|----------------------------|----------------------|
-| Espace disque        | ~1 Go                      | Aucune image binaire lourde : visuels **SVG générés** (`assets/placeholder.php`). |
+| Espace disque        | ~1 Go                      | ~14 Mo de photos de démo (`/uploads`) ; repli SVG (`assets/placeholder.php`) si une image manque. |
 | Bande passante       | ~5 Go / mois               | Cache navigateur (`.htaccess`), assets légers, GZIP. |
 | Bases MySQL          | **1 seule base**           | Le projet n'utilise **qu'une base** MySQL. |
 | Taille upload PHP    | ~limitée (post_max_size)   | Uploads dans `/uploads` (protégés, non exécutables). |
@@ -142,8 +142,9 @@ accessible en écriture (chmod 755 ou 775).
 │   ├── /css   style.css · admin.css   (design system complet)
 │   ├── /js    main.js                 (interactions vanilla)
 │   ├── /images favicon · og-image
+│   ├── /fonts  Cormorant Garamond · Jost (woff2, licence OFL)
 │   └── placeholder.php                (générateur d'images SVG)
-├── /uploads  products · categories · banners · blog · brands
+├── /uploads  products · categories · banners · blog · avatars (photos libres de droits, voir CREDITS-IMAGES.md)
 ├── /config   config.example.php · config.php
 └── /database schema_mysql.sql · database.sql · install.php · data.php …
 ```
@@ -158,6 +159,14 @@ Tout est modifiable depuis **l'administration** (`/admin/settings.php`) :
 nom du site, slogan, couleurs, coordonnées, réseaux sociaux, livraison,
 bandeau d'annonce, carte Google Maps, etc. Les couleurs de marque sont
 centralisées dans des **variables CSS** (`assets/css/style.css`).
+
+**Images de démo** : toutes les photos (produits, catégories, bannières, blog,
+avatars) sont libres de droits (Unsplash, Pexels, Pixabay) ; les sources sont
+listées dans `CREDITS-IMAGES.md`. Remplacez-les depuis l'admin (upload produit)
+ou directement dans `/uploads`.
+
+**Polices** : Cormorant Garamond (titres) et Jost (texte), servies depuis
+`assets/fonts/` — aucune requête vers Google Fonts.
 
 ---
 

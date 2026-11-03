@@ -18,7 +18,7 @@ require_once INCLUDES_PATH . '/header.php';
 <div class="container"><?= breadcrumb([['label' => 'Contact']]) ?></div>
 <section class="section-sm">
   <div class="container">
-    <div class="section-head"><span class="eyebrow">Nous contacter</span><h1>Une question ? Écrivez-nous</h1><p>Notre équipe vous répond avec plaisir sous 24h.</p></div>
+    <div class="page-hero" style="background-image:url('<?php h(upload_url('banner-05.jpg', 'banners')); ?>')"><div><h1>Une question ? Écrivez-nous</h1><p>Notre équipe vous répond avec plaisir sous 24 h.</p></div></div>
 
     <div class="cart-layout">
       <div class="card-panel">

@@ -8,15 +8,16 @@ require_once __DIR__ . '/icons.php';
 function product_card(array $p): string
 {
     $img   = upload_url($p['primary_image'] ?? null, 'products', $p['name']);
+    $alt   = !empty($p['second_image']) ? upload_url($p['second_image'], 'products', $p['name']) : null;
     $link  = url('product.php?slug=' . e($p['slug']));
     $disc  = discount_percent($p['price'], $p['old_price'] ?? null);
     $inWish = in_array($p['id'], $_SESSION['wishlist'] ?? [], true);
     $out   = (int) ($p['stock'] ?? 1) <= 0;
 
     ob_start(); ?>
-    <article class="product-card reveal" data-id="<?= (int) $p['id'] ?>">
+    <article class="product-card" data-id="<?= (int) $p['id'] ?>">
       <div class="pc-media">
-        <a href="<?= $link ?>"><img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>" loading="lazy"></a>
+        <a href="<?= $link ?>"><img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>" loading="lazy"><?php if ($alt): ?><img class="alt" src="<?= e($alt) ?>" alt="" loading="lazy" aria-hidden="true"><?php endif; ?></a>
         <div class="pc-badges">
           <?php if ($out): ?><span class="badge badge-out">Épuisé</span><?php endif; ?>
           <?php if ($disc > 0): ?><span class="badge badge-sale">-<?= $disc ?>%</span><?php endif; ?>
@@ -82,11 +83,21 @@ function order_status_pill(string $status): string
     return '<span class="status-pill st-' . e($status) . '">' . e($label) . '</span>';
 }
 
-/** Titre de section avec surtitre. */
+/** Titre de section (le 1er argument, ancien surtitre, est conservé pour compatibilité). */
 function section_head(string $eyebrow, string $title, string $sub = ''): string
 {
-    $html  = '<div class="section-head reveal"><span class="eyebrow">' . e($eyebrow) . '</span>';
+    $html  = '<div class="section-head">';
     $html .= '<h2>' . e($title) . '</h2>';
     if ($sub) { $html .= '<p>' . e($sub) . '</p>'; }
+    return $html . '</div>';
+}
+
+/** En-tête de section aligné à gauche avec lien « voir plus ». */
+function section_row(string $title, string $sub = '', ?string $href = null, string $label = 'Tout voir'): string
+{
+    $html = '<div class="section-row"><div><h2>' . e($title) . '</h2>';
+    if ($sub) { $html .= '<p>' . e($sub) . '</p>'; }
+    $html .= '</div>';
+    if ($href) { $html .= '<a class="link-more" href="' . e($href) . '">' . e($label) . ' ' . icon('arrow') . '</a>'; }
     return $html . '</div>';
 }

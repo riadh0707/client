@@ -28,9 +28,19 @@ if ($args['q'])      { $heading = 'Résultats pour « ' . $args['q'] . ' »'; }
 elseif ($args['filter'] === 'new')  { $heading = 'Nouveautés'; }
 elseif ($args['filter'] === 'sale') { $heading = 'Promotions'; }
 elseif ($args['filter'] === 'bestseller') { $heading = 'Meilleures ventes'; }
+elseif ($args['filter'] === 'featured') { $heading = 'Produits vedettes'; }
 elseif ($args['cat']) {
     $cur = array_filter($cats, fn($c) => $c['slug'] === $args['cat']);
     if ($cur) { $heading = reset($cur)['name']; }
+}
+
+// Visuel d'en-tête : image de la catégorie, sinon une bannière selon le filtre.
+$heroImg = upload_url('banner-02.jpg', 'banners');
+$heroMap = ['new' => 'banner-07.jpg', 'sale' => 'banner-08.jpg', 'bestseller' => 'banner-03.jpg', 'featured' => 'banner-05.jpg'];
+if (!empty($cur) && !empty(reset($cur)['image'])) {
+    $heroImg = upload_url(reset($cur)['image'], 'categories', $heading);
+} elseif (isset($heroMap[$args['filter'] ?? ''])) {
+    $heroImg = upload_url($heroMap[$args['filter']], 'banners');
 }
 
 // Helper : construit une URL en conservant les paramètres.
@@ -49,9 +59,11 @@ require_once INCLUDES_PATH . '/header.php';
 
 <section class="section-sm">
   <div class="container">
-    <div class="section-head" style="text-align:left;max-width:none;margin-bottom:26px">
-      <h1 style="margin-bottom:6px"><?php h($heading); ?></h1>
-      <p style="color:var(--muted)"><?= (int) $res['total'] ?> produit(s) — la beauté qui vous ressemble.</p>
+    <div class="page-hero" style="background-image:url('<?php h($heroImg); ?>')">
+      <div>
+        <h1><?php h($heading); ?></h1>
+        <p><?= (int) $res['total'] ?> produit<?= $res['total'] > 1 ? 's' : '' ?> · la beauté qui vous ressemble</p>
+      </div>
     </div>
 
     <div class="shop-layout">

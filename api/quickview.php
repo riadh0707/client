@@ -12,9 +12,9 @@ $disc = discount_percent($p['price'], $p['old_price']);
 $out  = (int) $p['stock'] <= 0;
 
 ob_start(); ?>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
-  <div style="background:var(--surface-2)"><img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>" style="width:100%;height:100%;object-fit:cover;min-height:340px"></div>
-  <div style="padding:34px">
+<div class="qv-grid">
+  <div class="qv-img"><img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>"></div>
+  <div class="qv-body">
     <span class="pc-brand"><?= e($p['brand_name'] ?? 'Bella Rosa') ?></span>
     <h2 style="margin:6px 0 10px"><?= e($p['name']) ?></h2>
     <div class="pc-rating" style="margin-bottom:14px"><?= star_rating((float) $p['rating'], true) ?> <span>(<?= (int) $p['reviews_count'] ?> avis)</span></div>
@@ -29,9 +29,9 @@ ob_start(); ?>
       <?php else: ?>
         <button class="btn add-cart-btn" data-id="<?= (int) $p['id'] ?>"><?= icon('cart') ?> Ajouter au panier</button>
       <?php endif; ?>
-      <button class="pc-action wish-btn" data-id="<?= (int) $p['id'] ?>" style="width:48px;height:48px"><?= icon('heart') ?></button>
+      <button class="pc-action wish-btn" data-id="<?= (int) $p['id'] ?>" aria-label="Ajouter aux favoris" style="width:48px;height:48px"><?= icon('heart') ?></button>
     </div>
-    <a href="<?= url('product.php?slug=' . e($p['slug'])) ?>" class="text-rose" style="font-weight:600;font-size:.9rem">Voir la fiche complète →</a>
+    <a href="<?= url('product.php?slug=' . e($p['slug'])) ?>" class="text-rose" style="font-weight:600;font-size:.9rem">Voir la fiche complète</a>
   </div>
 </div>
 <?php

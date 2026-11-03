@@ -3,14 +3,17 @@
 <!-- Newsletter -->
 <section class="section">
   <div class="container">
-    <div class="newsletter reveal">
-      <span class="eyebrow">Rejoignez le cercle Bella Rosa</span>
-      <h2>-10% sur votre première commande</h2>
-      <p>Inscrivez-vous à notre newsletter et recevez conseils beauté, avant-premières et offres exclusives.</p>
-      <form id="newsletterForm" onsubmit="return Bella.subscribe(event)">
-        <input type="email" name="email" placeholder="Votre adresse e-mail" required>
-        <button class="btn" type="submit">Je m'inscris</button>
-      </form>
+    <div class="newsletter">
+      <div class="nl-ph" role="img" aria-label="Portrait beauté sur fond rouge" style="background-image:url('<?php h(upload_url('banner-03.jpg', 'banners')); ?>')"></div>
+      <div class="nl-copy">
+        <h2>-10 % sur votre première commande</h2>
+        <p>Rejoignez le cercle Bella Rosa : conseils beauté, avant-premières et offres réservées aux abonnées.</p>
+        <form id="newsletterForm" onsubmit="return Bella.subscribe(event)">
+          <label class="sr-only" for="nlEmail">Adresse e-mail</label>
+          <input type="email" id="nlEmail" name="email" placeholder="Votre adresse e-mail" required>
+          <button class="btn" type="submit">Je m'inscris</button>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -20,7 +23,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="<?php h(url('index.php')); ?>" class="logo"><span class="mark">✿</span> Bella<b>Rosa</b></a>
+        <a href="<?php h(url('index.php')); ?>" class="logo"><?= $logoMark ?> Bella<b>Rosa</b></a>
         <p><?php h(setting('meta_description', 'Boutique beauté premium en Algérie.')); ?></p>
         <div class="social">
           <a href="<?php h(setting('social_instagram', '#')); ?>" aria-label="Instagram"><?= icon('instagram') ?></a>
@@ -55,7 +58,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <?= date('Y') ?> <?php h(setting('site_name', 'Bella Rosa')); ?>. Tous droits réservés. Conçu avec ♥ en Algérie.</span>
+      <span>© <?= date('Y') ?> <?php h(setting('site_name', 'Bella Rosa')); ?>. Tous droits réservés. Conçu en Algérie.</span>
       <div class="pay-icons">
         <span>BaridiMob</span><span>CCP</span><span>Edahabia</span><span>CIB</span><span>Visa</span><span>Cash</span>
       </div>

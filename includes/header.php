@@ -21,6 +21,9 @@ $navChildren = [];
 foreach ($navCats as $c) {
     if ($c['parent_id'] !== null) { $navChildren[$c['parent_id']][] = $c; }
 }
+
+// Monogramme Bella Rosa : rose stylisée dessinée en SVG.
+$logoMark = '<span class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21c-3.2 0-5.4-2.3-5.4-5.2 0-3.6 3.2-6.3 5.4-8.3 2.2 2 5.4 4.7 5.4 8.3 0 2.9-2.2 5.2-5.4 5.2z"/><path d="M20 21c-1.6-1.4-2.4-3.1-2.4-5.1M20 21c1.6-1.4 2.4-3.1 2.4-5.1"/><path d="M14.7 15.2C11.5 15.5 9 18 9 21.2c0 3.6 3.1 6 6.6 6 1.8 0 3.3-.7 4.4-1.8 1.1 1.1 2.6 1.8 4.4 1.8 3.5 0 6.6-2.4 6.6-6 0-3.2-2.5-5.7-5.7-6"/><path d="M20 25.4V33M20 29.5c-2.6-.2-4.6-1.6-5.6-3.6M20 31c2.4-.4 4.2-1.8 5-3.8"/></svg></span>';
 ?><!doctype html>
 <html lang="<?php h($GLOBALS['config']['app']['locale'] ?? 'fr'); ?>">
 <head>
@@ -28,7 +31,7 @@ foreach ($navCats as $c) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php h($title); ?></title>
 <meta name="description" content="<?php h($desc); ?>">
-<meta name="theme-color" content="#b76e79">
+<meta name="theme-color" content="#b0566a">
 <!-- Open Graph / SEO -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="<?php h($title); ?>">
@@ -38,10 +41,9 @@ foreach ($navCats as $c) {
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="<?php h((isset($_SERVER['HTTPS'])?'https':'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . ($_SERVER['REQUEST_URI'] ?? '')); ?>">
 <link rel="icon" href="<?php h(asset('images/favicon.svg')); ?>" type="image/svg+xml">
-<!-- Polices -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Polices auto-hébergées (Cormorant Garamond + Jost, licence OFL) -->
+<link rel="preload" href="<?php h(asset('fonts/cormorant-garamond-latin-600-normal.woff2')); ?>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="<?php h(asset('fonts/jost-latin-400-normal.woff2')); ?>" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?php h(asset('css/style.css')); ?>">
 <script>
   // Application immédiate du thème (évite le flash).
@@ -58,7 +60,7 @@ foreach ($navCats as $c) {
 
 <!-- Bandeau annonce -->
 <?php if ($ann = setting('announcement')): ?>
-<div class="topbar"><div class="track"><span>✦ <?php h($ann); ?></span><span>✦ <?php h($ann); ?></span></div></div>
+<div class="topbar"><?php h($ann); ?></div>
 <?php endif; ?>
 
 <!-- En-tête -->
@@ -67,7 +69,7 @@ foreach ($navCats as $c) {
     <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu"><?= icon('menu') ?></button>
 
     <a href="<?php h(url('index.php')); ?>" class="logo">
-      <span class="mark">✿</span> Bella<b>Rosa</b>
+      <?= $logoMark ?> Bella<b>Rosa</b>
     </a>
 
     <ul class="main-nav">
@@ -81,14 +83,14 @@ foreach ($navCats as $c) {
             <?php foreach (($navChildren[$navP['id']] ?? []) as $ch): ?>
               <a href="<?php h(url('shop.php?cat=' . $ch['slug'])); ?>"><?php h($ch['name']); ?></a>
             <?php endforeach; ?>
-            <a href="<?php h(url('shop.php?cat=' . $navP['slug'])); ?>" class="text-rose">Tout voir →</a>
+            <a href="<?php h(url('shop.php?cat=' . $navP['slug'])); ?>" class="text-rose">Tout voir</a>
           </div>
           <?php endforeach; ?>
-          <div class="mega-promo">
-            <span class="badge badge-sale">-25%</span>
+          <a href="<?php h(url('shop.php?filter=sale')); ?>" class="mega-promo" style="background-image:url('<?php h(upload_url('banner-02.jpg', 'banners')); ?>')">
+            <span class="badge badge-sale">-25 %</span>
             <strong>Vente Flash</strong>
-            <span>Jusqu'à -25% sur une sélection beauté</span>
-          </div>
+            <span>Jusqu'à -25 % sur une sélection beauté</span>
+          </a>
         </div></div>
       </li>
       <li><a href="<?php h(url('shop.php?filter=new')); ?>">Nouveautés</a></li>
@@ -130,12 +132,12 @@ foreach ($navCats as $c) {
 <!-- Menu mobile -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <nav class="mobile-drawer" id="mobileDrawer">
-  <a href="<?php h(url('index.php')); ?>" class="logo" style="margin-bottom:20px">Bella<b>Rosa</b></a>
+  <a href="<?php h(url('index.php')); ?>" class="logo" style="margin-bottom:20px"><?= $logoMark ?> Bella<b>Rosa</b></a>
   <div class="mobile-nav">
     <a href="<?php h(url('index.php')); ?>">Accueil</a>
     <a href="<?php h(url('shop.php')); ?>">Boutique</a>
     <?php foreach ($navParents as $navP): ?>
-      <a href="<?php h(url('shop.php?cat=' . $navP['slug'])); ?>">— <?php h($navP['name']); ?></a>
+      <a class="sub" href="<?php h(url('shop.php?cat=' . $navP['slug'])); ?>"><?php h($navP['name']); ?></a>
     <?php endforeach; ?>
     <a href="<?php h(url('shop.php?filter=new')); ?>">Nouveautés</a>
     <a href="<?php h(url('shop.php?filter=sale')); ?>">Promotions</a>

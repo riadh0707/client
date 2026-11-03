@@ -91,7 +91,7 @@ const Bella = (() => {
       bar.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);box-shadow:var(--shadow-lg);border-radius:999px;padding:10px 12px 10px 22px;display:flex;align-items:center;gap:14px;z-index:150;font-size:.9rem';
       document.body.appendChild(bar);
     }
-    bar.innerHTML = '<strong>' + list.length + '</strong> produit(s) à comparer <a href="' + base + '/compare.php" class="btn btn-sm">Comparer</a> <button onclick="localStorage.removeItem(\'compare\');Bella.renderCompareBar()" class="icon-btn" style="width:34px;height:34px">✕</button>';
+    bar.innerHTML = '<strong>' + list.length + '</strong> produit(s) à comparer <a href="' + base + '/compare.php" class="btn btn-sm">Comparer</a> <button onclick="localStorage.removeItem(\'compare\');Bella.renderCompareBar()" class="icon-btn" aria-label="Vider la comparaison" style="width:34px;height:34px"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
   }
 
   /* ------------------------------------------------------------ Newsletter */
@@ -121,7 +121,7 @@ const Bella = (() => {
     if (!overlay) {
       overlay = document.createElement('div');
       overlay.className = 'modal-overlay'; overlay.id = 'quickModal';
-      overlay.innerHTML = '<div class="modal"><button class="modal-close" aria-label="Fermer">✕</button><div class="modal-body"></div></div>';
+      overlay.innerHTML = '<div class="modal"><button class="modal-close" aria-label="Fermer"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="modal-body"></div></div>';
       document.body.appendChild(overlay);
       overlay.addEventListener('click', ev => { if (ev.target === overlay || ev.target.closest('.modal-close')) closeModal(); });
     }
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
           '<img src="' + p.image + '" alt=""><div style="flex:1"><div class="r-name">' + p.name + '</div>' +
           '<div style="font-size:.78rem;color:var(--muted)">' + p.brand + '</div></div>' +
           '<div class="r-price">' + p.price + '</div></a>').join('') +
-          '<a class="search-hint" href="' + r.base + '/shop.php?q=' + encodeURIComponent(q) + '" style="display:block;text-align:center;color:var(--rose);font-weight:600;padding:12px">Voir tous les résultats →</a>';
+          '<a class="search-hint" href="' + r.base + '/shop.php?q=' + encodeURIComponent(q) + '" style="display:block;text-align:center;color:var(--rose);font-weight:600;padding:12px">Voir tous les résultats</a>';
       } else {
         box.innerHTML = '<p class="search-hint">Aucun résultat pour « ' + q + ' »</p>';
       }
@@ -238,12 +238,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (slides.length > 1) {
     let cur = 0;
     const go = i => {
-      slides.forEach((s, k) => s.style.display = k === i ? '' : 'none');
+      slides.forEach((s, k) => { s.hidden = k !== i; s.classList.toggle('is-active', k === i); });
       dots.forEach((d, k) => d.classList.toggle('active', k === i));
       cur = i;
     };
     dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.dot))));
-    setInterval(() => go((cur + 1) % slides.length), 6000);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) setInterval(() => go((cur + 1) % slides.length), 7000);
   }
 
   /* Compte à rebours */

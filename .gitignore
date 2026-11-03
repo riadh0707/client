@@ -4,9 +4,7 @@
 # Base SQLite de démonstration locale
 /database/*.sqlite
 
-# Uploads utilisateur (on conserve la structure des dossiers)
-/uploads/**/*
-!/uploads/**/.gitkeep
+# Les images de démonstration de /uploads sont versionnées (voir CREDITS-IMAGES.md)
 
 # Divers
 .DS_Store

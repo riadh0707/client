@@ -7,7 +7,8 @@
 const PRODUCT_SELECT = "
     SELECT p.*, b.name AS brand_name, b.slug AS brand_slug,
            c.name AS category_name, c.slug AS category_slug,
-           (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1) AS primary_image
+           (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1) AS primary_image,
+           (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1 OFFSET 1) AS second_image
     FROM products p
     LEFT JOIN brands b ON b.id = p.brand_id
     LEFT JOIN categories c ON c.id = p.category_id
@@ -118,7 +119,8 @@ function search_products(array $args): array
     $offset  = ($page - 1) * $perPage;
 
     $sql = "SELECT p.*, b.name AS brand_name, b.slug AS brand_slug, c.name AS category_name, c.slug AS category_slug,
-            (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1) AS primary_image
+            (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1) AS primary_image,
+           (SELECT file FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.position LIMIT 1 OFFSET 1) AS second_image
             $base ORDER BY $order LIMIT $perPage OFFSET $offset";
     $items = Database::all($sql, $params);
 

@@ -30,10 +30,8 @@ require_once INCLUDES_PATH . '/header.php';
 <section class="section">
   <div class="container" style="max-width:1000px">
     <div class="auth-wrap">
-      <div class="auth-visual">
-        <span class="blob b1" style="opacity:.3"></span>
-        <div style="position:relative;z-index:2">
-          <span class="eyebrow" style="color:#fff">Bon retour parmi nous</span>
+      <div class="auth-visual" style="background-image:url('<?php h(upload_url('banner-06.jpg', 'banners')); ?>')">
+        <div>
           <h2>Votre beauté vous attend</h2>
           <p>Connectez-vous pour retrouver vos favoris, suivre vos commandes et cumuler vos points fidélité.</p>
           <div class="perk"><?= icon('heart') ?> Vos produits favoris sauvegardés</div>
@@ -44,7 +42,7 @@ require_once INCLUDES_PATH . '/header.php';
       <div class="auth-form">
         <h1 style="margin-bottom:6px">Connexion</h1>
         <p style="color:var(--muted);margin-bottom:20px">Pas encore de compte ? <a href="<?php h(url('customer/register.php')); ?>" class="text-rose" style="font-weight:600">Inscrivez-vous</a></p>
-        <?php if ($error): ?><div class="chip" style="background:#fbdcda;color:#b33;margin-bottom:16px;width:100%"><?= icon('close') ?> <?php h($error); ?></div><?php endif; ?>
+        <?php if ($error): ?><div class="alert alert-error" role="alert"><?= icon('close') ?> <?php h($error); ?></div><?php endif; ?>
         <form method="post">
           <?= csrf_field() ?>
           <div class="field"><label>Adresse e-mail</label><input type="email" name="email" required value="<?= e(input('email')) ?>" placeholder="vous@email.com"></div>
@@ -55,7 +53,7 @@ require_once INCLUDES_PATH . '/header.php';
           </div>
           <button class="btn btn-block btn-lg">Se connecter</button>
         </form>
-        <div class="chip" style="margin-top:18px;width:100%;justify-content:center">💡 Démo : client@bella-rosa.dz / client123</div>
+        <div class="chip" style="margin-top:18px;width:100%;justify-content:center">Démo : client@bella-rosa.dz / client123</div>
       </div>
     </div>
   </div>

@@ -17,12 +17,12 @@ require_once INCLUDES_PATH . '/header.php';
 <div class="container"><?= breadcrumb([['label' => 'Blog']]) ?></div>
 <section class="section-sm">
   <div class="container">
-    <div class="section-head"><span class="eyebrow">Journal beauté</span><h1>Conseils, tutoriels & tendances</h1><p>Nos experts partagent leurs secrets pour sublimer votre beauté au quotidien.</p></div>
+    <div class="page-hero" style="background-image:url('<?php h(upload_url('banner-04.jpg', 'banners')); ?>')"><div><h1>Conseils, tutoriels & tendances</h1><p>Nos expertes partagent leurs secrets pour sublimer votre beauté au quotidien.</p></div></div>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:34px">
-      <a href="<?php h(url('blog.php')); ?>" class="chip <?= !$cat ? '' : '' ?>" style="<?= !$cat ? 'background:var(--grad);color:#fff' : '' ?>">Tout</a>
+      <a href="<?php h(url('blog.php')); ?>" class="chip<?= !$cat ? ' on' : '' ?>">Tout</a>
       <?php foreach ($cats as $c): ?>
-      <a href="<?php h(url('blog.php?cat=' . urlencode($c['category']))); ?>" class="chip" style="<?= $cat===$c['category'] ? 'background:var(--grad);color:#fff' : '' ?>"><?php h($c['category']); ?> (<?= $c['c'] ?>)</a>
+      <a href="<?php h(url('blog.php?cat=' . urlencode($c['category']))); ?>" class="chip<?= $cat === $c['category'] ? ' on' : '' ?>"><?php h($c['category']); ?> (<?= $c['c'] ?>)</a>
       <?php endforeach; ?>
     </div>
 
